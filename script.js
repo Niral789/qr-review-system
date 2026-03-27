@@ -1,90 +1,67 @@
-// 🔹 MULTI-TENANT CONFIG
-const urlParams = new URLSearchParams(window.location.search);
-const tenant = urlParams.get('tenant') || "default";
+let rating = 0;
 
-const tenants = {
-  default: {
-    name: "My Store",
-    googleLink: "https://g.page/r/XXXXX/review",
-    reviews: [
-      "Great service!",
-      "Highly recommended!",
-      "Amazing experience!"
-    ]
-  }
-};
+// ⭐ RATING
+function rate(val) {
+  rating = val;
 
-// ⭐ RATING FUNCTION
-function rate(stars) {
-  if (stars >= 4) {
-    document.getElementById("reviewSection").style.display = "block";
+  let stars = document.querySelectorAll("#stars span");
+  stars.forEach((s, i) => {
+    s.classList.toggle("active", i < val);
+  });
 
-    let randomReview = tenants[tenant].reviews[
-      Math.floor(Math.random() * tenants[tenant].reviews.length)
-    ];
+  if (val >= 4) {
+    document.getElementById("formSection").classList.remove("hidden");
 
-    document.getElementById("reviewText").value = randomReview;
+    document.getElementById("reviewText").value =
+      "Great service and friendly staff!";
   } else {
-    alert("Thanks for feedback! We will improve.");
+    alert("Thanks! We will improve.");
   }
 }
 
-// 📋 COPY + REDIRECT
-function copyAndRedirect() {
+// 🔗 GOOGLE REDIRECT
+function goToGoogle() {
   let review = document.getElementById("reviewText").value;
 
   navigator.clipboard.writeText(review);
 
-  window.open(tenants[tenant].googleLink, "_blank");
+  window.open("https://g.page/r/XXXXX/review", "_blank");
 
-  document.getElementById("formSection").style.display = "block";
-  document.getElementById("confirmSection").style.display = "block";
+  document.getElementById("confirmSection").classList.remove("hidden");
+
+  saveData();
 }
 
-// 📊 SUBMIT TO GOOGLE SHEET
-function submitData() {
-  let data = {
-    name: document.getElementById("name").value,
-    mobile: document.getElementById("mobile").value,
-    staff: document.getElementById("staff").value,
-    review: document.getElementById("reviewText").value,
-    rating: 5,
-    tenant: tenant
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbwTOwtwlKdX11VRBhWxAwoDnmr0GO_OvRToQZX_DvfyB3rMKjrmeelYSJ_ZfvHkSm3d/exec", {
+// 📊 SAVE DATA
+function saveData() {
+  fetch("YOUR_GOOGLE_SCRIPT_URL", {
     method: "POST",
-    body: JSON.stringify(data)
-  })
-  .then(res => res.text())
-  .then(res => alert("Data Saved!"));
+    body: JSON.stringify({
+      name: document.getElementById("name").value,
+      mobile: document.getElementById("mobile").value,
+      staff: document.getElementById("staff").value,
+      rating: rating,
+      review: document.getElementById("reviewText").value
+    })
+  });
 }
 
-// 🎁 SPIN
-const rewards = ["10% OFF", "₹50 Cashback", "Try Again", "Free Service"];
+// 🎡 SPIN WHEEL
+const rewards = ["10% OFF", "₹50 Cashback", "Free Service", "Try Again"];
 
-function showSpin() {
-  document.getElementById("spinSection").style.display = "block";
+function showWheel() {
+  document.getElementById("wheelSection").classList.remove("hidden");
 }
 
-function spin() {
-  if (localStorage.getItem("spinDone")) {
-    alert("Already used!");
+function spinWheel() {
+  if (localStorage.getItem("spin")) {
+    alert("Already played!");
     return;
   }
 
   let reward = rewards[Math.floor(Math.random() * rewards.length)];
 
-  document.getElementById("result").innerText = "You won: " + reward;
+  document.getElementById("reward").innerText = "You won: " + reward;
 
-  localStorage.setItem("spinDone", true);
-}
-
-// 🔳 QR GENERATOR (NO LIBRARY)
-function generateQR() {
-  let text = document.getElementById("qrText").value;
-
-  let qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(text);
-
-  document.getElementById("qr").innerHTML = `<img src="${qrUrl}" />`;
+  localStorage.setItem("spin", true);
 }
