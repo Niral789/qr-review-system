@@ -1,71 +1,65 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>QR Review System</title>
+  <title>Rate Us</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <div class="container">
+  <div class="card">
 
-  <!-- LOGO -->
-  <img id="logo" src="assets/logo.png" class="logo">
+    <!-- LOGOS -->
+    <div class="logo-row">
+      <img src="assets/google.png" class="logo">
+      <img src="assets/brand.png" class="logo">
+    </div>
 
-  <h2 id="welcome">Rate Your Experience</h2>
+    <h2>Rate Your Experience</h2>
 
-  <!-- ⭐ RATING -->
-  <div id="rating">
-    <span onclick="rate(1)">⭐</span>
-    <span onclick="rate(2)">⭐</span>
-    <span onclick="rate(3)">⭐</span>
-    <span onclick="rate(4)">⭐</span>
-    <span onclick="rate(5)">⭐</span>
+    <!-- ⭐ RATING -->
+    <div class="rating" id="stars">
+      <span onclick="rate(1)">★</span>
+      <span onclick="rate(2)">★</span>
+      <span onclick="rate(3)">★</span>
+      <span onclick="rate(4)">★</span>
+      <span onclick="rate(5)">★</span>
+    </div>
+
+    <!-- FORM -->
+    <div id="formSection" class="hidden">
+
+      <select id="staff">
+        <option>Select Staff</option>
+        <option>Niral</option>
+        <option>Rahul</option>
+      </select>
+
+      <input type="text" id="name" placeholder="Your Name">
+      <input type="text" id="mobile" placeholder="Mobile Number">
+
+      <textarea id="reviewText"></textarea>
+
+      <button onclick="goToGoogle()">Copy & Go to Google Review</button>
+
+    </div>
+
+    <!-- CONFIRM -->
+    <div id="confirmSection" class="hidden">
+      <button class="secondary" onclick="showWheel()">I have submitted review</button>
+    </div>
+
+    <!-- SPIN -->
+    <div id="wheelSection" class="hidden">
+      <div class="wheel" id="wheel"></div>
+      <button onclick="spinWheel()">Spin</button>
+      <h3 id="reward"></h3>
+    </div>
+
   </div>
-
-  <!-- REVIEW SECTION -->
-  <div id="reviewSection" style="display:none;">
-    <textarea id="reviewText"></textarea>
-    <button onclick="copyAndRedirect()">Copy & Go to Google</button>
-  </div>
-
-  <!-- FORM -->
-  <div id="formSection" style="display:none;">
-    <select id="staff">
-      <option>Niral</option>
-      <option>Rahul</option>
-    </select>
-
-    <input type="text" id="name" placeholder="Your Name">
-    <input type="text" id="mobile" placeholder="Mobile Number">
-
-    <button onclick="submitData()">Submit</button>
-  </div>
-
-  <!-- CONFIRM -->
-  <div id="confirmSection" style="display:none;">
-    <button onclick="showSpin()">I have submitted review</button>
-  </div>
-
-  <!-- SPIN -->
-  <div id="spinSection" style="display:none;">
-    <button onclick="spin()">Spin & Win</button>
-  </div>
-
-  <!-- RESULT -->
-  <h3 id="result"></h3>
-
-  <!-- QR GENERATOR -->
-  <hr>
-  <h3>Generate QR</h3>
-  <input type="text" id="qrText" placeholder="Enter URL">
-  <button onclick="generateQR()">Generate QR</button>
-  <br><br>
-  <div id="qr"></div>
-
 </div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
