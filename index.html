@@ -2,75 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rate Our Service</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Customer Feedback</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="app-container">
-    <div class="card" id="mainCard">
-        <div class="brand-header">
-            <img src="assets/brand.png" alt="Brand Logo" class="main-logo">
-            <img src="assets/google.png" alt="Google" class="partner-logo">
+<div class="app-shell">
+    <div class="main-card">
+        
+        <div class="header-logos">
+            <img src="assets/google.png" alt="Google" class="logo-left">
+            <img src="assets/brand.png" alt="Brand" class="logo-right">
         </div>
 
-        <div id="step-1">
-            <h2 class="title">How was your visit?</h2>
-            <p class="subtitle">Your feedback helps us grow.</p>
-            
-            <div class="rating-container" id="stars">
-                <span onclick="rate(1)" class="star">★</span>
-                <span onclick="rate(2)" class="star">★</span>
-                <span onclick="rate(3)" class="star">★</span>
-                <span onclick="rate(4)" class="star">★</span>
-                <span onclick="rate(5)" class="star">★</span>
-            </div>
-        </div>
+        <div id="feedback-form">
+            <h1 class="main-title">Rate Your Experience</h1>
+            <p class="desc">Help us improve by sharing your thoughts.</p>
 
-        <div id="formSection" class="hidden animate-in">
-            <div class="input-group">
-                <select id="staff">
-                    <option value="" disabled selected>Select Staff Member</option>
-                    <option value="Niral">Niral</option>
-                    <option value="Rahul">Rahul</option>
-                </select>
+            <div class="section">
+                <label class="field-label">Overall Rating</label>
+                <div class="stars-row" id="stars">
+                    <span onclick="rate(1)">★</span>
+                    <span onclick="rate(2)">★</span>
+                    <span onclick="rate(3)">★</span>
+                    <span onclick="rate(4)">★</span>
+                    <span onclick="rate(5)">★</span>
+                </div>
             </div>
 
-            <div class="input-row">
-                <input type="text" id="name" placeholder="Name">
-                <input type="tel" id="mobile" placeholder="Mobile">
-            </div>
+            <div class="form-container">
+                <div class="field-group">
+                    <label class="field-label" for="staff">Assisted By</label>
+                    <select id="staff">
+                        <option value="" disabled selected>Select Staff Member</option>
+                        <option value="Niral">Niral</option>
+                        <option value="Rahul">Rahul</option>
+                    </select>
+                </div>
 
-            <textarea id="reviewText" placeholder="Tell us more..."></textarea>
-            
-            <p class="agreement-text">By clicking below, you agree to share your feedback on our Google Business page.</p>
-            
-            <button class="btn-primary" onclick="goToGoogle()">
-                Copy & Open Google Review
-            </button>
-        </div>
+                <div class="field-group">
+                    <label class="field-label" for="name">Your Name</label>
+                    <input type="text" id="name" placeholder="Enter your full name">
+                </div>
 
-        <div id="wheelSection" class="hidden animate-in">
-            <h2 class="title">Thanks for the review!</h2>
-            <p class="subtitle">Spin the wheel to claim your reward</p>
-            
-            <div class="wheel-wrapper">
-                <div class="wheel-pointer"></div>
-                <div class="wheel" id="wheel">
+                <div class="field-group">
+                    <label class="field-label" for="mobile">Mobile Number</label>
+                    <input type="tel" id="mobile" placeholder="+91 XXXXX XXXXX">
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label" for="reviewText">Recommendation / Feedback</label>
+                    <textarea id="reviewText" placeholder="Tell us what you liked..."></textarea>
+                </div>
+
+                <p class="agreement-note">By swiping, you agree to our terms and will be redirected to Google Maps.</p>
+
+                <div class="swipe-container" id="swipeContainer">
+                    <div class="swipe-bg">Swipe to Open Google Review</div>
+                    <div class="swipe-handle" id="swipeHandle">
+                        <span class="arrow">→</span>
                     </div>
+                </div>
             </div>
-            
-            <button class="btn-spin" id="spinBtn" onclick="spinWheel()">Spin to Win</button>
-            <div id="rewardDisplay" class="reward-text"></div>
         </div>
 
-        <div id="thanksSection" class="hidden animate-in">
-            <div class="success-icon">✓</div>
-            <h2 class="title">Thank You!</h2>
-            <p class="subtitle">We appreciate your support. See you again soon!</p>
+        <div id="wheelSection" class="hidden">
+            <h2 class="main-title">You're Awesome!</h2>
+            <p class="desc">Spin to claim your thank-you gift.</p>
+            <div class="wheel-box">
+                <div class="pointer"></div>
+                <div class="wheel-circle" id="wheel"></div>
+            </div>
+            <button class="btn-action" onclick="spinWheel()">SPIN NOW</button>
+            <div id="rewardMsg" class="reward-banner"></div>
         </div>
+
     </div>
 </div>
 
