@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+  <div class="card">
+
+    <h2>Admin Login</h2>
+
+    <input type="text" id="user" placeholder="Username">
+    <input type="password" id="pass" placeholder="Password">
+
+    <button onclick="login()">Login</button>
+
+    <div id="dashboard" class="hidden">
+      <h3>Dashboard</h3>
+      <p>View data in Google Sheet</p>
+
+      <a href="YOUR_GOOGLE_SHEET_LINK" target="_blank">
+        Open Sheet
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function login() {
+  let u = document.getElementById("user").value;
+  let p = document.getElementById("pass").value;
+
+  if (u === "admin" && p === "1234") {
+    document.getElementById("dashboard").classList.remove("hidden");
+    alert("Login Success");
+  } else {
+    alert("Invalid");
+  }
+}
+</script>
+
+</body>
+</html>
