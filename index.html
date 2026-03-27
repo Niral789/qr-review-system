@@ -1,71 +1,579 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Customer Review</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Share Your Experience</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --card: #1a1a26;
+  --border: rgba(255,255,255,0.07);
+  --accent: #6c63ff;
+  --accent2: #ff6584;
+  --gold: #fbbf24;
+  --text: #f0f0f8;
+  --muted: #7a7a9a;
+  --input-bg: #0f0f18;
+  --radius: 18px;
+  --radius-sm: 10px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body, html {
+  width: 100%; height: 100%;
+  background: var(--bg);
+  font-family: 'Sora', sans-serif;
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Animated background blobs */
+.bg-blobs {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.blob {
+  position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.12;
+  animation: float 8s ease-in-out infinite;
+}
+.blob1 { width: 320px; height: 320px; background: var(--accent); top: -80px; left: -80px; animation-delay: 0s; }
+.blob2 { width: 260px; height: 260px; background: var(--accent2); bottom: 100px; right: -60px; animation-delay: -3s; }
+.blob3 { width: 200px; height: 200px; background: var(--gold); top: 50%; left: 40%; animation-delay: -5s; }
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(20px, -30px) scale(1.05); }
+}
+
+/* App wrapper */
+.app {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  padding: 0 0 40px;
+}
+
+/* Header */
+.header {
+  padding: 24px 24px 16px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: linear-gradient(180deg, rgba(10,10,15,0.95) 0%, transparent 100%);
+  position: sticky; top: 0; z-index: 10;
+}
+.header-logo {
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-pill {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  padding: 6px 14px;
+  font-size: 13px; font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.powered-badge {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  padding: 6px 12px;
+  font-size: 11px; color: var(--muted);
+}
+.g-dot { width: 14px; height: 14px; border-radius: 50%; background: conic-gradient(#4285f4 0 25%, #ea4335 25% 50%, #fbbc05 50% 75%, #34a853 75%); }
+
+/* Hero section */
+.hero {
+  padding: 20px 24px 0;
+  text-align: center;
+}
+.hero-icon {
+  width: 72px; height: 72px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 22px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px;
+  margin: 0 auto 20px;
+  box-shadow: 0 20px 40px rgba(108,99,255,0.35);
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 20px 40px rgba(108,99,255,0.35); }
+  50% { box-shadow: 0 20px 60px rgba(108,99,255,0.55); }
+}
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 30px; font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.6) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero h1 em { font-style: italic; color: var(--accent); -webkit-text-fill-color: var(--accent); }
+.hero p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* Card */
+.card {
+  margin: 28px 16px 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(108,99,255,0.5), transparent);
+}
+
+/* Stars */
+.section-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 14px;
+}
+.stars-row {
+  display: flex; gap: 8px; justify-content: center;
+  margin-bottom: 6px;
+}
+.star {
+  font-size: 42px; cursor: pointer;
+  color: rgba(255,255,255,0.1);
+  transition: transform 0.2s, color 0.2s;
+  line-height: 1;
+  user-select: none;
+}
+.star.active { color: var(--gold); }
+.star:hover { transform: scale(1.2); }
+.star-label {
+  font-size: 12px; color: var(--muted); text-align: center;
+  min-height: 18px; margin-top: 6px;
+  transition: opacity 0.3s;
+}
+
+/* Divider */
+.divider {
+  height: 1px; background: var(--border);
+  margin: 20px 0;
+}
+
+/* Field */
+.field { margin-bottom: 16px; }
+.field-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 8px; display: block;
+}
+.field input, .field select, .field textarea {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  font-size: 15px; font-family: 'Sora', sans-serif;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+}
+.field input::placeholder, .field textarea::placeholder { color: var(--muted); font-size: 14px; }
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(108,99,255,0.12);
+}
+.field select option { background: #1a1a26; }
+.field textarea { resize: none; height: 90px; line-height: 1.6; }
+
+/* Staff chips */
+.staff-chips {
+  display: flex; gap: 10px; flex-wrap: wrap;
+}
+.chip {
+  flex: 1; min-width: 90px;
+  padding: 12px 10px;
+  background: var(--input-bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  font-size: 13px; font-weight: 500; color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+}
+.chip-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: white;
+}
+.chip.selected {
+  border-color: var(--accent);
+  background: rgba(108,99,255,0.1);
+  color: var(--text);
+}
+.chip.selected .chip-avatar { box-shadow: 0 0 0 2px var(--accent); }
+
+/* Swipe CTA */
+.swipe-wrap {
+  margin-top: 24px;
+  position: relative;
+  background: rgba(108,99,255,0.08);
+  border: 1.5px solid rgba(108,99,255,0.2);
+  border-radius: 50px;
+  height: 64px;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+}
+.swipe-track-fill {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  background: linear-gradient(90deg, rgba(108,99,255,0.25), transparent);
+  width: 0%;
+  transition: width 0.05s;
+  border-radius: 50px;
+}
+.swipe-label {
+  font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.5);
+  letter-spacing: 0.04em; pointer-events: none; z-index: 1;
+  display: flex; align-items: center; gap: 8px;
+}
+.swipe-label span { animation: slide-arrow 1.5s ease-in-out infinite; }
+@keyframes slide-arrow {
+  0%, 100% { transform: translateX(0); opacity: 0.5; }
+  50% { transform: translateX(6px); opacity: 1; }
+}
+.swipe-thumb {
+  position: absolute; left: 6px;
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, var(--accent), #8b5cf6);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 8px 24px rgba(108,99,255,0.5);
+  cursor: grab; z-index: 2;
+  transition: box-shadow 0.2s;
+  user-select: none;
+}
+.swipe-thumb:active { cursor: grabbing; }
+
+/* Disclaimer */
+.disclaimer {
+  text-align: center; font-size: 11px; color: var(--muted);
+  margin-top: 14px; line-height: 1.6;
+  padding: 0 20px;
+}
+.disclaimer a { color: var(--accent); text-decoration: none; }
+
+/* Success overlay */
+.success-overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 100;
+  background: var(--bg);
+  flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 40px;
+  animation: fadeIn 0.4s ease;
+}
+.success-overlay.show { display: flex; }
+@keyframes fadeIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+
+.success-icon {
+  width: 100px; height: 100px;
+  background: linear-gradient(135deg, #10b981, #34d399);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 48px;
+  margin-bottom: 30px;
+  box-shadow: 0 20px 60px rgba(16,185,129,0.4);
+  animation: pop 0.5s cubic-bezier(0.175,0.885,0.32,1.275) 0.2s both;
+}
+@keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
+
+.success-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px; margin-bottom: 12px;
+  background: linear-gradient(135deg, #fff, rgba(255,255,255,0.7));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.success-sub { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.success-btn {
+  margin-top: 36px;
+  background: linear-gradient(135deg, var(--accent), #8b5cf6);
+  border: none; border-radius: 50px;
+  padding: 16px 40px;
+  font-size: 15px; font-weight: 600; color: white;
+  font-family: 'Sora', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(108,99,255,0.4);
+}
+
+/* confetti dots */
+.confetti-dots {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+}
+.dot {
+  position: absolute; width: 8px; height: 8px;
+  border-radius: 50%;
+  animation: confetti-fall 2s ease forwards;
+}
+@keyframes confetti-fall {
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(120vh) rotate(720deg); opacity: 0; }
+}
+</style>
 </head>
 <body>
 
-<div class="app-viewport">
-    <header class="logo-container">
-        <div class="google-wrapper">
-            <img src="assets/google.png" alt="Google" class="img-fluid">
-        </div>
-        <div class="brand-wrapper">
-            <img src="assets/brand.png" alt="Brand" class="img-fluid">
-        </div>
-    </header>
-
-    <main class="form-sheet">
-        <h1 class="title">Rate Your Experience</h1>
-        
-        <div class="section">
-            <label class="input-label">Overall Satisfaction</label>
-            <div class="star-row" id="stars">
-                <span onclick="rate(1)">★</span>
-                <span onclick="rate(2)">★</span>
-                <span onclick="rate(3)">★</span>
-                <span onclick="rate(4)">★</span>
-                <span onclick="rate(5)">★</span>
-            </div>
-        </div>
-
-        <div class="field-group">
-            <label class="input-label">Assisted By</label>
-            <select id="staff">
-                <option value="" disabled selected>Select Staff Member</option>
-                <option value="Niral">Niral</option>
-                <option value="Rahul">Rahul</option>
-            </select>
-        </div>
-
-        <div class="field-group">
-            <label class="input-label">Your Name</label>
-            <input type="text" id="name" placeholder="Enter your name">
-        </div>
-
-        <div class="field-group">
-            <label class="input-label">Mobile Number</label>
-            <input type="tel" id="mobile" placeholder="Enter mobile number">
-        </div>
-
-        <div class="field-group">
-            <label class="input-label">Recommendation</label>
-            <textarea id="reviewText" placeholder="Write a short review..."></textarea>
-        </div>
-
-        <div class="swipe-container" id="swipeTrack">
-            <div class="swipe-text">Swipe to Open Google Review</div>
-            <div class="swipe-handle" id="swipeThumb">→</div>
-        </div>
-
-        <p class="disclaimer">By swiping, you agree to post this on Google.</p>
-    </main>
+<div class="bg-blobs">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
 </div>
 
-<script src="script.js"></script>
+<div class="app">
+
+  <header class="header">
+    <div class="logo-pill">YourBrand</div>
+    <div class="powered-badge">
+      <div class="g-dot"></div>
+      Google Review
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-icon">✨</div>
+    <h1>How was your<br><em>experience?</em></h1>
+    <p>Your feedback helps us grow and serve you better.</p>
+  </div>
+
+  <!-- Star Rating -->
+  <div class="card">
+    <div class="section-label" style="text-align:center">Overall Satisfaction</div>
+    <div class="stars-row" id="starsRow">
+      <span class="star" data-val="1" onclick="rate(1)">★</span>
+      <span class="star" data-val="2" onclick="rate(2)">★</span>
+      <span class="star" data-val="3" onclick="rate(3)">★</span>
+      <span class="star" data-val="4" onclick="rate(4)">★</span>
+      <span class="star" data-val="5" onclick="rate(5)">★</span>
+    </div>
+    <div class="star-label" id="starLabel">Tap to rate</div>
+  </div>
+
+  <!-- Form fields -->
+  <div class="card">
+
+    <!-- Staff Selection -->
+    <div class="field">
+      <span class="field-label">Assisted By</span>
+      <div class="staff-chips" id="staffChips">
+        <div class="chip" onclick="selectStaff(this, 'Niral')">
+          <div class="chip-avatar">N</div>
+          Niral
+        </div>
+        <div class="chip" onclick="selectStaff(this, 'Rahul')">
+          <div class="chip-avatar">R</div>
+          Rahul
+        </div>
+        <div class="chip" onclick="selectStaff(this, 'Priya')">
+          <div class="chip-avatar">P</div>
+          Priya
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Name -->
+    <div class="field">
+      <label class="field-label" for="nameInput">Your Name</label>
+      <input type="text" id="nameInput" placeholder="e.g. Aditya Shah" autocomplete="off">
+    </div>
+
+    <!-- Mobile -->
+    <div class="field">
+      <label class="field-label" for="mobileInput">Mobile Number</label>
+      <input type="tel" id="mobileInput" placeholder="+91 98765 43210" maxlength="13">
+    </div>
+
+    <!-- Review -->
+    <div class="field">
+      <label class="field-label" for="reviewInput">Your Thoughts</label>
+      <textarea id="reviewInput" placeholder="Tell us what you loved — or how we can do better…"></textarea>
+    </div>
+
+  </div>
+
+  <!-- Swipe CTA -->
+  <div style="padding: 0 16px">
+    <div class="swipe-wrap" id="swipeTrack">
+      <div class="swipe-track-fill" id="swipeFill"></div>
+      <div class="swipe-label">
+        Post to Google Review
+        <span>→→</span>
+      </div>
+      <div class="swipe-thumb" id="swipeThumb">🚀</div>
+    </div>
+    <p class="disclaimer">
+      By swiping, you agree to share your feedback on Google.<br>
+      <a href="#">Privacy Policy</a> · <a href="#">Terms</a>
+    </p>
+  </div>
+
+</div>
+
+<!-- Success Screen -->
+<div class="success-overlay" id="successOverlay">
+  <div class="confetti-dots" id="confettiContainer"></div>
+  <div class="success-icon">🎉</div>
+  <div class="success-title">Thank You!</div>
+  <p class="success-sub">Your review is being posted to Google.<br>We truly appreciate your time and trust.</p>
+  <button class="success-btn" onclick="resetForm()">Back to Home</button>
+</div>
+
+<script>
+let userRating = 0;
+let selectedStaff = '';
+const starLabels = ['', 'Poor 😞', 'Fair 😐', 'Good 🙂', 'Great 😄', 'Excellent 🤩'];
+
+function rate(val) {
+  userRating = val;
+  document.querySelectorAll('.star').forEach((s, i) => {
+    s.classList.toggle('active', i < val);
+    s.style.transform = i < val ? 'scale(1.05)' : '';
+  });
+  const lbl = document.getElementById('starLabel');
+  lbl.textContent = starLabels[val];
+  lbl.style.color = val >= 4 ? '#fbbf24' : '#7a7a9a';
+}
+
+function selectStaff(el, name) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedStaff = name;
+}
+
+// Swipe logic
+const thumb = document.getElementById('swipeThumb');
+const track = document.getElementById('swipeTrack');
+const fill  = document.getElementById('swipeFill');
+let swiping = false, startX = 0;
+
+thumb.addEventListener('touchstart', e => {
+  swiping = true;
+  startX = e.touches[0].clientX;
+  thumb.style.transition = 'none';
+  fill.style.transition = 'none';
+});
+
+window.addEventListener('touchmove', e => {
+  if (!swiping) return;
+  let dx = e.touches[0].clientX - startX;
+  const max = track.offsetWidth - 64;
+  dx = Math.min(Math.max(dx, 0), max);
+  thumb.style.left = (dx + 6) + 'px';
+  fill.style.width = ((dx / max) * 100) + '%';
+  if (dx >= max) { swiping = false; completeReview(); }
+});
+
+window.addEventListener('touchend', () => {
+  if (!swiping) return;
+  swiping = false;
+  thumb.style.transition = '0.35s cubic-bezier(0.4,0,0.2,1)';
+  fill.style.transition = '0.35s ease';
+  thumb.style.left = '6px';
+  fill.style.width = '0%';
+});
+
+// Also support mouse drag for desktop preview
+thumb.addEventListener('mousedown', e => {
+  swiping = true;
+  startX = e.clientX;
+  thumb.style.transition = 'none';
+  fill.style.transition = 'none';
+  e.preventDefault();
+});
+window.addEventListener('mousemove', e => {
+  if (!swiping) return;
+  let dx = e.clientX - startX;
+  const max = track.offsetWidth - 64;
+  dx = Math.min(Math.max(dx, 0), max);
+  thumb.style.left = (dx + 6) + 'px';
+  fill.style.width = ((dx / max) * 100) + '%';
+  if (dx >= max) { swiping = false; completeReview(); }
+});
+window.addEventListener('mouseup', () => {
+  if (!swiping) return;
+  swiping = false;
+  thumb.style.transition = '0.35s cubic-bezier(0.4,0,0.2,1)';
+  fill.style.transition = '0.35s ease';
+  thumb.style.left = '6px';
+  fill.style.width = '0%';
+});
+
+function completeReview() {
+  const review = document.getElementById('reviewInput').value;
+  if (review) {
+    try { navigator.clipboard.writeText(review); } catch(e) {}
+  }
+  // Open Google review
+  window.open("https://g.page/r/YOUR_PLACE_ID/review", "_blank");
+  
+  spawnConfetti();
+  document.getElementById('successOverlay').classList.add('show');
+  
+  console.log('Review Submitted:', {
+    name: document.getElementById('nameInput').value,
+    mobile: document.getElementById('mobileInput').value,
+    staff: selectedStaff,
+    rating: userRating,
+    review: review,
+    time: new Date().toLocaleString()
+  });
+}
+
+function spawnConfetti() {
+  const container = document.getElementById('confettiContainer');
+  container.innerHTML = '';
+  const colors = ['#6c63ff','#ff6584','#fbbf24','#34d399','#60a5fa','#f472b6'];
+  for (let i = 0; i < 60; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot';
+    d.style.cssText = `
+      left: ${Math.random()*100}%;
+      top: ${Math.random()*40}%;
+      background: ${colors[Math.floor(Math.random()*colors.length)]};
+      width: ${4+Math.random()*8}px;
+      height: ${4+Math.random()*8}px;
+      border-radius: ${Math.random()>0.5?'50%':'3px'};
+      animation-delay: ${Math.random()*1.5}s;
+      animation-duration: ${1.5+Math.random()*2}s;
+    `;
+    container.appendChild(d);
+  }
+}
+
+function resetForm() {
+  document.getElementById('successOverlay').classList.remove('show');
+  userRating = 0;
+  selectedStaff = '';
+  document.querySelectorAll('.star').forEach(s => { s.classList.remove('active'); s.style.transform=''; });
+  document.getElementById('starLabel').textContent = 'Tap to rate';
+  document.getElementById('starLabel').style.color = '';
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  document.getElementById('nameInput').value = '';
+  document.getElementById('mobileInput').value = '';
+  document.getElementById('reviewInput').value = '';
+  thumb.style.left = '6px';
+  fill.style.width = '0%';
+}
+</script>
 </body>
 </html>
