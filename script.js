@@ -34,7 +34,7 @@ function goToGoogle() {
 
 // 📊 SAVE DATA
 function saveData() {
-  fetch("YOUR_GOOGLE_SCRIPT_URL", {
+  fetch("https://script.google.com/macros/s/AKfycbwTOwtwlKdX11VRBhWxAwoDnmr0GO_OvRToQZX_DvfyB3rMKjrmeelYSJ_ZfvHkSm3d/exec", {
     method: "POST",
     body: JSON.stringify({
       name: document.getElementById("name").value,
