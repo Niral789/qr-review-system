@@ -1,97 +1,73 @@
-let rating = 0;
+let userRating = 0;
 
-// ⭐ Rating Logic
+// ⭐ Star Rating Logic
 function rate(val) {
-    rating = val;
-    document.querySelectorAll("#stars span").forEach((s, i) => {
-        s.classList.toggle("active", i < val);
+    userRating = val;
+    const stars = document.querySelectorAll("#stars span");
+    stars.forEach((s, i) => {
+        s.style.color = i < val ? "#f59e0b" : "#e2e8f0";
     });
 }
 
-// ↔️ Swipe Logic
-const handle = document.getElementById('swipeHandle');
-const container = document.getElementById('swipeContainer');
-let isDragging = false;
+// ↔️ Swipe to Submit Logic
+const thumb = document.getElementById('swipeThumb');
+const track = document.getElementById('swipeTrack');
+let isSwiping = false;
 let startX = 0;
-const maxSlide = container.offsetWidth - 60;
 
-handle.addEventListener('mousedown', startSwipe);
-handle.addEventListener('touchstart', startSwipe);
+thumb.addEventListener('touchstart', (e) => {
+    isSwiping = true;
+    startX = e.touches[0].clientX;
+    thumb.style.transition = 'none';
+});
 
-function startSwipe(e) {
-    isDragging = true;
-    startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
-}
-
-window.addEventListener('mousemove', moveSwipe);
-window.addEventListener('touchmove', moveSwipe);
-
-function moveSwipe(e) {
-    if (!isDragging) return;
-    let currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
-    let delta = currentX - startX;
+window.addEventListener('touchmove', (e) => {
+    if (!isSwiping) return;
+    let delta = e.touches[0].clientX - startX;
+    let max = track.offsetWidth - 64;
     
     if (delta < 0) delta = 0;
-    if (delta > maxSlide) delta = maxSlide;
+    if (delta > max) delta = max;
     
-    handle.style.left = delta + 5 + 'px';
+    thumb.style.left = (delta + 6) + 'px';
 
-    if (delta === maxSlide) {
-        completeAction();
+    if (delta >= max) {
+        isSwiping = false;
+        completeReview();
     }
-}
+});
 
-window.addEventListener('mouseup', () => { if(isDragging) resetSwipe(); });
-window.addEventListener('touchend', () => { if(isDragging) resetSwipe(); });
+window.addEventListener('touchend', () => {
+    if (!isSwiping) return;
+    isSwiping = false;
+    thumb.style.transition = '0.3s ease';
+    thumb.style.left = '6px';
+});
 
-function resetSwipe() {
-    isDragging = false;
-    handle.style.transition = '0.3s';
-    handle.style.left = '5px';
-    setTimeout(() => handle.style.transition = '0s', 300);
-}
-
-function completeAction() {
-    isDragging = false;
-    // Copy Review
+function completeReview() {
+    // 1. Copy Review Text
     const review = document.getElementById("reviewText").value;
     navigator.clipboard.writeText(review);
-    
-    // Save Data
-    saveData();
-    
-    // Open Google
-    window.open("https://g.page/r/YOUR_ID/review", "_blank");
-    
-    // Show Wheel
-    document.getElementById('feedback-form').classList.add('hidden');
-    document.getElementById('wheelSection').classList.remove('hidden');
-}
 
-function saveData() {
-    const payload = {
-        name: document.getElementById("name").value,
-        mobile: document.getElementById("mobile").value,
-        staff: document.getElementById("staff").value,
-        rating: rating,
-        review: document.getElementById("reviewText").value
-    };
+    // 2. Open Google Review
+    window.open("https://g.page/r/YOUR_ID_HERE/review", "_blank");
+
+    // 3. Switch View to Wheel
+    document.getElementById("form-view").classList.add("hidden");
+    document.getElementById("wheel-view").classList.remove("hidden");
     
-    fetch("YOUR_APPS_SCRIPT_URL", {
-        method: "POST",
-        mode: "no-cors",
-        body: JSON.stringify(payload)
+    console.log("Data Sent to Sheet:", {
+        name: document.getElementById("name").value,
+        rating: userRating
     });
 }
 
-// 🎡 Simple Spin Fix
-function spinWheel() {
-    const wheel = document.getElementById('wheel');
-    const randomDeg = 1800 + Math.floor(Math.random() * 360);
-    wheel.style.transition = "transform 4s cubic-bezier(0.15, 0, 0.15, 1)";
-    wheel.style.transform = `rotate(${randomDeg}deg)`;
+function startSpin() {
+    const wheel = document.getElementById("wheel");
+    const rand = 2000 + Math.floor(Math.random() * 2000);
+    wheel.style.transform = `rotate(${rand}deg)`;
     
     setTimeout(() => {
-        document.getElementById('rewardMsg').innerText = "You won: 10% Discount!";
+        document.getElementById("reward-notif").innerHTML = "🎉 You won: <b>10% OFF Voucher</b>";
     }, 4500);
 }
