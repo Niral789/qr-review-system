@@ -1,36 +1,93 @@
 body {
-  font-family: Arial;
-  text-align: center;
-  background: #f5f5f5;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f2f4f8;
 }
 
 .container {
-  margin-top: 40px;
+  max-width: 420px;
+  margin: auto;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.logo-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
-  width: 120px;
+  height: 40px;
 }
 
-#rating span {
-  font-size: 40px;
+h2 {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.rating span {
+  font-size: 38px;
   cursor: pointer;
+  color: #ccc;
 }
 
-textarea {
-  width: 80%;
-  height: 80px;
+.rating .active {
+  color: gold;
 }
 
-input, select {
-  display: block;
-  margin: 10px auto;
-  padding: 8px;
-  width: 200px;
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
 }
 
 button {
-  padding: 10px 15px;
-  margin-top: 10px;
+  width: 100%;
+  padding: 14px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 12px;
+  background: #4CAF50;
+  color: white;
+  font-size: 16px;
   cursor: pointer;
+}
+
+button.secondary {
+  background: #2196F3;
+}
+
+.hidden {
+  display: none;
+}
+
+/* 🎡 Spin Wheel */
+.wheel {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 8px solid #eee;
+  margin: 20px auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.segment {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  transform-origin: 100% 100%;
+  background: #ff9800;
+  color: white;
+  text-align: center;
+  font-size: 12px;
 }
