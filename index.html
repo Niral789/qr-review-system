@@ -1,63 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Rate Us</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Our Service</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<div class="container">
-  <div class="card">
+<div class="app-container">
+    <div class="card" id="mainCard">
+        <div class="brand-header">
+            <img src="assets/brand.png" alt="Brand Logo" class="main-logo">
+            <img src="assets/google.png" alt="Google" class="partner-logo">
+        </div>
 
-    <!-- LOGOS -->
-    <div class="logo-row">
-      <img src="assets/google.png" class="logo">
-      <img src="assets/brand.png" class="logo">
+        <div id="step-1">
+            <h2 class="title">How was your visit?</h2>
+            <p class="subtitle">Your feedback helps us grow.</p>
+            
+            <div class="rating-container" id="stars">
+                <span onclick="rate(1)" class="star">★</span>
+                <span onclick="rate(2)" class="star">★</span>
+                <span onclick="rate(3)" class="star">★</span>
+                <span onclick="rate(4)" class="star">★</span>
+                <span onclick="rate(5)" class="star">★</span>
+            </div>
+        </div>
+
+        <div id="formSection" class="hidden animate-in">
+            <div class="input-group">
+                <select id="staff">
+                    <option value="" disabled selected>Select Staff Member</option>
+                    <option value="Niral">Niral</option>
+                    <option value="Rahul">Rahul</option>
+                </select>
+            </div>
+
+            <div class="input-row">
+                <input type="text" id="name" placeholder="Name">
+                <input type="tel" id="mobile" placeholder="Mobile">
+            </div>
+
+            <textarea id="reviewText" placeholder="Tell us more..."></textarea>
+            
+            <p class="agreement-text">By clicking below, you agree to share your feedback on our Google Business page.</p>
+            
+            <button class="btn-primary" onclick="goToGoogle()">
+                Copy & Open Google Review
+            </button>
+        </div>
+
+        <div id="wheelSection" class="hidden animate-in">
+            <h2 class="title">Thanks for the review!</h2>
+            <p class="subtitle">Spin the wheel to claim your reward</p>
+            
+            <div class="wheel-wrapper">
+                <div class="wheel-pointer"></div>
+                <div class="wheel" id="wheel">
+                    </div>
+            </div>
+            
+            <button class="btn-spin" id="spinBtn" onclick="spinWheel()">Spin to Win</button>
+            <div id="rewardDisplay" class="reward-text"></div>
+        </div>
+
+        <div id="thanksSection" class="hidden animate-in">
+            <div class="success-icon">✓</div>
+            <h2 class="title">Thank You!</h2>
+            <p class="subtitle">We appreciate your support. See you again soon!</p>
+        </div>
     </div>
-
-    <h2>Rate Your Experience</h2>
-
-    <!-- ⭐ RATING -->
-    <div class="rating" id="stars">
-      <span onclick="rate(1)">★</span>
-      <span onclick="rate(2)">★</span>
-      <span onclick="rate(3)">★</span>
-      <span onclick="rate(4)">★</span>
-      <span onclick="rate(5)">★</span>
-    </div>
-
-    <!-- FORM -->
-    <div id="formSection" class="hidden">
-
-      <select id="staff">
-        <option>Select Staff</option>
-        <option>Niral</option>
-        <option>Rahul</option>
-      </select>
-
-      <input type="text" id="name" placeholder="Your Name">
-      <input type="text" id="mobile" placeholder="Mobile Number">
-
-      <textarea id="reviewText"></textarea>
-
-      <button onclick="goToGoogle()">Copy & Go to Google Review</button>
-
-    </div>
-
-    <!-- CONFIRM -->
-    <div id="confirmSection" class="hidden">
-      <button class="secondary" onclick="showWheel()">I have submitted review</button>
-    </div>
-
-    <!-- SPIN -->
-    <div id="wheelSection" class="hidden">
-      <div class="wheel" id="wheel"></div>
-      <button onclick="spinWheel()">Spin</button>
-      <h3 id="reward"></h3>
-    </div>
-
-  </div>
 </div>
 
 <script src="script.js"></script>
