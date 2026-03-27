@@ -5,25 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Customer Feedback</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="app-shell">
-    <div class="main-card">
-        
-        <div class="header-logos">
-            <img src="assets/google.png" alt="Google" class="logo-left">
-            <img src="assets/brand.png" alt="Brand" class="logo-right">
-        </div>
+<div class="mobile-wrapper">
+    <header class="app-header">
+        <img src="assets/google.png" alt="Google" class="google-logo">
+        <img src="assets/brand.png" alt="Brand Logo" class="brand-logo">
+    </header>
 
-        <div id="feedback-form">
-            <h1 class="main-title">Rate Your Experience</h1>
-            <p class="desc">Help us improve by sharing your thoughts.</p>
+    <main class="content-card">
+        <div id="form-view">
+            <div class="text-center">
+                <h1 class="headline">Rate Your Experience</h1>
+                <p class="sub-headline">Your feedback helps us serve you better.</p>
+            </div>
 
-            <div class="section">
-                <label class="field-label">Overall Rating</label>
-                <div class="stars-row" id="stars">
+            <div class="input-section">
+                <label class="section-label">Overall Experience</label>
+                <div class="star-rating" id="stars">
                     <span onclick="rate(1)">★</span>
                     <span onclick="rate(2)">★</span>
                     <span onclick="rate(3)">★</span>
@@ -32,54 +33,56 @@
                 </div>
             </div>
 
-            <div class="form-container">
-                <div class="field-group">
-                    <label class="field-label" for="staff">Assisted By</label>
+            <div class="form-grid">
+                <div class="field">
+                    <label for="staff">Assisted By</label>
                     <select id="staff">
-                        <option value="" disabled selected>Select Staff Member</option>
+                        <option value="" disabled selected>Select Staff</option>
                         <option value="Niral">Niral</option>
                         <option value="Rahul">Rahul</option>
                     </select>
                 </div>
 
-                <div class="field-group">
-                    <label class="field-label" for="name">Your Name</label>
-                    <input type="text" id="name" placeholder="Enter your full name">
+                <div class="field">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" placeholder="John Doe">
                 </div>
 
-                <div class="field-group">
-                    <label class="field-label" for="mobile">Mobile Number</label>
-                    <input type="tel" id="mobile" placeholder="+91 XXXXX XXXXX">
+                <div class="field">
+                    <label for="mobile">Mobile Number</label>
+                    <input type="tel" id="mobile" placeholder="+91 00000 00000">
                 </div>
 
-                <div class="field-group">
-                    <label class="field-label" for="reviewText">Recommendation / Feedback</label>
-                    <textarea id="reviewText" placeholder="Tell us what you liked..."></textarea>
+                <div class="field">
+                    <label for="reviewText">Detailed Feedback</label>
+                    <textarea id="reviewText" placeholder="Share your thoughts..."></textarea>
                 </div>
+            </div>
 
-                <p class="agreement-note">By swiping, you agree to our terms and will be redirected to Google Maps.</p>
-
-                <div class="swipe-container" id="swipeContainer">
-                    <div class="swipe-bg">Swipe to Open Google Review</div>
-                    <div class="swipe-handle" id="swipeHandle">
-                        <span class="arrow">→</span>
+            <div class="swipe-area">
+                <p class="agreement">I agree to submit this review to Google Business</p>
+                <div class="swipe-track" id="swipeTrack">
+                    <div class="swipe-text">Swipe to Review</div>
+                    <div class="swipe-thumb" id="swipeThumb">
+                        <span class="icon">→</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="wheelSection" class="hidden">
-            <h2 class="main-title">You're Awesome!</h2>
-            <p class="desc">Spin to claim your thank-you gift.</p>
-            <div class="wheel-box">
-                <div class="pointer"></div>
-                <div class="wheel-circle" id="wheel"></div>
+        <div id="wheel-view" class="hidden animate-fade">
+            <h2 class="headline">Thank You!</h2>
+            <p class="sub-headline">You've earned a spin!</p>
+            
+            <div class="wheel-container">
+                <div class="wheel-pin"></div>
+                <div class="wheel-disc" id="wheel"></div>
             </div>
-            <button class="btn-action" onclick="spinWheel()">SPIN NOW</button>
-            <div id="rewardMsg" class="reward-banner"></div>
+            
+            <button class="btn-spin" onclick="startSpin()">Tap to Spin</button>
+            <div id="reward-notif" class="reward-box"></div>
         </div>
-
-    </div>
+    </main>
 </div>
 
 <script src="script.js"></script>
