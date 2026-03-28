@@ -3,426 +3,432 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Rate Your Experience – Google Review</title>
-<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Share Your Experience</title>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --blue:#4285F4;--red:#EA4335;--yellow:#FBBC05;--green:#34A853;
+  --txt:#202124;--sub:#5F6368;--border:#DADCE0;--bg:#F8F9FA;--white:#fff;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:#eef2fb;font-family:'Roboto',sans-serif;color:var(--txt)}
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+/* ═══ SCREEN SYSTEM ═══ */
+.screen{
+  position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  transition:opacity .35s ease,transform .35s ease;
+  pointer-events:none;opacity:0;transform:translateY(20px);
+}
+.screen.active{opacity:1;transform:translateY(0);pointer-events:all}
+.page-wrap{width:100%;max-width:430px;height:100vh;display:flex;flex-direction:column;background:var(--white);box-shadow:0 0 30px rgba(0,0,0,.15);overflow:hidden}
 
-:root {
-  --g-blue:   #4285F4;
-  --g-red:    #EA4335;
-  --g-yellow: #FBBC05;
-  --g-green:  #34A853;
-  --text-primary:   #202124;
-  --text-secondary: #5F6368;
-  --border:   #DADCE0;
-  --bg:       #F8F9FA;
-  --white:    #FFFFFF;
-  --radius:   12px;
+/* ═══ HEADER ═══ */
+.header{
+  display:grid;grid-template-columns:1fr 1fr;
+  background:linear-gradient(135deg,#1a73e8 0%,#0d47a1 100%);
+  padding:0;flex-shrink:0;
 }
+.hd-left,.hd-right{
+  display:flex;align-items:center;justify-content:center;
+  padding:10px 12px;min-height:60px;
+}
+.hd-left{border-right:1px solid rgba(255,255,255,.2)}
+.hd-left img,.hd-right img{max-width:100%;max-height:36px;object-fit:contain;display:block}
+/* Fallback */
+.hd-left .fb{font-family:'Google Sans',sans-serif;font-size:18px;font-weight:700;color:#fff;display:none}
+.hd-right .fb-g{display:none;align-items:center;gap:6px}
+.fb-g span{font-size:13px;font-weight:600;color:#fff}
+.g-dot{width:18px;height:18px;border-radius:50%;background:conic-gradient(#4285f4 0 25%,#ea4335 25% 50%,#fbbc05 50% 75%,#34a853 75%)}
 
-html, body {
-  width: 100%; height: 100%;
-  overflow: hidden;
-  background: var(--bg);
-  font-family: 'Roboto', sans-serif;
-  color: var(--text-primary);
+/* ═══ HERO BAND ═══ */
+.hero-band{
+  background:linear-gradient(135deg,#e8f0fe 0%,#fce8e6 50%,#fef9e7 100%);
+  padding:10px 16px 8px;flex-shrink:0;text-align:center;border-bottom:1px solid #dde3ed;
 }
+.hero-band h1{
+  font-family:'Google Sans',sans-serif;font-size:16px;font-weight:700;color:#1a73e8;
+  line-height:1.25;
+}
+.hero-band p{font-size:11px;color:var(--sub);margin-top:2px}
 
-.page {
-  width: 100%; height: 100vh;
-  display: flex; flex-direction: column;
-  max-width: 430px;
-  margin: 0 auto;
-  background: var(--white);
-  box-shadow: 0 0 20px rgba(0,0,0,.12);
+/* ═══ STAR RATING — creative emoji style ═══ */
+.stars-section{
+  flex-shrink:0;padding:8px 16px 6px;
+  background:var(--white);border-bottom:1px solid var(--border);
 }
+.star-cards{display:flex;gap:6px;justify-content:center}
+.star-card{
+  flex:1;max-width:58px;border:1.5px solid var(--border);border-radius:12px;
+  padding:6px 4px 5px;text-align:center;cursor:pointer;
+  transition:all .2s;background:var(--bg);user-select:none;
+}
+.star-card .emoji{font-size:20px;display:block;margin-bottom:2px}
+.star-card .slabel{font-size:9px;color:var(--sub);font-weight:500;line-height:1}
+.star-card.s1.sel{background:#fce8e6;border-color:#ea4335;box-shadow:0 0 0 2px rgba(234,67,53,.2)}
+.star-card.s2.sel{background:#fff3e0;border-color:#fb8c00;box-shadow:0 0 0 2px rgba(251,140,0,.2)}
+.star-card.s3.sel{background:#fffde7;border-color:#fdd835;box-shadow:0 0 0 2px rgba(253,216,53,.2)}
+.star-card.s4.sel{background:#e8f5e9;border-color:#43a047;box-shadow:0 0 0 2px rgba(67,160,71,.2)}
+.star-card.s5.sel{background:#e8f0fe;border-color:#1a73e8;box-shadow:0 0 0 2px rgba(26,115,232,.2)}
+.star-card.sel .slabel{font-weight:700;color:var(--txt)}
+.star-card:active{transform:scale(.93)}
 
-/* ── Header ── */
-.header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 16px;
-  border-bottom: 1px solid var(--border);
-  background: var(--white);
-  flex-shrink: 0; min-height: 52px;
+/* ═══ FORM ═══ */
+.form-area{flex:1;overflow:hidden;padding:8px 14px 4px;display:flex;flex-direction:column;gap:6px}
+.field{flex-shrink:0}
+.fl{font-size:10px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;display:block}
+.field select,.field input,.field textarea{
+  width:100%;border:1.5px solid var(--border);border-radius:10px;
+  padding:10px 12px;font-size:13px;font-family:'Roboto',sans-serif;
+  color:var(--txt);background:var(--white);outline:none;
+  transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;
 }
-.header-brand img,
-.header-google img {
-  height: 28px; width: auto; display: block; object-fit: contain; max-width: 120px;
+.field select:focus,.field input:focus,.field textarea:focus{
+  border-color:var(--blue);box-shadow:0 0 0 3px rgba(66,133,244,.12);
 }
-.header-google img { height: 22px; }
+.field select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%235F6368' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;cursor:pointer;
+}
+.field select option{color:var(--txt)}
 
-/* Fallback shown when image fails */
-.fallback-text {
-  font-family: 'Google Sans', sans-serif;
-  font-size: 16px; font-weight: 700; color: var(--g-blue);
+/* WhatsApp input */
+.wa-wrap{position:relative}
+.wa-badge{
+  position:absolute;left:0;top:0;bottom:0;width:44px;
+  display:flex;align-items:center;justify-content:center;
+  border-right:1px solid var(--border);pointer-events:none;z-index:2;
+  border-radius:10px 0 0 10px;background:#f0fdf4;
 }
-.fallback-g {
-  display: flex; align-items: center; gap: 5px;
-  font-size: 13px; font-weight: 500; color: var(--text-secondary);
-}
-.g-dot {
-  width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0;
-  background: conic-gradient(#4285f4 0 25%,#ea4335 25% 50%,#fbbc05 50% 75%,#34a853 75%);
-}
+.wa-badge svg{width:22px;height:22px}
+.wa-wrap input{padding-left:54px !important}
+.field input::placeholder,.field textarea::placeholder{color:#9AA0A6}
 
-/* ── Maps-style banner ── */
-.maps-banner {
-  background: linear-gradient(135deg, #E8F0FE 0%, #F3F8FF 100%);
-  padding: 9px 16px 8px;
-  border-bottom: 1px solid #C5D6F5;
-  flex-shrink: 0;
-  display: flex; align-items: center; gap: 10px;
-}
-.maps-pin {
-  width: 30px; height: 30px; flex-shrink: 0;
-  background: var(--g-red);
-  border-radius: 50% 50% 50% 0;
-  transform: rotate(-45deg);
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 2px 6px rgba(234,67,53,.4);
-}
-.maps-pin::after {
-  content: ''; width: 11px; height: 11px;
-  background: white; border-radius: 50%; transform: rotate(45deg);
-}
-.maps-info h2 {
-  font-family: 'Google Sans', sans-serif;
-  font-size: 13px; font-weight: 700; color: var(--text-primary);
-}
-.maps-info p { font-size: 10px; color: var(--text-secondary); margin-top: 1px; }
+/* Textarea — no scroll, auto height handled by rows */
+.field textarea{resize:none;line-height:1.5;font-size:12.5px;height:64px}
 
-/* ── Content ── */
-.content {
-  flex: 1; overflow: hidden;
-  display: flex; flex-direction: column;
-  padding: 10px 14px 0; gap: 7px;
-}
+/* Two-col row */
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex-shrink:0}
 
-.section-title {
-  font-family: 'Google Sans', sans-serif;
-  font-size: 11px; font-weight: 500; color: var(--text-secondary);
-  text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 3px;
+/* ═══ SWIPE ═══ */
+.swipe-section{flex-shrink:0;padding:6px 0 2px}
+.swipe-wrap{
+  position:relative;background:#e8f0fe;border:2px solid #c5d6f5;
+  border-radius:50px;height:52px;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;user-select:none;
 }
+.swipe-fill{
+  position:absolute;left:0;top:0;bottom:0;width:0%;border-radius:50px;
+  background:linear-gradient(90deg,rgba(66,133,244,.3),transparent);
+  transition:width .04s;
+}
+.swipe-lbl{
+  font-family:'Google Sans',sans-serif;font-size:13px;font-weight:600;color:#1a73e8;
+  pointer-events:none;z-index:1;display:flex;align-items:center;gap:6px;
+  transition:opacity .3s;
+}
+.swipe-lbl.hidden{opacity:0}
+.swipe-lbl .arr{animation:arr 1.3s ease-in-out infinite}
+@keyframes arr{0%,100%{transform:translateX(0);opacity:.5}50%{transform:translateX(6px);opacity:1}}
+.swipe-thumb{
+  position:absolute;left:4px;width:44px;height:44px;
+  background:white;border:1.5px solid #dadce0;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:grab;z-index:2;box-shadow:0 2px 8px rgba(66,133,244,.3);
+}
+.swipe-thumb:active{cursor:grabbing}
+.gg{width:26px;height:26px}
 
-/* ── Stars ── */
-.stars-wrap { text-align: center; flex-shrink: 0; }
-.stars-row { display: flex; gap: 5px; justify-content: center; margin-bottom: 2px; }
-.star {
-  font-size: 34px; cursor: pointer; color: #DADCE0;
-  transition: transform .15s, color .15s; line-height: 1; user-select: none;
-}
-.star.active { color: var(--g-yellow); }
-.star:active { transform: scale(.88); }
-.star-label { font-size: 11px; color: var(--text-secondary); min-height: 15px; }
+.disclaimer{text-align:center;font-size:10px;color:var(--sub);margin-top:4px;line-height:1.5}
+.disclaimer a{color:var(--blue);text-decoration:none}
 
-/* ── Card ── */
-.g-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 11px 12px;
-  box-shadow: 0 1px 3px rgba(60,64,67,.08);
-  flex-shrink: 0;
+/* ═══ SCREEN 2 — ACKNOWLEDGEMENT ═══ */
+#ackScreen .page-wrap{justify-content:center;align-items:center;background:linear-gradient(160deg,#e8f0fe 0%,#fce8e6 100%)}
+.ack-inner{padding:32px 28px;text-align:center;max-width:360px}
+.ack-icon{font-size:64px;margin-bottom:16px;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.ack-title{font-family:'Google Sans',sans-serif;font-size:22px;font-weight:700;color:#1a73e8;margin-bottom:8px}
+.ack-sub{font-size:13px;color:var(--sub);line-height:1.7;margin-bottom:24px}
+.ack-btns{display:flex;gap:12px;justify-content:center}
+.btn-yes,.btn-no{
+  flex:1;padding:13px 10px;border-radius:50px;font-size:14px;font-weight:600;
+  font-family:'Google Sans',sans-serif;cursor:pointer;border:none;
+  transition:transform .15s,box-shadow .15s;
 }
+.btn-yes{background:linear-gradient(135deg,#34a853,#1e8c3a);color:#fff;box-shadow:0 4px 12px rgba(52,168,83,.35)}
+.btn-no{background:#fff;color:var(--sub);border:1.5px solid var(--border)}
+.btn-yes:active,.btn-no:active{transform:scale(.96)}
 
-/* ── Fields ── */
-.field { margin-bottom: 7px; }
-.field:last-child { margin-bottom: 0; }
-.field-label {
-  font-size: 10px; font-weight: 500; color: var(--text-secondary);
-  letter-spacing: 0.05em; text-transform: uppercase;
-  margin-bottom: 4px; display: block;
+/* ═══ SCREEN 3 — SPIN WHEEL ═══ */
+#spinScreen .page-wrap{justify-content:flex-start;background:#fff;overflow:hidden}
+.spin-header{
+  background:linear-gradient(135deg,#1a73e8,#0d47a1);
+  padding:14px 20px;text-align:center;flex-shrink:0;
 }
-.field select,
-.field input,
-.field textarea {
-  width: 100%; border: 1.5px solid var(--border); border-radius: 8px;
-  padding: 9px 12px; font-size: 13px;
-  font-family: 'Roboto', sans-serif; color: var(--text-primary);
-  background: var(--white); outline: none;
-  transition: border-color .2s, box-shadow .2s;
-  -webkit-appearance: none;
-}
-.field select:focus, .field input:focus, .field textarea:focus {
-  border-color: var(--g-blue);
-  box-shadow: 0 0 0 3px rgba(66,133,244,.12);
-}
-.field select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%235F6368' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 12px center;
-  padding-right: 30px; cursor: pointer;
-}
-.field select option { color: var(--text-primary); }
+.spin-header h2{font-family:'Google Sans',sans-serif;font-size:18px;font-weight:700;color:#fff}
+.spin-header p{font-size:11px;color:rgba(255,255,255,.8);margin-top:3px}
 
-/* WhatsApp */
-.wa-wrap { position: relative; }
-.wa-icon {
-  position: absolute; left: 9px; top: 50%; transform: translateY(-50%);
-  width: 20px; height: 20px; pointer-events: none; z-index: 2;
+.spin-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 20px 16px;gap:12px}
+.wheel-container{position:relative;width:280px;height:280px;flex-shrink:0}
+.wheel-pointer{
+  position:absolute;top:-16px;left:50%;transform:translateX(-50%);
+  width:0;height:0;
+  border-left:14px solid transparent;
+  border-right:14px solid transparent;
+  border-top:28px solid #EA4335;
+  z-index:10;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,.3));
 }
-.wa-wrap input { padding-left: 36px !important; }
-.field input::placeholder, .field textarea::placeholder { color: #9AA0A6; }
+#wheelCanvas{
+  width:280px;height:280px;border-radius:50%;
+  box-shadow:0 8px 30px rgba(0,0,0,.2);
+  transition:transform 5s cubic-bezier(.17,.67,.12,.99);
+  display:block;
+}
+.spin-btn{
+  background:linear-gradient(135deg,#ea4335,#c62828);
+  border:none;border-radius:50px;padding:15px 48px;
+  font-size:16px;font-weight:700;color:#fff;
+  font-family:'Google Sans',sans-serif;cursor:pointer;
+  box-shadow:0 6px 20px rgba(234,67,53,.4);
+  letter-spacing:.02em;transition:transform .15s,box-shadow .15s;
+  flex-shrink:0;
+}
+.spin-btn:active{transform:scale(.95)}
+.spin-btn:disabled{opacity:.5;cursor:default}
+.spin-note{font-size:11px;color:var(--sub);text-align:center}
 
-.field textarea { resize: none; height: 58px; line-height: 1.5; font-size: 12px; }
-.field textarea::placeholder { font-size: 12px; }
-
-/* ── Swipe Button ── */
-.swipe-section { flex-shrink: 0; padding: 6px 0 4px; }
-.swipe-wrap {
-  position: relative;
-  background: #E8F0FE; border: 2px solid #C5D6F5;
-  border-radius: 50px; height: 54px; overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; user-select: none;
+/* ═══ SCREEN 4 — PRIZE RESULT (confetti bomb) ═══ */
+#prizeScreen .page-wrap{
+  justify-content:center;align-items:center;
+  background:linear-gradient(160deg,#fff9c4 0%,#fff 60%);
+  overflow:hidden;
 }
-.swipe-fill {
-  position: absolute; left: 0; top: 0; bottom: 0;
-  background: linear-gradient(90deg, rgba(66,133,244,.2), transparent);
-  width: 0%; border-radius: 50px; transition: width .04s;
+.confetti-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.cp{position:absolute;border-radius:50%;animation:cpfall 2.5s ease forwards}
+@keyframes cpfall{0%{transform:translateY(-30px) rotate(0deg);opacity:1}100%{transform:translateY(105vh) rotate(900deg);opacity:0}}
+.prize-inner{position:relative;z-index:1;text-align:center;padding:28px 28px}
+.prize-emoji{font-size:72px;margin-bottom:12px;animation:pop .5s cubic-bezier(.175,.885,.32,1.275) .2s both}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.prize-title{font-family:'Google Sans',sans-serif;font-size:13px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.prize-name{font-family:'Google Sans',sans-serif;font-size:28px;font-weight:700;color:#1a73e8;margin-bottom:8px;line-height:1.2}
+.prize-sub{font-size:13px;color:var(--sub);line-height:1.7;margin-bottom:24px}
+.prize-done-btn{
+  background:linear-gradient(135deg,#1a73e8,#0d47a1);border:none;border-radius:50px;
+  padding:14px 40px;font-size:14px;font-weight:600;color:#fff;
+  font-family:'Google Sans',sans-serif;cursor:pointer;
+  box-shadow:0 6px 18px rgba(26,115,232,.4);
 }
-.swipe-text {
-  font-family: 'Google Sans', sans-serif;
-  font-size: 13px; font-weight: 500; color: #4285F4;
-  pointer-events: none; z-index: 1;
-  display: flex; align-items: center; gap: 5px; letter-spacing: .02em;
-}
-.swipe-text .arr { animation: arr 1.4s ease-in-out infinite; }
-@keyframes arr { 0%,100%{transform:translateX(0);opacity:.5} 50%{transform:translateX(5px);opacity:1} }
-
-.swipe-thumb {
-  position: absolute; left: 5px;
-  width: 44px; height: 44px;
-  background: white; border: 1.5px solid #DADCE0;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  cursor: grab; z-index: 2;
-  box-shadow: 0 2px 8px rgba(66,133,244,.28);
-}
-.swipe-thumb:active { cursor: grabbing; }
-.google-g { width: 24px; height: 24px; }
-
-.disclaimer {
-  text-align: center; font-size: 10px; color: var(--text-secondary);
-  margin-top: 4px; line-height: 1.5;
-}
-.disclaimer a { color: var(--g-blue); text-decoration: none; }
-
-/* watermark */
-.bg-watermark {
-  position: fixed; bottom: 40px; right: -10px;
-  opacity: .04; pointer-events: none; z-index: 0;
-  font-size: 90px; color: var(--g-yellow); user-select: none; line-height: 1;
-}
-
-/* ── Success ── */
-.success-overlay {
-  display: none; position: fixed; inset: 0; z-index: 200;
-  background: var(--white);
-  flex-direction: column; align-items: center; justify-content: center;
-  text-align: center; padding: 40px;
-}
-.success-overlay.show { display: flex; animation: fadeUp .4s ease; }
-@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-.success-checkmark {
-  width: 76px; height: 76px; background: var(--g-green); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 22px;
-  animation: pop .5s cubic-bezier(.175,.885,.32,1.275) .1s both;
-}
-@keyframes pop { from{transform:scale(0)} to{transform:scale(1)} }
-.success-checkmark svg { width: 38px; height: 38px; }
-.success-title {
-  font-family: 'Google Sans', sans-serif;
-  font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;
-}
-.success-sub { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
-.success-btn {
-  margin-top: 26px; background: var(--g-blue);
-  border: none; border-radius: 50px;
-  padding: 13px 34px;
-  font-size: 14px; font-weight: 500; color: white;
-  font-family: 'Google Sans', sans-serif; cursor: pointer;
-  box-shadow: 0 4px 12px rgba(66,133,244,.4); letter-spacing: .02em;
-}
-.confetti-dots { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-.dot { position: absolute; border-radius: 50%; animation: fall 2s ease forwards; }
-@keyframes fall {
-  0%  { transform: translateY(-10px) rotate(0deg);   opacity: 1; }
-  100%{ transform: translateY(110vh) rotate(720deg); opacity: 0; }
-}
-
 </style>
 </head>
 <body>
 
-<div class="bg-watermark">★★★★★</div>
+<!-- ══════════════════════════════════
+     SCREEN 1 — REVIEW FORM
+══════════════════════════════════ -->
+<div class="screen active" id="formScreen">
+<div class="page-wrap">
 
-<div class="page">
-
-  <!-- HEADER: logos from assets/ folder -->
+  <!-- Header: brand logo left | google logo right, full width split -->
   <header class="header">
-    <div class="header-brand">
-      <!--
-        WHY LOGOS ARE NOT VISIBLE:
-        The browser looks for images relative to the HTML file location.
-        Your images are in assets/brand.png and assets/google.png
-        Make sure this HTML file and the "assets" folder are in the SAME directory.
-        e.g.:
-          /your-folder/
-            review.html      ← this file
-            assets/
-              brand.png
-              google.png
-        The onerror fallback below will show text if the image can't be found.
-      -->
-      <img src="assets/brand.png" alt="Brand Logo"
+    <div class="hd-left">
+      <img src="assets/brand.png" alt="Brand"
            onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-      <span class="fallback-text" style="display:none">YourBrand</span>
+      <span class="fb">YourBrand</span>
     </div>
-    <div class="header-google">
-      <img src="assets/google.png" alt="Google"
+    <div class="hd-right">
+      <img src="assets/google.png" alt="Google Reviews"
            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div class="fallback-g" style="display:none">
-        <div class="g-dot"></div><span>Google</span>
+      <div class="fb-g">
+        <div class="g-dot"></div><span>Google Reviews</span>
       </div>
     </div>
   </header>
 
-  <!-- Maps banner -->
-  <div class="maps-banner">
-    <div class="maps-pin"></div>
-    <div class="maps-info">
-      <h2>Rate Your Experience</h2>
-      <p>Your review helps others discover us on Google Maps</p>
+  <!-- Hero band — catchy text, no map icon -->
+  <div class="hero-band">
+    <h1>☕ Loved Your Coffee? Tell The World!</h1>
+    <p>Your 5★ review helps fellow coffee lovers discover us</p>
+  </div>
+
+  <!-- Creative star rating — emoji cards -->
+  <div class="stars-section">
+    <div class="star-cards" id="starCards">
+      <div class="star-card s1" onclick="rate(1,this)"><span class="emoji">😞</span><span class="slabel">Poor</span></div>
+      <div class="star-card s2" onclick="rate(2,this)"><span class="emoji">😐</span><span class="slabel">Fair</span></div>
+      <div class="star-card s3" onclick="rate(3,this)"><span class="emoji">🙂</span><span class="slabel">Good</span></div>
+      <div class="star-card s4" onclick="rate(4,this)"><span class="emoji">😄</span><span class="slabel">Great</span></div>
+      <div class="star-card s5" onclick="rate(5,this)"><span class="emoji">🤩</span><span class="slabel">Excellent</span></div>
     </div>
   </div>
 
-  <!-- Main content -->
-  <div class="content">
+  <!-- Form -->
+  <div class="form-area">
 
-    <!-- Stars -->
-    <div class="stars-wrap">
-      <div class="section-title">Overall Satisfaction</div>
-      <div class="stars-row" id="starsRow">
-        <span class="star" onclick="rate(1)">★</span>
-        <span class="star" onclick="rate(2)">★</span>
-        <span class="star" onclick="rate(3)">★</span>
-        <span class="star" onclick="rate(4)">★</span>
-        <span class="star" onclick="rate(5)">★</span>
-      </div>
-      <div class="star-label" id="starLabel">Tap a star to rate</div>
-    </div>
-
-    <!-- Form -->
-    <div class="g-card">
-
-      <!-- Recommended Staff Name – dropdown -->
+    <!-- Name + Staff in one row -->
+    <div class="field-row">
       <div class="field">
-        <label class="field-label" for="staffSelect">Recommended Staff Name</label>
+        <span class="fl">Your Name</span>
+        <input type="text" id="nameInput" placeholder="Aditya Shah" autocomplete="off">
+      </div>
+      <div class="field">
+        <span class="fl">Recommended Staff</span>
         <select id="staffSelect">
-          <option value="" disabled selected>Select staff member</option>
+          <option value="" disabled selected>Select</option>
           <option value="Niral">Niral</option>
           <option value="Rahul">Rahul</option>
           <option value="Priya">Priya</option>
         </select>
       </div>
+    </div>
 
-      <!-- Your Name -->
-      <div class="field">
-        <label class="field-label" for="nameInput">Your Name</label>
-        <input type="text" id="nameInput" placeholder="e.g. Aditya Shah" autocomplete="off">
-      </div>
-
-      <!-- WhatsApp Number -->
-      <div class="field">
-        <label class="field-label" for="mobileInput">WhatsApp Number</label>
-        <div class="wa-wrap">
-          <svg class="wa-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="16" cy="16" r="16" fill="#25D366"/>
-            <path d="M23.5 8.5A9.9 9.9 0 0 0 16 5.5C10.75 5.5 6.5 9.75 6.5 15a9.4 9.4 0 0 0 1.4 4.95L6.5 26.5l6.75-1.75A9.9 9.9 0 0 0 16 25.5c5.25 0 9.5-4.25 9.5-9.5 0-2.55-1-4.95-2.8-6.75zm-7.5 16a8.3 8.3 0 0 1-4.25-1.15l-.3-.2-3.1.8.8-3-.2-.3A8.3 8.3 0 0 1 7.7 15c0-4.6 3.75-8.3 8.3-8.3 2.2 0 4.3.85 5.85 2.4a8.2 8.2 0 0 1 2.45 5.9c0 4.6-3.75 8.3-8.3 8.3zm4.55-6.2c-.25-.12-1.45-.72-1.68-.8-.22-.08-.38-.12-.55.12-.16.25-.63.8-.78.97-.14.16-.28.18-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.48-1.38-1.73-.14-.25-.02-.38.1-.5.1-.1.25-.28.37-.42.12-.14.16-.25.25-.42.08-.16.04-.3-.02-.42-.06-.12-.55-1.33-.75-1.82-.2-.48-.4-.42-.55-.43h-.47c-.16 0-.42.06-.64.3-.22.25-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.65.58.25 1.02.4 1.37.52.58.18 1.1.15 1.52.09.46-.07 1.43-.59 1.63-1.15.2-.57.2-1.06.14-1.15-.06-.1-.22-.16-.47-.28z" fill="white"/>
+    <!-- WhatsApp Number -->
+    <div class="field">
+      <span class="fl">WhatsApp Number</span>
+      <div class="wa-wrap">
+        <div class="wa-badge">
+          <!-- Proper WhatsApp icon: official green with phone -->
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="24" fill="#25D366"/>
+            <path d="M34.6 13.3A14.8 14.8 0 0 0 24 9C16.3 9 10 15.3 10 23c0 2.5.7 4.9 1.9 7L10 39l9.2-2.4a14.9 14.9 0 0 0 4.8.8c7.7 0 14-6.3 14-14 0-3.7-1.4-7.2-4-9.8h.6zm-10.6 21.5c-2 0-4-.5-5.8-1.5l-.4-.3-4.2 1.1 1.1-4.1-.3-.4A12.3 12.3 0 0 1 12.7 23c0-6.2 5-11.2 11.3-11.2 3 0 5.8 1.2 8 3.3a11.2 11.2 0 0 1 3.3 8c-.1 6.1-5.1 11.2-11.3 11.2zm6.2-8.4c-.3-.2-2-.9-2.3-1.1-.3-.1-.5-.2-.7.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.5-1.5-1-.9-1.7-2-1.8-2.4-.2-.3 0-.5.1-.7.1-.1.3-.4.5-.6.1-.2.2-.3.3-.6.1-.2.1-.4-.1-.6-.2-.2-.7-1.8-1-2.5-.3-.6-.6-.5-.8-.5h-.7c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.7 0 1.6 1.2 3.2 1.4 3.4.2.2 2.3 3.5 5.6 4.9.8.3 1.4.5 1.9.7.8.2 1.5.2 2.1.1.6-.1 2-.8 2.3-1.6.3-.8.3-1.4.2-1.6-.1-.2-.3-.3-.6-.5z" fill="white"/>
           </svg>
-          <input type="tel" id="mobileInput" placeholder="  +91 98765 43210" maxlength="14">
         </div>
+        <input type="tel" id="mobileInput" placeholder="+91 98765 43210" maxlength="14">
       </div>
+    </div>
 
-      <!-- Recommend Feedback – SEO prefilled -->
-      <div class="field">
-        <label class="field-label" for="reviewInput">Recommend Feedback</label>
-        <textarea id="reviewInput">Excellent service and highly professional staff. I had a wonderful experience and would highly recommend this place to anyone. Will definitely visit again!</textarea>
-      </div>
-
+    <!-- Recommend Feedback -->
+    <div class="field">
+      <span class="fl">Recommend Feedback</span>
+      <textarea id="reviewInput">Excellent coffee and highly professional staff. Loved the ambience and top-quality service. Highly recommended for anyone who enjoys a great café experience. Will definitely visit again!</textarea>
     </div>
 
     <!-- Swipe to Google Review -->
     <div class="swipe-section">
       <div class="swipe-wrap" id="swipeTrack">
         <div class="swipe-fill" id="swipeFill"></div>
-        <div class="swipe-text">
-          Swipe to Google Review <span class="arr">→</span>
+        <div class="swipe-lbl" id="swipeLbl">
+          Swipe to Post on Google &nbsp;<span class="arr">→</span>
         </div>
         <div class="swipe-thumb" id="swipeThumb">
-          <svg class="google-g" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57C21.36 18.09 22.56 15.27 22.56 12.25z" fill="#4285F4"/>
+          <svg class="gg" viewBox="0 0 24 24">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
             <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
             <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
             <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
           </svg>
         </div>
       </div>
-      <p class="disclaimer">
-        By swiping you agree to post this review on Google. &nbsp;<a href="#">Privacy</a> · <a href="#">Terms</a>
-      </p>
+      <p class="disclaimer">Swiping copies your review &amp; opens Google · <a href="#">Privacy</a></p>
     </div>
 
-  </div><!-- /content -->
+  </div><!-- /form-area -->
+</div><!-- /page-wrap -->
+</div><!-- /formScreen -->
 
-</div><!-- /page -->
 
-<!-- Success Screen -->
-<div class="success-overlay" id="successOverlay">
-  <div class="confetti-dots" id="confettiContainer"></div>
-  <div class="success-checkmark">
-    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="20 6 9 17 4 12"/>
-    </svg>
+<!-- ══════════════════════════════════
+     SCREEN 2 — ACKNOWLEDGEMENT
+══════════════════════════════════ -->
+<div class="screen" id="ackScreen">
+<div class="page-wrap">
+  <div class="ack-inner">
+    <div class="ack-icon">🌟</div>
+    <div class="ack-title">Did You Post Your Review?</div>
+    <p class="ack-sub">
+      We opened Google Reviews for you.<br>
+      Did you successfully submit your review?<br>
+      <strong>Honest answer = a surprise reward! 🎁</strong>
+    </p>
+    <div class="ack-btns">
+      <button class="btn-yes" onclick="goToSpin()">✅ Yes, I Posted!</button>
+      <button class="btn-no" onclick="goBack()">Not Yet</button>
+    </div>
   </div>
-  <div class="success-title">Thank You! 🙏</div>
-  <p class="success-sub">Your review has been posted to Google.<br>We truly appreciate your time and feedback.</p>
-  <button class="success-btn" onclick="resetForm()">Done</button>
+</div>
 </div>
 
-<script>
-let userRating = 0;
-const starLabels = {1:'Poor',2:'Fair',3:'Good',4:'Great 😊',5:'Excellent ⭐'};
 
-function rate(val) {
-  userRating = val;
-  document.querySelectorAll('.star').forEach((s,i) => s.classList.toggle('active', i < val));
-  const lbl = document.getElementById('starLabel');
-  lbl.textContent = starLabels[val] || 'Tap a star to rate';
-  lbl.style.color = val >= 4 ? '#FBBC05' : '#5F6368';
+<!-- ══════════════════════════════════
+     SCREEN 3 — SPIN WHEEL
+══════════════════════════════════ -->
+<div class="screen" id="spinScreen">
+<div class="page-wrap">
+  <div class="spin-header">
+    <h2>🎰 Spin to Win Your Surprise!</h2>
+    <p>Thank you for your review — you deserve a treat!</p>
+  </div>
+  <div class="spin-area">
+    <div class="wheel-container">
+      <div class="wheel-pointer"></div>
+      <canvas id="wheelCanvas" width="280" height="280"></canvas>
+    </div>
+    <button class="spin-btn" id="spinBtn" onclick="spinWheel()">SPIN NOW 🎯</button>
+    <p class="spin-note">Tap the button to spin and reveal your prize!</p>
+  </div>
+</div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     SCREEN 4 — PRIZE RESULT
+══════════════════════════════════ -->
+<div class="screen" id="prizeScreen">
+<div class="page-wrap" style="position:relative">
+  <div class="confetti-layer" id="confettiLayer"></div>
+  <div class="prize-inner">
+    <div class="prize-emoji" id="prizeEmoji">🎉</div>
+    <div class="prize-title">🎊 Congratulations! You Won</div>
+    <div class="prize-name" id="prizeName">10% Off Voucher</div>
+    <p class="prize-sub" id="prizeSub">Show this screen to the cashier to claim your reward. Valid today only!</p>
+    <button class="prize-done-btn" onclick="goHome()">🏠 Back to Home</button>
+  </div>
+</div>
+</div>
+
+
+<script>
+/* ─── State ─── */
+let userRating = 0;
+let spinning   = false;
+let wheelAngle = 0;
+
+/* ─── Screen navigation ─── */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
 
+/* ─── Rating ─── */
+function rate(val, el){
+  userRating = val;
+  document.querySelectorAll('.star-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+/* ─── Swipe Logic ─── */
 const thumb = document.getElementById('swipeThumb');
 const track = document.getElementById('swipeTrack');
 const fill  = document.getElementById('swipeFill');
+const lbl   = document.getElementById('swipeLbl');
 let swiping = false, startX = 0;
 
-function startSwipe(x){ swiping=true; startX=x; thumb.style.transition='none'; fill.style.transition='none'; }
+function startSwipe(x){ swiping=true;startX=x;thumb.style.transition='none';fill.style.transition='none'; }
 function moveSwipe(x){
   if(!swiping) return;
   const max = track.offsetWidth - 56;
-  let dx = Math.min(Math.max(x - startX, 0), max);
-  thumb.style.left = (dx+5)+'px';
+  let dx = Math.min(Math.max(x-startX, 0), max);
+  thumb.style.left = (dx+4)+'px';
   fill.style.width  = (dx/max*100)+'%';
-  if(dx >= max-2){ swiping=false; completeReview(); }
+  if(dx > max*0.4) lbl.classList.add('hidden');   // text disappears as user swipes
+  else              lbl.classList.remove('hidden');
+  if(dx >= max-2){ swiping=false; completeSwipe(); }
 }
 function endSwipe(){
   if(!swiping) return; swiping=false;
-  thumb.style.transition='0.3s ease'; fill.style.transition='0.3s ease';
-  thumb.style.left='5px'; fill.style.width='0%';
+  thumb.style.transition='0.35s ease'; fill.style.transition='0.35s ease';
+  thumb.style.left='4px'; fill.style.width='0%';
+  lbl.classList.remove('hidden');
 }
 
 thumb.addEventListener('touchstart', e=>startSwipe(e.touches[0].clientX));
@@ -432,46 +438,174 @@ thumb.addEventListener('mousedown',   e=>{startSwipe(e.clientX);e.preventDefault
 window.addEventListener('mousemove',  e=>moveSwipe(e.clientX));
 window.addEventListener('mouseup',    endSwipe);
 
-function completeReview(){
+function completeSwipe(){
   const review = document.getElementById('reviewInput').value;
   try{ navigator.clipboard.writeText(review); }catch(e){}
   window.open('https://g.page/r/YOUR_PLACE_ID/review','_blank');
-  spawnConfetti();
-  document.getElementById('successOverlay').classList.add('show');
+  // Log data
   console.log('Submitted:',{
     name:   document.getElementById('nameInput').value,
     mobile: document.getElementById('mobileInput').value,
     staff:  document.getElementById('staffSelect').value,
     rating: userRating, review, time: new Date().toLocaleString()
   });
+  setTimeout(()=>showScreen('ackScreen'), 400);
 }
 
-function spawnConfetti(){
-  const c=document.getElementById('confettiContainer'); c.innerHTML='';
-  const colors=['#4285F4','#EA4335','#FBBC05','#34A853','#FF6D00','#AB47BC'];
-  for(let i=0;i<55;i++){
-    const d=document.createElement('div'); d.className='dot';
-    d.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*20-5}%;
+/* ─── Acknowledgement ─── */
+function goToSpin(){
+  drawWheel();
+  showScreen('spinScreen');
+}
+function goBack(){
+  // Reset swipe thumb and show form again
+  thumb.style.left='4px'; fill.style.width='0%';
+  lbl.classList.remove('hidden');
+  showScreen('formScreen');
+}
+
+/* ─── Spin Wheel ─── */
+const SEGMENTS = [
+  { text:'10% Off',   emoji:'🎟️', color:'#EA4335', sub:'On your next visit' },
+  { text:'Free Coffee',emoji:'☕', color:'#FBBC05', sub:'Redeem at counter today' },
+  { text:'15% Off',   emoji:'🏷️', color:'#34A853', sub:'On any beverage' },
+  { text:'Free Cookie',emoji:'🍪', color:'#4285F4', sub:'With any purchase' },
+  { text:'Try Again', emoji:'🔄', color:'#FF6D00', sub:'Better luck next time!' },
+  { text:'20% Off',   emoji:'🎉', color:'#9C27B0', sub:'On your entire bill' },
+];
+const NUM = SEGMENTS.length;
+let winIndex = -1;
+
+function drawWheel(angle=0){
+  const canvas = document.getElementById('wheelCanvas');
+  const ctx = canvas.getContext('2d');
+  const cx=140, cy=140, r=135;
+  const slice = (2*Math.PI)/NUM;
+  ctx.clearRect(0,0,280,280);
+  SEGMENTS.forEach((seg,i)=>{
+    const start = angle + i*slice - Math.PI/2;
+    const end   = start + slice;
+    // Segment fill
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,r,start,end);
+    ctx.closePath();
+    ctx.fillStyle = seg.color;
+    ctx.fill();
+    // Divider
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,r,start,end);
+    ctx.closePath();
+    ctx.strokeStyle='rgba(255,255,255,.6)';
+    ctx.lineWidth=2;
+    ctx.stroke();
+    // Text
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.rotate(start + slice/2);
+    ctx.textAlign='right';
+    ctx.fillStyle='#fff';
+    ctx.font='bold 11px Google Sans,Roboto,sans-serif';
+    ctx.shadowColor='rgba(0,0,0,.3)';
+    ctx.shadowBlur=3;
+    ctx.fillText(seg.emoji+' '+seg.text, r-8, 4);
+    ctx.restore();
+  });
+  // Center circle
+  ctx.beginPath();
+  ctx.arc(cx,cy,22,0,2*Math.PI);
+  ctx.fillStyle='#fff';
+  ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,.1)';
+  ctx.lineWidth=2;
+  ctx.stroke();
+  // Center G
+  ctx.font='bold 14px Google Sans,sans-serif';
+  ctx.fillStyle='#4285F4';
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  ctx.shadowBlur=0;
+  ctx.fillText('G',cx,cy);
+}
+
+function spinWheel(){
+  if(spinning) return;
+  spinning = true;
+  document.getElementById('spinBtn').disabled = true;
+
+  // Pick a winner (not "Try Again" — index 4 — to give real prizes)
+  const validWins = [0,1,2,3,5];
+  winIndex = validWins[Math.floor(Math.random()*validWins.length)];
+
+  const slice = 360/NUM;
+  // We want winIndex segment under pointer (top = 270° in canvas)
+  const targetDeg = 360 - (winIndex * slice) - (slice/2);
+  const spins = 1800 + targetDeg; // 5 full rotations + landing
+  const finalDeg = wheelAngle + spins;
+  wheelAngle = finalDeg % 360;
+
+  const canvas = document.getElementById('wheelCanvas');
+  canvas.style.transition = 'transform 5s cubic-bezier(.17,.67,.12,.99)';
+  canvas.style.transform  = `rotate(${finalDeg}deg)`;
+
+  setTimeout(()=>{
+    spinning = false;
+    showPrize();
+  }, 5200);
+}
+
+function showPrize(){
+  const seg = SEGMENTS[winIndex];
+  document.getElementById('prizeEmoji').textContent = seg.emoji;
+  document.getElementById('prizeName').textContent  = seg.text;
+  document.getElementById('prizeSub').textContent   = seg.sub;
+  bombConfetti();
+  showScreen('prizeScreen');
+}
+
+/* ─── Confetti Bomb ─── */
+function bombConfetti(){
+  const layer = document.getElementById('confettiLayer');
+  layer.innerHTML='';
+  const colors=['#EA4335','#FBBC05','#34A853','#4285F4','#FF6D00','#9C27B0','#00BCD4','#FF4081'];
+  for(let i=0;i<90;i++){
+    const d=document.createElement('div');
+    d.className='cp';
+    const size=6+Math.random()*10;
+    d.style.cssText=`
+      left:${Math.random()*100}%;
+      top:${-20+Math.random()*30}%;
+      width:${size}px;height:${size}px;
       background:${colors[i%colors.length]};
-      width:${5+Math.random()*7}px;height:${5+Math.random()*7}px;
       border-radius:${Math.random()>.5?'50%':'3px'};
-      animation-delay:${Math.random()*1.2}s;animation-duration:${1.8+Math.random()*1.5}s;`;
-    c.appendChild(d);
+      animation-delay:${Math.random()*1}s;
+      animation-duration:${2+Math.random()*2}s;
+    `;
+    layer.appendChild(d);
   }
 }
 
-function resetForm(){
-  document.getElementById('successOverlay').classList.remove('show');
-  userRating=0;
-  document.querySelectorAll('.star').forEach(s=>s.classList.remove('active'));
-  document.getElementById('starLabel').textContent='Tap a star to rate';
-  document.getElementById('starLabel').style.color='';
+/* ─── Go Home / Reset ─── */
+function goHome(){
+  userRating=0;spinning=false;winIndex=-1;wheelAngle=0;
+  document.querySelectorAll('.star-card').forEach(c=>c.classList.remove('sel'));
   document.getElementById('staffSelect').value='';
   document.getElementById('nameInput').value='';
   document.getElementById('mobileInput').value='';
-  document.getElementById('reviewInput').value='Excellent service and highly professional staff. I had a wonderful experience and would highly recommend this place to anyone. Will definitely visit again!';
-  thumb.style.left='5px'; fill.style.width='0%';
+  document.getElementById('reviewInput').value='Excellent coffee and highly professional staff. Loved the ambience and top-quality service. Highly recommended for anyone who enjoys a great café experience. Will definitely visit again!';
+  thumb.style.transition='none'; thumb.style.left='4px';
+  fill.style.width='0%'; lbl.classList.remove('hidden');
+  const canvas=document.getElementById('wheelCanvas');
+  canvas.style.transition='none'; canvas.style.transform='rotate(0deg)';
+  document.getElementById('spinBtn').disabled=false;
+  document.getElementById('confettiLayer').innerHTML='';
+  drawWheel();
+  showScreen('formScreen');
 }
+
+/* ─── Init ─── */
+drawWheel();
 </script>
 </body>
 </html>
