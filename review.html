@@ -3,307 +3,279 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Share Your Experience</title>
+<title>Café Review</title>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
   --blue:#4285F4;--red:#EA4335;--yellow:#FBBC05;--green:#34A853;
   --txt:#202124;--sub:#5F6368;--border:#DADCE0;--bg:#F8F9FA;--white:#fff;
+  --fs:16px; /* base font prevents zoom on iOS */
 }
-html,body{width:100%;height:100%;overflow:hidden;background:#eef2fb;font-family:'Roboto',sans-serif;color:var(--txt)}
+html,body{width:100%;height:100%;overflow:hidden;background:#eef2fb;font-family:'Roboto',sans-serif;color:var(--txt);font-size:var(--fs)}
 
-/* ═══ SCREEN SYSTEM ═══ */
-.screen{
-  position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
-  transition:opacity .35s ease,transform .35s ease;
-  pointer-events:none;opacity:0;transform:translateY(20px);
-}
+/* ══ SCREEN SYSTEM ══ */
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;pointer-events:none;opacity:0;transform:translateY(18px);transition:opacity .32s ease,transform .32s ease}
 .screen.active{opacity:1;transform:translateY(0);pointer-events:all}
-.page-wrap{width:100%;max-width:430px;height:100vh;display:flex;flex-direction:column;background:var(--white);box-shadow:0 0 30px rgba(0,0,0,.15);overflow:hidden}
+.pw{width:100%;max-width:412px;height:100dvh;display:flex;flex-direction:column;background:var(--white);overflow:hidden;position:relative}
 
-/* ═══ HEADER ═══ */
-.header{
-  display:grid;grid-template-columns:1fr 1fr;
+/* ══ SCREEN 1 HEADER ══ */
+.top-bar{
+  flex-shrink:0;
   background:linear-gradient(135deg,#1a73e8 0%,#0d47a1 100%);
-  padding:0;flex-shrink:0;
+  padding:14px 20px 10px;
+  text-align:center;
+  position:relative;
 }
-.hd-left,.hd-right{
-  display:flex;align-items:center;justify-content:center;
-  padding:10px 12px;min-height:60px;
-}
-.hd-left{border-right:1px solid rgba(255,255,255,.2)}
-.hd-left img,.hd-right img{max-width:100%;max-height:36px;object-fit:contain;display:block}
-/* Fallback */
-.hd-left .fb{font-family:'Google Sans',sans-serif;font-size:18px;font-weight:700;color:#fff;display:none}
-.hd-right .fb-g{display:none;align-items:center;gap:6px}
-.fb-g span{font-size:13px;font-weight:600;color:#fff}
-.g-dot{width:18px;height:18px;border-radius:50%;background:conic-gradient(#4285f4 0 25%,#ea4335 25% 50%,#fbbc05 50% 75%,#34a853 75%)}
+.top-bar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#EA4335,#FBBC05,#34A853,#4285F4)}
+.brand-name{font-family:'Google Sans',sans-serif;font-size:20px;font-weight:700;color:#fff;letter-spacing:.01em}
+.brand-tag{font-size:11px;color:rgba(255,255,255,.75);margin-top:2px;letter-spacing:.03em}
+.g-stars-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.15);border-radius:20px;padding:3px 10px;margin-top:5px}
+.g-stars-badge .gs{color:#FBBC05;font-size:11px;letter-spacing:1px}
+.g-stars-badge span{font-size:10px;color:rgba(255,255,255,.85);font-weight:500}
 
-/* ═══ HERO BAND ═══ */
-.hero-band{
-  background:linear-gradient(135deg,#e8f0fe 0%,#fce8e6 50%,#fef9e7 100%);
-  padding:10px 16px 8px;flex-shrink:0;text-align:center;border-bottom:1px solid #dde3ed;
-}
-.hero-band h1{
-  font-family:'Google Sans',sans-serif;font-size:16px;font-weight:700;color:#1a73e8;
-  line-height:1.25;
-}
-.hero-band p{font-size:11px;color:var(--sub);margin-top:2px}
+/* ══ HERO CATCHY ══ */
+.hero{flex-shrink:0;padding:10px 16px 8px;background:linear-gradient(135deg,#e8f0fe,#fef9e7);border-bottom:1px solid #dde3ed;text-align:center}
+.hero h2{font-family:'Google Sans',sans-serif;font-size:15px;font-weight:700;color:#1a73e8;line-height:1.3}
+.hero p{font-size:11px;color:var(--sub);margin-top:2px}
 
-/* ═══ STAR RATING — creative emoji style ═══ */
-.stars-section{
-  flex-shrink:0;padding:8px 16px 6px;
-  background:var(--white);border-bottom:1px solid var(--border);
+/* ══ STAR RATING — actual star icons ══ */
+.stars-section{flex-shrink:0;padding:8px 16px 6px;border-bottom:1px solid var(--border);background:#fff}
+.stars-row{display:flex;justify-content:center;gap:4px;margin-bottom:3px}
+.star-btn{
+  background:none;border:none;padding:2px;cursor:pointer;
+  font-size:36px;line-height:1;color:#DADCE0;
+  transition:color .15s,transform .15s;
+  -webkit-text-stroke:1px #bbb;
 }
-.star-cards{display:flex;gap:6px;justify-content:center}
-.star-card{
-  flex:1;max-width:58px;border:1.5px solid var(--border);border-radius:12px;
-  padding:6px 4px 5px;text-align:center;cursor:pointer;
-  transition:all .2s;background:var(--bg);user-select:none;
-}
-.star-card .emoji{font-size:20px;display:block;margin-bottom:2px}
-.star-card .slabel{font-size:9px;color:var(--sub);font-weight:500;line-height:1}
-.star-card.s1.sel{background:#fce8e6;border-color:#ea4335;box-shadow:0 0 0 2px rgba(234,67,53,.2)}
-.star-card.s2.sel{background:#fff3e0;border-color:#fb8c00;box-shadow:0 0 0 2px rgba(251,140,0,.2)}
-.star-card.s3.sel{background:#fffde7;border-color:#fdd835;box-shadow:0 0 0 2px rgba(253,216,53,.2)}
-.star-card.s4.sel{background:#e8f5e9;border-color:#43a047;box-shadow:0 0 0 2px rgba(67,160,71,.2)}
-.star-card.s5.sel{background:#e8f0fe;border-color:#1a73e8;box-shadow:0 0 0 2px rgba(26,115,232,.2)}
-.star-card.sel .slabel{font-weight:700;color:var(--txt)}
-.star-card:active{transform:scale(.93)}
+.star-btn.lit{color:#FBBC05;-webkit-text-stroke:1px #e6a800}
+.star-btn:active{transform:scale(.85)}
+.star-hint{font-size:11px;color:var(--sub);text-align:center;min-height:16px;font-style:italic}
 
-/* ═══ FORM ═══ */
-.form-area{flex:1;overflow:hidden;padding:8px 14px 4px;display:flex;flex-direction:column;gap:6px}
+/* ══ FORM AREA ══ */
+.form-body{flex:1;overflow:hidden;display:flex;flex-direction:column;padding:8px 14px 0;gap:7px}
 .field{flex-shrink:0}
-.fl{font-size:10px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;display:block}
+.fl{font-size:10.5px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;display:block}
 .field select,.field input,.field textarea{
   width:100%;border:1.5px solid var(--border);border-radius:10px;
-  padding:10px 12px;font-size:13px;font-family:'Roboto',sans-serif;
-  color:var(--txt);background:var(--white);outline:none;
+  padding:11px 13px;font-size:15px;font-family:'Roboto',sans-serif;
+  color:var(--txt);background:#fff;outline:none;
   transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;
 }
-.field select:focus,.field input:focus,.field textarea:focus{
-  border-color:var(--blue);box-shadow:0 0 0 3px rgba(66,133,244,.12);
-}
+.field select:focus,.field input:focus,.field textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(66,133,244,.12)}
 .field select{
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%235F6368' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;cursor:pointer;
 }
-.field select option{color:var(--txt)}
+.field input::placeholder,.field textarea::placeholder{color:#9AA0A6}
+.field textarea{resize:none;height:70px;line-height:1.5;font-size:13px}
 
 /* WhatsApp input */
 .wa-wrap{position:relative}
 .wa-badge{
-  position:absolute;left:0;top:0;bottom:0;width:44px;
+  position:absolute;left:0;top:0;bottom:0;width:46px;
   display:flex;align-items:center;justify-content:center;
-  border-right:1px solid var(--border);pointer-events:none;z-index:2;
-  border-radius:10px 0 0 10px;background:#f0fdf4;
+  border-right:1.5px solid #c5e8cc;pointer-events:none;z-index:2;
+  border-radius:10px 0 0 10px;background:#e8f9ed;
 }
-.wa-badge svg{width:22px;height:22px}
-.wa-wrap input{padding-left:54px !important}
-.field input::placeholder,.field textarea::placeholder{color:#9AA0A6}
+.wa-badge svg{width:24px;height:24px}
+.wa-wrap input{padding-left:56px !important}
 
-/* Textarea — no scroll, auto height handled by rows */
-.field textarea{resize:none;line-height:1.5;font-size:12.5px;height:64px}
+/* Error state */
+.field input.err{border-color:#EA4335;box-shadow:0 0 0 3px rgba(234,67,53,.1)}
+.err-msg{font-size:11px;color:#EA4335;margin-top:3px;display:none}
+.err-msg.show{display:block}
 
-/* Two-col row */
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex-shrink:0}
-
-/* ═══ SWIPE ═══ */
-.swipe-section{flex-shrink:0;padding:6px 0 2px}
+/* ══ SWIPE CTA ══ */
+.swipe-section{flex-shrink:0;padding:7px 0 4px}
 .swipe-wrap{
   position:relative;background:#e8f0fe;border:2px solid #c5d6f5;
   border-radius:50px;height:52px;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;user-select:none;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;
 }
-.swipe-fill{
-  position:absolute;left:0;top:0;bottom:0;width:0%;border-radius:50px;
-  background:linear-gradient(90deg,rgba(66,133,244,.3),transparent);
-  transition:width .04s;
-}
-.swipe-lbl{
-  font-family:'Google Sans',sans-serif;font-size:13px;font-weight:600;color:#1a73e8;
-  pointer-events:none;z-index:1;display:flex;align-items:center;gap:6px;
-  transition:opacity .3s;
-}
+.swipe-fill{position:absolute;left:0;top:0;bottom:0;width:0%;border-radius:50px;background:linear-gradient(90deg,rgba(66,133,244,.35),transparent);transition:width .04s}
+.swipe-lbl{font-family:'Google Sans',sans-serif;font-size:13px;font-weight:600;color:#1a73e8;pointer-events:none;z-index:1;display:flex;align-items:center;gap:5px;transition:opacity .25s}
 .swipe-lbl.hidden{opacity:0}
 .swipe-lbl .arr{animation:arr 1.3s ease-in-out infinite}
 @keyframes arr{0%,100%{transform:translateX(0);opacity:.5}50%{transform:translateX(6px);opacity:1}}
-.swipe-thumb{
-  position:absolute;left:4px;width:44px;height:44px;
-  background:white;border:1.5px solid #dadce0;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  cursor:grab;z-index:2;box-shadow:0 2px 8px rgba(66,133,244,.3);
-}
+.swipe-thumb{position:absolute;left:4px;width:44px;height:44px;background:#fff;border:1.5px solid #c5d6f5;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:grab;z-index:2;box-shadow:0 2px 10px rgba(66,133,244,.35)}
 .swipe-thumb:active{cursor:grabbing}
 .gg{width:26px;height:26px}
-
-.disclaimer{text-align:center;font-size:10px;color:var(--sub);margin-top:4px;line-height:1.5}
+.disclaimer{text-align:center;font-size:10px;color:var(--sub);margin-top:3px;line-height:1.5}
 .disclaimer a{color:var(--blue);text-decoration:none}
 
-/* ═══ SCREEN 2 — ACKNOWLEDGEMENT ═══ */
-#ackScreen .page-wrap{justify-content:center;align-items:center;background:linear-gradient(160deg,#e8f0fe 0%,#fce8e6 100%)}
-.ack-inner{padding:32px 28px;text-align:center;max-width:360px}
-.ack-icon{font-size:64px;margin-bottom:16px;animation:bob 2s ease-in-out infinite}
+/* ══ SCREEN 2 — ACK ══ */
+#ackScreen .pw{justify-content:center;align-items:center;background:linear-gradient(160deg,#e8f0fe 0%,#fce8e6 100%);overflow:hidden}
+.ack-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.ack-inner{position:relative;z-index:1;padding:28px 26px;text-align:center;max-width:360px}
+.ack-icon{font-size:60px;margin-bottom:14px;animation:bob 2s ease-in-out infinite;display:block}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.ack-title{font-family:'Google Sans',sans-serif;font-size:22px;font-weight:700;color:#1a73e8;margin-bottom:8px}
-.ack-sub{font-size:13px;color:var(--sub);line-height:1.7;margin-bottom:24px}
+.ack-title{font-family:'Google Sans',sans-serif;font-size:21px;font-weight:700;color:#1a73e8;margin-bottom:6px}
+.ack-sub{font-size:13px;color:var(--sub);line-height:1.75;margin-bottom:22px}
 .ack-btns{display:flex;gap:12px;justify-content:center}
-.btn-yes,.btn-no{
-  flex:1;padding:13px 10px;border-radius:50px;font-size:14px;font-weight:600;
-  font-family:'Google Sans',sans-serif;cursor:pointer;border:none;
-  transition:transform .15s,box-shadow .15s;
-}
-.btn-yes{background:linear-gradient(135deg,#34a853,#1e8c3a);color:#fff;box-shadow:0 4px 12px rgba(52,168,83,.35)}
+.btn-yes,.btn-no{flex:1;padding:14px 10px;border-radius:50px;font-size:14px;font-weight:600;font-family:'Google Sans',sans-serif;cursor:pointer;border:none;transition:transform .15s,box-shadow .15s;max-width:160px}
+.btn-yes{background:linear-gradient(135deg,#34a853,#1e8c3a);color:#fff;box-shadow:0 4px 14px rgba(52,168,83,.4)}
 .btn-no{background:#fff;color:var(--sub);border:1.5px solid var(--border)}
-.btn-yes:active,.btn-no:active{transform:scale(.96)}
+.btn-yes:active,.btn-no:active{transform:scale(.95)}
 
-/* ═══ SCREEN 3 — SPIN WHEEL ═══ */
-#spinScreen .page-wrap{justify-content:flex-start;background:#fff;overflow:hidden}
-.spin-header{
-  background:linear-gradient(135deg,#1a73e8,#0d47a1);
-  padding:14px 20px;text-align:center;flex-shrink:0;
+/* ══ SCREEN 3 — SPIN ══ */
+#spinScreen .pw{background:linear-gradient(160deg,#0d1b4b 0%,#1a237e 40%,#283593 100%);overflow:hidden}
+/* Stars bg */
+#spinScreen .pw::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(251,188,5,.08) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(66,133,244,.1) 0%,transparent 50%);pointer-events:none;z-index:0}
+.spin-top{flex-shrink:0;padding:16px 20px 10px;text-align:center;position:relative;z-index:1}
+.spin-top h2{font-family:'Google Sans',sans-serif;font-size:19px;font-weight:700;color:#fff;line-height:1.3}
+.spin-top p{font-size:11px;color:rgba(255,255,255,.7);margin-top:3px}
+/* Floating stars decoration */
+.star-deco{position:absolute;pointer-events:none;z-index:0;animation:twinkle 2s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:.8;transform:scale(1.3)}}
+
+.spin-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 20px 12px;gap:14px;position:relative;z-index:1}
+.wheel-outer{position:relative;width:260px;height:260px;flex-shrink:0}
+/* Glow ring behind wheel */
+.wheel-glow{
+  position:absolute;inset:-8px;border-radius:50%;
+  background:conic-gradient(#EA4335,#FBBC05,#34A853,#4285F4,#9C27B0,#FF6D00,#EA4335);
+  filter:blur(8px);opacity:.6;animation:spin-glow 4s linear infinite;
 }
-.spin-header h2{font-family:'Google Sans',sans-serif;font-size:18px;font-weight:700;color:#fff}
-.spin-header p{font-size:11px;color:rgba(255,255,255,.8);margin-top:3px}
-
-.spin-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 20px 16px;gap:12px}
-.wheel-container{position:relative;width:280px;height:280px;flex-shrink:0}
+@keyframes spin-glow{to{transform:rotate(360deg)}}
 .wheel-pointer{
-  position:absolute;top:-16px;left:50%;transform:translateX(-50%);
-  width:0;height:0;
-  border-left:14px solid transparent;
-  border-right:14px solid transparent;
-  border-top:28px solid #EA4335;
-  z-index:10;
-  filter:drop-shadow(0 2px 4px rgba(0,0,0,.3));
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);z-index:10;
+  width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-top:26px solid #fff;
+  filter:drop-shadow(0 2px 5px rgba(0,0,0,.5));
 }
-#wheelCanvas{
-  width:280px;height:280px;border-radius:50%;
-  box-shadow:0 8px 30px rgba(0,0,0,.2);
-  transition:transform 5s cubic-bezier(.17,.67,.12,.99);
-  display:block;
-}
-.spin-btn{
-  background:linear-gradient(135deg,#ea4335,#c62828);
-  border:none;border-radius:50px;padding:15px 48px;
-  font-size:16px;font-weight:700;color:#fff;
-  font-family:'Google Sans',sans-serif;cursor:pointer;
-  box-shadow:0 6px 20px rgba(234,67,53,.4);
-  letter-spacing:.02em;transition:transform .15s,box-shadow .15s;
-  flex-shrink:0;
-}
-.spin-btn:active{transform:scale(.95)}
-.spin-btn:disabled{opacity:.5;cursor:default}
-.spin-note{font-size:11px;color:var(--sub);text-align:center}
+#wheelCanvas{width:260px;height:260px;border-radius:50%;display:block;position:relative;z-index:2;box-shadow:0 10px 40px rgba(0,0,0,.5)}
 
-/* ═══ SCREEN 4 — PRIZE RESULT (confetti bomb) ═══ */
-#prizeScreen .page-wrap{
-  justify-content:center;align-items:center;
-  background:linear-gradient(160deg,#fff9c4 0%,#fff 60%);
-  overflow:hidden;
+/* Animated SPIN NOW button */
+.spin-btn-wrap{position:relative;flex-shrink:0}
+.spin-btn-pulse{
+  position:absolute;inset:-6px;border-radius:50px;
+  background:linear-gradient(135deg,#ea4335,#fbbc05);
+  animation:pulse-ring 1.5s ease-out infinite;
+  z-index:0;
 }
-.confetti-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
-.cp{position:absolute;border-radius:50%;animation:cpfall 2.5s ease forwards}
-@keyframes cpfall{0%{transform:translateY(-30px) rotate(0deg);opacity:1}100%{transform:translateY(105vh) rotate(900deg);opacity:0}}
-.prize-inner{position:relative;z-index:1;text-align:center;padding:28px 28px}
-.prize-emoji{font-size:72px;margin-bottom:12px;animation:pop .5s cubic-bezier(.175,.885,.32,1.275) .2s both}
-@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
-.prize-title{font-family:'Google Sans',sans-serif;font-size:13px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
-.prize-name{font-family:'Google Sans',sans-serif;font-size:28px;font-weight:700;color:#1a73e8;margin-bottom:8px;line-height:1.2}
-.prize-sub{font-size:13px;color:var(--sub);line-height:1.7;margin-bottom:24px}
-.prize-done-btn{
-  background:linear-gradient(135deg,#1a73e8,#0d47a1);border:none;border-radius:50px;
-  padding:14px 40px;font-size:14px;font-weight:600;color:#fff;
+@keyframes pulse-ring{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.18);opacity:0}}
+.spin-btn{
+  position:relative;z-index:1;
+  background:linear-gradient(135deg,#EA4335 0%,#FF6D00 100%);
+  border:none;border-radius:50px;padding:15px 52px;
+  font-size:17px;font-weight:700;color:#fff;
   font-family:'Google Sans',sans-serif;cursor:pointer;
-  box-shadow:0 6px 18px rgba(26,115,232,.4);
+  box-shadow:0 6px 24px rgba(234,67,53,.55);
+  letter-spacing:.03em;
+  animation:btn-bounce 2s ease-in-out infinite;
 }
+@keyframes btn-bounce{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-4px) scale(1.03)}}
+.spin-btn:active{transform:scale(.94)!important;animation:none}
+.spin-btn:disabled{opacity:.45;cursor:default;animation:none}
+.spin-note{font-size:11px;color:rgba(255,255,255,.6);text-align:center}
+
+/* ══ SCREEN 4 — PRIZE ══ */
+#prizeScreen .pw{background:linear-gradient(160deg,#fffde7 0%,#fff 60%);overflow:hidden;justify-content:center;align-items:center}
+.prize-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.cp{position:absolute;animation:cpfall 2.8s ease forwards}
+@keyframes cpfall{0%{transform:translateY(-30px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(1080deg);opacity:0}}
+.prize-inner{position:relative;z-index:1;text-align:center;padding:24px 26px;max-width:360px;width:100%}
+.prize-emoji-big{font-size:80px;display:block;margin-bottom:10px;animation:popIn .6s cubic-bezier(.175,.885,.32,1.275) .15s both}
+@keyframes popIn{from{transform:scale(0) rotate(-20deg)}to{transform:scale(1) rotate(0deg)}}
+.prize-won{font-family:'Google Sans',sans-serif;font-size:12px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.prize-name{font-family:'Google Sans',sans-serif;font-size:30px;font-weight:700;color:#1a73e8;line-height:1.2;margin-bottom:6px}
+.prize-sub-text{font-size:13px;color:var(--sub);line-height:1.7;margin-bottom:22px}
+.prize-card{
+  background:linear-gradient(135deg,#1a73e8,#0d47a1);border-radius:16px;
+  padding:14px 18px;margin-bottom:20px;
+  display:flex;align-items:center;gap:12px;
+}
+.prize-card-icon{font-size:32px;flex-shrink:0}
+.prize-card-text{text-align:left}
+.prize-card-text strong{font-family:'Google Sans',sans-serif;font-size:15px;font-weight:700;color:#fff;display:block}
+.prize-card-text span{font-size:11px;color:rgba(255,255,255,.75)}
+.prize-done-btn{
+  background:linear-gradient(135deg,#34a853,#1e8c3a);border:none;border-radius:50px;
+  padding:14px 32px;font-size:15px;font-weight:600;color:#fff;
+  font-family:'Google Sans',sans-serif;cursor:pointer;width:100%;
+  box-shadow:0 6px 20px rgba(52,168,83,.4);letter-spacing:.01em;
+}
+.prize-done-btn:active{transform:scale(.97)}
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════
+<!-- ════════════════════════════
      SCREEN 1 — REVIEW FORM
-══════════════════════════════════ -->
+════════════════════════════ -->
 <div class="screen active" id="formScreen">
-<div class="page-wrap">
+<div class="pw">
 
-  <!-- Header: brand logo left | google logo right, full width split -->
-  <header class="header">
-    <div class="hd-left">
-      <img src="assets/brand.png" alt="Brand"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-      <span class="fb">YourBrand</span>
+  <!-- Header: brand name + google rating badge -->
+  <div class="top-bar">
+    <div class="brand-name">☕ The Coffee House</div>
+    <div class="brand-tag">Share your experience · Get a surprise reward</div>
+    <div class="g-stars-badge">
+      <span class="gs">★★★★★</span>
+      <span>Google Review</span>
     </div>
-    <div class="hd-right">
-      <img src="assets/google.png" alt="Google Reviews"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div class="fb-g">
-        <div class="g-dot"></div><span>Google Reviews</span>
-      </div>
-    </div>
-  </header>
-
-  <!-- Hero band — catchy text, no map icon -->
-  <div class="hero-band">
-    <h1>☕ Loved Your Coffee? Tell The World!</h1>
-    <p>Your 5★ review helps fellow coffee lovers discover us</p>
   </div>
 
-  <!-- Creative star rating — emoji cards -->
+  <!-- Catchy hero text -->
+  <div class="hero">
+    <h2>🌟 Loved Your Visit? Let The World Know!</h2>
+    <p>Rate us &amp; your honest review earns you a special surprise 🎁</p>
+  </div>
+
+  <!-- Star Rating — actual ★ stars -->
   <div class="stars-section">
-    <div class="star-cards" id="starCards">
-      <div class="star-card s1" onclick="rate(1,this)"><span class="emoji">😞</span><span class="slabel">Poor</span></div>
-      <div class="star-card s2" onclick="rate(2,this)"><span class="emoji">😐</span><span class="slabel">Fair</span></div>
-      <div class="star-card s3" onclick="rate(3,this)"><span class="emoji">🙂</span><span class="slabel">Good</span></div>
-      <div class="star-card s4" onclick="rate(4,this)"><span class="emoji">😄</span><span class="slabel">Great</span></div>
-      <div class="star-card s5" onclick="rate(5,this)"><span class="emoji">🤩</span><span class="slabel">Excellent</span></div>
+    <div class="stars-row" id="starRow">
+      <button class="star-btn" onclick="rate(1)">★</button>
+      <button class="star-btn" onclick="rate(2)">★</button>
+      <button class="star-btn" onclick="rate(3)">★</button>
+      <button class="star-btn" onclick="rate(4)">★</button>
+      <button class="star-btn" onclick="rate(5)">★</button>
     </div>
+    <div class="star-hint" id="starHint">Tap to rate your experience</div>
   </div>
 
-  <!-- Form -->
-  <div class="form-area">
+  <!-- Form fields in order: Staff → Your Name → WhatsApp → Feedback -->
+  <div class="form-body">
 
-    <!-- Name + Staff in one row -->
-    <div class="field-row">
-      <div class="field">
-        <span class="fl">Your Name</span>
-        <input type="text" id="nameInput" placeholder="Aditya Shah" autocomplete="off">
-      </div>
-      <div class="field">
-        <span class="fl">Recommended Staff</span>
-        <select id="staffSelect">
-          <option value="" disabled selected>Select</option>
-          <option value="Niral">Niral</option>
-          <option value="Rahul">Rahul</option>
-          <option value="Priya">Priya</option>
-        </select>
-      </div>
+    <!-- Row 1: Recommended Staff -->
+    <div class="field">
+      <span class="fl">Recommended Staff Name</span>
+      <select id="staffSelect">
+        <option value="" disabled selected>Select staff member</option>
+        <option value="Niral">Niral</option>
+        <option value="Rahul">Rahul</option>
+        <option value="Priya">Priya</option>
+      </select>
     </div>
 
-    <!-- WhatsApp Number -->
+    <!-- Row 2: Your Name -->
+    <div class="field">
+      <span class="fl">Your Name</span>
+      <input type="text" id="nameInput" placeholder="e.g. Aditya Shah" autocomplete="off">
+    </div>
+
+    <!-- Row 3: WhatsApp Number -->
     <div class="field">
       <span class="fl">WhatsApp Number</span>
       <div class="wa-wrap">
         <div class="wa-badge">
-          <!-- Proper WhatsApp icon: official green with phone -->
           <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
             <circle cx="24" cy="24" r="24" fill="#25D366"/>
-            <path d="M34.6 13.3A14.8 14.8 0 0 0 24 9C16.3 9 10 15.3 10 23c0 2.5.7 4.9 1.9 7L10 39l9.2-2.4a14.9 14.9 0 0 0 4.8.8c7.7 0 14-6.3 14-14 0-3.7-1.4-7.2-4-9.8h.6zm-10.6 21.5c-2 0-4-.5-5.8-1.5l-.4-.3-4.2 1.1 1.1-4.1-.3-.4A12.3 12.3 0 0 1 12.7 23c0-6.2 5-11.2 11.3-11.2 3 0 5.8 1.2 8 3.3a11.2 11.2 0 0 1 3.3 8c-.1 6.1-5.1 11.2-11.3 11.2zm6.2-8.4c-.3-.2-2-.9-2.3-1.1-.3-.1-.5-.2-.7.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.5-1.5-1-.9-1.7-2-1.8-2.4-.2-.3 0-.5.1-.7.1-.1.3-.4.5-.6.1-.2.2-.3.3-.6.1-.2.1-.4-.1-.6-.2-.2-.7-1.8-1-2.5-.3-.6-.6-.5-.8-.5h-.7c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.7 0 1.6 1.2 3.2 1.4 3.4.2.2 2.3 3.5 5.6 4.9.8.3 1.4.5 1.9.7.8.2 1.5.2 2.1.1.6-.1 2-.8 2.3-1.6.3-.8.3-1.4.2-1.6-.1-.2-.3-.3-.6-.5z" fill="white"/>
+            <path d="M34.6 13.3A14.8 14.8 0 0 0 24 9C16.3 9 10 15.3 10 23c0 2.5.7 4.9 1.9 7L10 39l9.2-2.4c1.5.8 3.1 1.2 4.8 1.2 7.7 0 14-6.3 14-14 0-3.7-1.4-7.2-4-9.8l.6.3zm-10.6 21.5c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-4.2 1.1 1.1-4.1-.3-.4A11.6 11.6 0 0 1 13.4 23c0-5.8 4.8-10.6 10.7-10.6 2.9 0 5.6 1.1 7.6 3.2a10.5 10.5 0 0 1 3.1 7.4c0 5.9-4.8 10.8-10.8 10.8zm5.9-7.9c-.3-.2-1.9-1-2.2-1.1-.3-.1-.5-.1-.7.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7 0-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.7.2-.2.3-.4.5-.6.1-.2.2-.3.3-.6.1-.2 0-.4-.1-.6-.1-.2-.7-1.7-1-2.3-.3-.6-.6-.5-.8-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.9 0 1.7 1.2 3.3 1.4 3.5.2.2 2.4 3.6 5.7 5 .8.3 1.4.5 1.9.7.8.2 1.5.2 2 .1.7-.1 2-.8 2.3-1.6.3-.7.3-1.4.2-1.5-.1-.2-.3-.3-.6-.5z" fill="white"/>
           </svg>
         </div>
         <input type="tel" id="mobileInput" placeholder="+91 98765 43210" maxlength="14">
       </div>
+      <div class="err-msg" id="mobileErr">⚠️ This number has already submitted a review.</div>
     </div>
 
-    <!-- Recommend Feedback -->
+    <!-- Row 4: Recommend Feedback -->
     <div class="field">
       <span class="fl">Recommend Feedback</span>
-      <textarea id="reviewInput">Excellent coffee and highly professional staff. Loved the ambience and top-quality service. Highly recommended for anyone who enjoys a great café experience. Will definitely visit again!</textarea>
+      <textarea id="reviewInput">Excellent coffee and highly professional staff. Loved the ambience and service. Highly recommended for anyone who enjoys a great café experience. Will definitely visit again!</textarea>
     </div>
 
-    <!-- Swipe to Google Review -->
+    <!-- Swipe to Post on Google -->
     <div class="swipe-section">
       <div class="swipe-wrap" id="swipeTrack">
         <div class="swipe-fill" id="swipeFill"></div>
@@ -319,27 +291,24 @@ html,body{width:100%;height:100%;overflow:hidden;background:#eef2fb;font-family:
           </svg>
         </div>
       </div>
-      <p class="disclaimer">Swiping copies your review &amp; opens Google · <a href="#">Privacy</a></p>
+      <p class="disclaimer">Swiping copies your review &amp; opens Google Reviews · <a href="#">Privacy</a></p>
     </div>
 
-  </div><!-- /form-area -->
-</div><!-- /page-wrap -->
-</div><!-- /formScreen -->
+  </div><!-- /form-body -->
+</div>
+</div>
 
 
-<!-- ══════════════════════════════════
-     SCREEN 2 — ACKNOWLEDGEMENT
-══════════════════════════════════ -->
+<!-- ════════════════════════════
+     SCREEN 2 — ACK
+════════════════════════════ -->
 <div class="screen" id="ackScreen">
-<div class="page-wrap">
+<div class="pw">
+  <div class="ack-confetti" id="ackConfetti"></div>
   <div class="ack-inner">
-    <div class="ack-icon">🌟</div>
+    <span class="ack-icon">🌟</span>
     <div class="ack-title">Did You Post Your Review?</div>
-    <p class="ack-sub">
-      We opened Google Reviews for you.<br>
-      Did you successfully submit your review?<br>
-      <strong>Honest answer = a surprise reward! 🎁</strong>
-    </p>
+    <p class="ack-sub">We opened Google Reviews for you.<br>Did you successfully submit your ★★★★★ review?<br><strong>Honest answer = a mystery prize 🎁</strong></p>
     <div class="ack-btns">
       <button class="btn-yes" onclick="goToSpin()">✅ Yes, I Posted!</button>
       <button class="btn-no" onclick="goBack()">Not Yet</button>
@@ -349,64 +318,115 @@ html,body{width:100%;height:100%;overflow:hidden;background:#eef2fb;font-family:
 </div>
 
 
-<!-- ══════════════════════════════════
+<!-- ════════════════════════════
      SCREEN 3 — SPIN WHEEL
-══════════════════════════════════ -->
+════════════════════════════ -->
 <div class="screen" id="spinScreen">
-<div class="page-wrap">
-  <div class="spin-header">
+<div class="pw">
+  <!-- Decorative twinkling stars -->
+  <span class="star-deco" style="top:8%;left:8%;font-size:18px;animation-delay:0s">⭐</span>
+  <span class="star-deco" style="top:12%;right:10%;font-size:14px;animation-delay:.5s">✨</span>
+  <span class="star-deco" style="top:30%;left:5%;font-size:12px;animation-delay:1s">🌟</span>
+  <span class="star-deco" style="top:25%;right:6%;font-size:16px;animation-delay:.8s">⭐</span>
+  <span class="star-deco" style="bottom:15%;left:7%;font-size:13px;animation-delay:1.4s">✨</span>
+  <span class="star-deco" style="bottom:12%;right:8%;font-size:15px;animation-delay:.3s">🌟</span>
+
+  <div class="spin-top">
     <h2>🎰 Spin to Win Your Surprise!</h2>
-    <p>Thank you for your review — you deserve a treat!</p>
+    <p>Thank you for your Google review — you deserve a treat!</p>
   </div>
+
   <div class="spin-area">
-    <div class="wheel-container">
+    <div class="wheel-outer">
+      <div class="wheel-glow"></div>
       <div class="wheel-pointer"></div>
-      <canvas id="wheelCanvas" width="280" height="280"></canvas>
+      <canvas id="wheelCanvas" width="260" height="260"></canvas>
     </div>
-    <button class="spin-btn" id="spinBtn" onclick="spinWheel()">SPIN NOW 🎯</button>
-    <p class="spin-note">Tap the button to spin and reveal your prize!</p>
+
+    <div class="spin-btn-wrap">
+      <div class="spin-btn-pulse"></div>
+      <button class="spin-btn" id="spinBtn" onclick="spinWheel()">🎯 SPIN NOW!</button>
+    </div>
+
+    <p class="spin-note">Tap the button above to spin and reveal your prize!</p>
   </div>
 </div>
 </div>
 
 
-<!-- ══════════════════════════════════
-     SCREEN 4 — PRIZE RESULT
-══════════════════════════════════ -->
+<!-- ════════════════════════════
+     SCREEN 4 — PRIZE
+════════════════════════════ -->
 <div class="screen" id="prizeScreen">
-<div class="page-wrap" style="position:relative">
-  <div class="confetti-layer" id="confettiLayer"></div>
+<div class="pw">
+  <div class="prize-confetti" id="prizeConfetti"></div>
   <div class="prize-inner">
-    <div class="prize-emoji" id="prizeEmoji">🎉</div>
-    <div class="prize-title">🎊 Congratulations! You Won</div>
+    <span class="prize-emoji-big" id="prizeEmoji">🎉</span>
+    <div class="prize-won">🎊 Congratulations! You Won</div>
     <div class="prize-name" id="prizeName">10% Off Voucher</div>
-    <p class="prize-sub" id="prizeSub">Show this screen to the cashier to claim your reward. Valid today only!</p>
-    <button class="prize-done-btn" onclick="goHome()">🏠 Back to Home</button>
+    <div class="prize-card">
+      <div class="prize-card-icon" id="prizeCardIcon">🎟️</div>
+      <div class="prize-card-text">
+        <strong id="prizeCardTitle">10% Off on Your Next Visit</strong>
+        <span id="prizeCardSub">Show this screen at the counter · Valid today only</span>
+      </div>
+    </div>
+    <p class="prize-sub-text" id="prizeSub">Show this screen to the cashier to claim your reward!</p>
+    <button class="prize-done-btn" onclick="goHome()">😊 Enjoy &amp; Have a Great Day!</button>
   </div>
 </div>
 </div>
 
 
 <script>
-/* ─── State ─── */
-let userRating = 0;
-let spinning   = false;
-let wheelAngle = 0;
+/* ══════════════════════════════════════
+   STATE & DUPLICATE DETECTION
+══════════════════════════════════════ */
+let userRating  = 0;
+let spinning    = false;
+let wheelAngle  = 0;
+let winIndex    = -1;
+let submittedData = {};
 
-/* ─── Screen navigation ─── */
+// Store submitted numbers in localStorage to block duplicates
+function getSubmittedNumbers(){
+  try{ return JSON.parse(localStorage.getItem('submitted_numbers')||'[]'); }
+  catch(e){ return []; }
+}
+function saveNumber(num){
+  try{
+    const arr = getSubmittedNumbers();
+    if(!arr.includes(num)) arr.push(num);
+    localStorage.setItem('submitted_numbers', JSON.stringify(arr));
+  }catch(e){}
+}
+function isNumberBlocked(num){
+  return getSubmittedNumbers().includes(num.replace(/\s/g,''));
+}
+
+/* ══════════════════════════════════════
+   SCREEN SWITCHER
+══════════════════════════════════════ */
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-/* ─── Rating ─── */
-function rate(val, el){
+/* ══════════════════════════════════════
+   STAR RATING
+══════════════════════════════════════ */
+const starHints = {1:'😞 Poor',2:'😐 Fair',3:'🙂 Good',4:'😄 Great',5:'🤩 Excellent!'};
+function rate(val){
   userRating = val;
-  document.querySelectorAll('.star-card').forEach(c=>c.classList.remove('sel'));
-  el.classList.add('sel');
+  document.querySelectorAll('.star-btn').forEach((s,i)=>s.classList.toggle('lit', i<val));
+  const h = document.getElementById('starHint');
+  h.textContent = starHints[val];
+  h.style.color = val>=4?'#34a853':val<=2?'#ea4335':'#FBBC05';
 }
 
-/* ─── Swipe Logic ─── */
+/* ══════════════════════════════════════
+   SWIPE LOGIC
+══════════════════════════════════════ */
 const thumb = document.getElementById('swipeThumb');
 const track = document.getElementById('swipeTrack');
 const fill  = document.getElementById('swipeFill');
@@ -417,194 +437,288 @@ function startSwipe(x){ swiping=true;startX=x;thumb.style.transition='none';fill
 function moveSwipe(x){
   if(!swiping) return;
   const max = track.offsetWidth - 56;
-  let dx = Math.min(Math.max(x-startX, 0), max);
-  thumb.style.left = (dx+4)+'px';
-  fill.style.width  = (dx/max*100)+'%';
-  if(dx > max*0.4) lbl.classList.add('hidden');   // text disappears as user swipes
-  else              lbl.classList.remove('hidden');
-  if(dx >= max-2){ swiping=false; completeSwipe(); }
+  let dx = Math.min(Math.max(x-startX,0), max);
+  thumb.style.left=(dx+4)+'px';
+  fill.style.width=(dx/max*100)+'%';
+  if(dx>max*0.38) lbl.classList.add('hidden');
+  else             lbl.classList.remove('hidden');
+  if(dx>=max-2){ swiping=false; completeSwipe(); }
 }
 function endSwipe(){
-  if(!swiping) return; swiping=false;
+  if(!swiping)return; swiping=false;
   thumb.style.transition='0.35s ease'; fill.style.transition='0.35s ease';
   thumb.style.left='4px'; fill.style.width='0%';
   lbl.classList.remove('hidden');
 }
-
-thumb.addEventListener('touchstart', e=>startSwipe(e.touches[0].clientX));
-window.addEventListener('touchmove',  e=>moveSwipe(e.touches[0].clientX));
-window.addEventListener('touchend',   endSwipe);
-thumb.addEventListener('mousedown',   e=>{startSwipe(e.clientX);e.preventDefault();});
-window.addEventListener('mousemove',  e=>moveSwipe(e.clientX));
-window.addEventListener('mouseup',    endSwipe);
+thumb.addEventListener('touchstart',e=>startSwipe(e.touches[0].clientX));
+window.addEventListener('touchmove', e=>moveSwipe(e.touches[0].clientX));
+window.addEventListener('touchend',  endSwipe);
+thumb.addEventListener('mousedown',  e=>{startSwipe(e.clientX);e.preventDefault();});
+window.addEventListener('mousemove', e=>moveSwipe(e.clientX));
+window.addEventListener('mouseup',   endSwipe);
 
 function completeSwipe(){
-  const review = document.getElementById('reviewInput').value;
-  try{ navigator.clipboard.writeText(review); }catch(e){}
-  window.open('https://g.page/r/YOUR_PLACE_ID/review','_blank');
-  // Log data
-  console.log('Submitted:',{
+  const mobile = document.getElementById('mobileInput').value.replace(/\s/g,'');
+  const errEl  = document.getElementById('mobileErr');
+  const mInput = document.getElementById('mobileInput');
+
+  // Validate mobile
+  if(!mobile || mobile.length < 10){
+    mInput.classList.add('err'); errEl.textContent='⚠️ Please enter a valid WhatsApp number.'; errEl.classList.add('show');
+    thumb.style.transition='0.35s ease'; fill.style.transition='0.35s ease'; thumb.style.left='4px'; fill.style.width='0%'; lbl.classList.remove('hidden');
+    return;
+  }
+  // Block duplicate
+  if(isNumberBlocked(mobile)){
+    mInput.classList.add('err'); errEl.textContent='⚠️ This number has already submitted a review.'; errEl.classList.add('show');
+    thumb.style.transition='0.35s ease'; fill.style.transition='0.35s ease'; thumb.style.left='4px'; fill.style.width='0%'; lbl.classList.remove('hidden');
+    return;
+  }
+  mInput.classList.remove('err'); errEl.classList.remove('show');
+
+  // Store submission data for Google Sheets
+  submittedData = {
     name:   document.getElementById('nameInput').value,
-    mobile: document.getElementById('mobileInput').value,
+    mobile: mobile,
     staff:  document.getElementById('staffSelect').value,
-    rating: userRating, review, time: new Date().toLocaleString()
-  });
+    rating: userRating,
+    review: document.getElementById('reviewInput').value,
+    time:   new Date().toLocaleString()
+  };
+
+  // Copy review text
+  try{ navigator.clipboard.writeText(submittedData.review); }catch(e){}
+  // Open Google Review
+  window.open('https://g.page/r/YOUR_PLACE_ID/review','_blank');
   setTimeout(()=>showScreen('ackScreen'), 400);
 }
 
-/* ─── Acknowledgement ─── */
-function goToSpin(){
-  drawWheel();
-  showScreen('spinScreen');
+/* ══════════════════════════════════════
+   GOOGLE SHEETS SUBMIT
+   Uses a Google Apps Script Web App endpoint.
+   Deploy a script at your sheet with doPost handler.
+══════════════════════════════════════ */
+const SHEET_URL = 'https://script.google.com/macros/s/YOUR_APPS_SCRIPT_DEPLOYMENT_ID/exec';
+
+function submitToSheet(data){
+  fetch(SHEET_URL, {
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(data)
+  }).catch(()=>{}); // silent — no-cors can't read response
 }
+
+/* ══════════════════════════════════════
+   ACK SCREEN ACTIONS
+══════════════════════════════════════ */
+function goToSpin(){
+  // Save number to block duplicates
+  saveNumber(submittedData.mobile || '');
+  // Submit to Google Sheet
+  submitToSheet(submittedData);
+  // Show confetti bomb on ack screen briefly
+  bombConfettiLayer('ackConfetti');
+  setTimeout(()=>{
+    drawWheel();
+    showScreen('spinScreen');
+  }, 700);
+}
+
 function goBack(){
-  // Reset swipe thumb and show form again
+  // Go back to form with all data prefilled (no reset)
   thumb.style.left='4px'; fill.style.width='0%';
   lbl.classList.remove('hidden');
   showScreen('formScreen');
 }
 
-/* ─── Spin Wheel ─── */
+/* ══════════════════════════════════════
+   SPIN WHEEL
+══════════════════════════════════════ */
 const SEGMENTS = [
-  { text:'10% Off',   emoji:'🎟️', color:'#EA4335', sub:'On your next visit' },
-  { text:'Free Coffee',emoji:'☕', color:'#FBBC05', sub:'Redeem at counter today' },
-  { text:'15% Off',   emoji:'🏷️', color:'#34A853', sub:'On any beverage' },
-  { text:'Free Cookie',emoji:'🍪', color:'#4285F4', sub:'With any purchase' },
-  { text:'Try Again', emoji:'🔄', color:'#FF6D00', sub:'Better luck next time!' },
-  { text:'20% Off',   emoji:'🎉', color:'#9C27B0', sub:'On your entire bill' },
+  { text:'10% Off',    emoji:'🎟️', color:'#EA4335', cardTitle:'10% Off on Next Visit',   sub:'Show at counter · Valid today' },
+  { text:'Free Coffee',emoji:'☕',  color:'#FBBC05', cardTitle:'1 Free Coffee!',          sub:'Redeem at counter today' },
+  { text:'15% Off',    emoji:'🏷️', color:'#34A853', cardTitle:'15% Off on Any Beverage', sub:'Valid on your next order' },
+  { text:'Free Cookie',emoji:'🍪', color:'#4285F4', cardTitle:'Free Cookie with Order',  sub:'With any purchase today' },
+  { text:'Try Again',  emoji:'🔄', color:'#FF6D00', cardTitle:'Better Luck Next Time!',  sub:'Thanks for playing 😊' },
+  { text:'20% Off',    emoji:'🎉', color:'#9C27B0', cardTitle:'20% Off Your Entire Bill',sub:'Show this screen to cashier' },
 ];
-const NUM = SEGMENTS.length;
-let winIndex = -1;
+const NSEGS = SEGMENTS.length;
 
-function drawWheel(angle=0){
+/* Sound using Web Audio API */
+let audioCtx = null;
+function getAudioCtx(){ if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)(); return audioCtx; }
+function playTickSound(){
+  try{
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain= ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type='triangle'; osc.frequency.setValueAtTime(800,ctx.currentTime);
+    gain.gain.setValueAtTime(0.08,ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.06);
+    osc.start(ctx.currentTime); osc.stop(ctx.currentTime+0.06);
+  }catch(e){}
+}
+let tickInterval=null;
+function startTickSound(duration){
+  let ticks=0;
+  const totalTicks = 30;
+  tickInterval = setInterval(()=>{
+    playTickSound();
+    ticks++;
+    if(ticks>=totalTicks) clearInterval(tickInterval);
+  }, duration/totalTicks);
+}
+
+function drawWheel(angleRad=0){
   const canvas = document.getElementById('wheelCanvas');
   const ctx = canvas.getContext('2d');
-  const cx=140, cy=140, r=135;
-  const slice = (2*Math.PI)/NUM;
-  ctx.clearRect(0,0,280,280);
+  const cx=130,cy=130,r=126;
+  const slice=(2*Math.PI)/NSEGS;
+  ctx.clearRect(0,0,260,260);
+
   SEGMENTS.forEach((seg,i)=>{
-    const start = angle + i*slice - Math.PI/2;
+    const start = angleRad + i*slice - Math.PI/2;
     const end   = start + slice;
-    // Segment fill
-    ctx.beginPath();
-    ctx.moveTo(cx,cy);
-    ctx.arc(cx,cy,r,start,end);
-    ctx.closePath();
-    ctx.fillStyle = seg.color;
-    ctx.fill();
-    // Divider
-    ctx.beginPath();
-    ctx.moveTo(cx,cy);
-    ctx.arc(cx,cy,r,start,end);
-    ctx.closePath();
-    ctx.strokeStyle='rgba(255,255,255,.6)';
-    ctx.lineWidth=2;
-    ctx.stroke();
-    // Text
+
+    // Segment
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,start,end);ctx.closePath();
+    ctx.fillStyle=seg.color;ctx.fill();
+
+    // Lighter inner arc for depth
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r*0.55,start,end);ctx.closePath();
+    ctx.fillStyle='rgba(255,255,255,.08)';ctx.fill();
+
+    // White dividers
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,start,end);ctx.closePath();
+    ctx.strokeStyle='rgba(255,255,255,.7)';ctx.lineWidth=2.5;ctx.stroke();
+
+    // Text — draw on outer arc
     ctx.save();
     ctx.translate(cx,cy);
-    ctx.rotate(start + slice/2);
+    ctx.rotate(start+slice/2);
     ctx.textAlign='right';
+
+    // Emoji
+    ctx.font='16px serif';
+    ctx.fillText(seg.emoji, r-8, -4);
+
+    // Label
     ctx.fillStyle='#fff';
-    ctx.font='bold 11px Google Sans,Roboto,sans-serif';
-    ctx.shadowColor='rgba(0,0,0,.3)';
-    ctx.shadowBlur=3;
-    ctx.fillText(seg.emoji+' '+seg.text, r-8, 4);
+    ctx.font='bold 10.5px Google Sans,Roboto,sans-serif';
+    ctx.shadowColor='rgba(0,0,0,.4)';ctx.shadowBlur=3;
+    ctx.fillText(seg.text, r-8, 9);
     ctx.restore();
   });
-  // Center circle
-  ctx.beginPath();
-  ctx.arc(cx,cy,22,0,2*Math.PI);
-  ctx.fillStyle='#fff';
-  ctx.fill();
-  ctx.strokeStyle='rgba(0,0,0,.1)';
-  ctx.lineWidth=2;
-  ctx.stroke();
-  // Center G
-  ctx.font='bold 14px Google Sans,sans-serif';
-  ctx.fillStyle='#4285F4';
-  ctx.textAlign='center';
-  ctx.textBaseline='middle';
-  ctx.shadowBlur=0;
-  ctx.fillText('G',cx,cy);
+
+  // Outer ring
+  ctx.beginPath();ctx.arc(cx,cy,r,0,2*Math.PI);
+  ctx.strokeStyle='rgba(255,255,255,.5)';ctx.lineWidth=4;ctx.stroke();
+
+  // Center hub — spin wheel icon
+  const hubR=28;
+  ctx.beginPath();ctx.arc(cx,cy,hubR,0,2*Math.PI);
+  const grad=ctx.createRadialGradient(cx,cy,2,cx,cy,hubR);
+  grad.addColorStop(0,'#fff');grad.addColorStop(1,'#f0f0f0');
+  ctx.fillStyle=grad;ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,.15)';ctx.lineWidth=2;ctx.stroke();
+
+  // Spin wheel symbol (🎡 via SVG path style)
+  ctx.save();ctx.translate(cx,cy);
+  ctx.fillStyle='#1a73e8';ctx.font='bold 20px serif';
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowBlur=0;
+  ctx.fillText('🎡',0,0);
+  ctx.restore();
 }
 
 function spinWheel(){
-  if(spinning) return;
-  spinning = true;
-  document.getElementById('spinBtn').disabled = true;
+  if(spinning)return;
+  spinning=true;
+  document.getElementById('spinBtn').disabled=true;
 
-  // Pick a winner (not "Try Again" — index 4 — to give real prizes)
-  const validWins = [0,1,2,3,5];
-  winIndex = validWins[Math.floor(Math.random()*validWins.length)];
+  // Pick winner
+  const wins=[0,1,2,3,5];
+  winIndex=wins[Math.floor(Math.random()*wins.length)];
 
-  const slice = 360/NUM;
-  // We want winIndex segment under pointer (top = 270° in canvas)
-  const targetDeg = 360 - (winIndex * slice) - (slice/2);
-  const spins = 1800 + targetDeg; // 5 full rotations + landing
-  const finalDeg = wheelAngle + spins;
-  wheelAngle = finalDeg % 360;
+  const sliceDeg=360/NSEGS;
+  const targetDeg=360-(winIndex*sliceDeg)-(sliceDeg/2);
+  const spins=1800+targetDeg;
+  const finalDeg=wheelAngle+spins;
+  wheelAngle=finalDeg%360;
 
-  const canvas = document.getElementById('wheelCanvas');
-  canvas.style.transition = 'transform 5s cubic-bezier(.17,.67,.12,.99)';
-  canvas.style.transform  = `rotate(${finalDeg}deg)`;
+  const canvas=document.getElementById('wheelCanvas');
+  canvas.style.transition='transform 5s cubic-bezier(.17,.67,.12,.99)';
+  canvas.style.transform=`rotate(${finalDeg}deg)`;
+
+  startTickSound(5000);
 
   setTimeout(()=>{
-    spinning = false;
+    spinning=false;
     showPrize();
-  }, 5200);
+  },5300);
 }
 
 function showPrize(){
-  const seg = SEGMENTS[winIndex];
-  document.getElementById('prizeEmoji').textContent = seg.emoji;
-  document.getElementById('prizeName').textContent  = seg.text;
-  document.getElementById('prizeSub').textContent   = seg.sub;
-  bombConfetti();
+  const seg=SEGMENTS[winIndex];
+  document.getElementById('prizeEmoji').textContent=seg.emoji;
+  document.getElementById('prizeName').textContent=seg.text;
+  document.getElementById('prizeCardIcon').textContent=seg.emoji;
+  document.getElementById('prizeCardTitle').textContent=seg.cardTitle;
+  document.getElementById('prizeCardSub').textContent=seg.sub;
+  document.getElementById('prizeSub').textContent=seg.sub;
+  bombConfettiLayer('prizeConfetti');
   showScreen('prizeScreen');
 }
 
-/* ─── Confetti Bomb ─── */
-function bombConfetti(){
-  const layer = document.getElementById('confettiLayer');
+/* ══════════════════════════════════════
+   CONFETTI BOMB
+══════════════════════════════════════ */
+function bombConfettiLayer(layerId){
+  const layer=document.getElementById(layerId);
   layer.innerHTML='';
-  const colors=['#EA4335','#FBBC05','#34A853','#4285F4','#FF6D00','#9C27B0','#00BCD4','#FF4081'];
-  for(let i=0;i<90;i++){
+  const colors=['#EA4335','#FBBC05','#34A853','#4285F4','#FF6D00','#9C27B0','#00BCD4','#FF4081','#fff'];
+  for(let i=0;i<100;i++){
     const d=document.createElement('div');
     d.className='cp';
-    const size=6+Math.random()*10;
+    const sz=5+Math.random()*10;
     d.style.cssText=`
-      left:${Math.random()*100}%;
-      top:${-20+Math.random()*30}%;
-      width:${size}px;height:${size}px;
+      left:${Math.random()*100}%;top:${-20+Math.random()*30}%;
+      width:${sz}px;height:${sz}px;
       background:${colors[i%colors.length]};
-      border-radius:${Math.random()>.5?'50%':'3px'};
-      animation-delay:${Math.random()*1}s;
+      border-radius:${Math.random()>.45?'50%':'3px'};
+      animation-delay:${Math.random()*1.2}s;
       animation-duration:${2+Math.random()*2}s;
     `;
     layer.appendChild(d);
   }
 }
 
-/* ─── Go Home / Reset ─── */
+/* ══════════════════════════════════════
+   RESET / GO HOME
+══════════════════════════════════════ */
 function goHome(){
-  userRating=0;spinning=false;winIndex=-1;wheelAngle=0;
-  document.querySelectorAll('.star-card').forEach(c=>c.classList.remove('sel'));
+  userRating=0;spinning=false;winIndex=-1;wheelAngle=0;submittedData={};
+  document.querySelectorAll('.star-btn').forEach(s=>s.classList.remove('lit'));
+  document.getElementById('starHint').textContent='Tap to rate your experience';
+  document.getElementById('starHint').style.color='';
   document.getElementById('staffSelect').value='';
   document.getElementById('nameInput').value='';
   document.getElementById('mobileInput').value='';
-  document.getElementById('reviewInput').value='Excellent coffee and highly professional staff. Loved the ambience and top-quality service. Highly recommended for anyone who enjoys a great café experience. Will definitely visit again!';
-  thumb.style.transition='none'; thumb.style.left='4px';
-  fill.style.width='0%'; lbl.classList.remove('hidden');
-  const canvas=document.getElementById('wheelCanvas');
-  canvas.style.transition='none'; canvas.style.transform='rotate(0deg)';
+  document.getElementById('mobileInput').classList.remove('err');
+  document.getElementById('mobileErr').classList.remove('show');
+  document.getElementById('reviewInput').value='Excellent coffee and highly professional staff. Loved the ambience and service. Highly recommended for anyone who enjoys a great café experience. Will definitely visit again!';
+  thumb.style.transition='none';thumb.style.left='4px';fill.style.width='0%';lbl.classList.remove('hidden');
+  const c=document.getElementById('wheelCanvas');
+  c.style.transition='none';c.style.transform='rotate(0deg)';
   document.getElementById('spinBtn').disabled=false;
-  document.getElementById('confettiLayer').innerHTML='';
+  document.getElementById('prizeConfetti').innerHTML='';
+  document.getElementById('ackConfetti').innerHTML='';
   drawWheel();
   showScreen('formScreen');
 }
 
-/* ─── Init ─── */
+/* Init */
 drawWheel();
 </script>
 </body>
