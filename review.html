@@ -3,177 +3,197 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>The Hunger Station</title>
+<title>The Coffee House</title>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-/* ════════════════════════════════════════
-   RESET & VARIABLES
-════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   RESET & ROOT
+═══════════════════════════════════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
   --blue:#4285F4;--red:#EA4335;--yellow:#FBBC05;--green:#34A853;--purple:#9C27B0;
-  --txt:#202124;--sub:#5F6368;--border:#DADCE0;--white:#fff;--fs:16px;
+  --txt:#202124;--sub:#5F6368;--border:#DADCE0;--bg:#F8F9FA;--white:#fff;
+  --shadow:0 1px 6px rgba(32,33,36,.1),0 2px 12px rgba(32,33,36,.06);
+  --shadow-md:0 4px 20px rgba(32,33,36,.12);
+  --radius:12px;
 }
-html,body{width:100%;height:100%;overflow:hidden;background:#eef2fb;font-family:'Roboto',sans-serif;color:var(--txt);font-size:var(--fs)}
+html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:'Roboto',sans-serif;color:var(--txt)}
 
-/* ════════════════════════════════════════
+/* ═══════════════════════════════════════
    SCREEN SYSTEM
-════════════════════════════════════════ */
-.screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;pointer-events:none;opacity:0;transform:translateY(18px);transition:opacity .32s ease,transform .32s ease;z-index:1}
+═══════════════════════════════════════ */
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;pointer-events:none;opacity:0;transform:translateY(16px);transition:opacity .28s ease,transform .28s ease;z-index:1}
 .screen.active{opacity:1;transform:translateY(0);pointer-events:all;z-index:10}
-.pw{width:100%;max-width:412px;height:100dvh;display:flex;flex-direction:column;background:var(--white);overflow:hidden;position:relative}
+.pw{width:100%;max-width:420px;height:100dvh;display:flex;flex-direction:column;background:var(--white);overflow:hidden;position:relative;box-shadow:var(--shadow-md)}
 
-/* ════════════════════════════════════════
-   TOP BAR — Google theme gradient, taller
-════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   TOP BAR — clean white Google-style
+═══════════════════════════════════════ */
 .top-bar{
   flex-shrink:0;
-  background:linear-gradient(135deg,#1557b0 0%,#1a73e8 35%,#1967d2 65%,#0d47a1 100%);
-  padding:18px 20px 14px;
+  background:#fff;
+  padding:16px 20px 12px;
   text-align:center;
+  border-bottom:3px solid transparent;
+  border-image:linear-gradient(90deg,#EA4335,#FBBC05,#34A853,#4285F4) 1;
+  box-shadow:0 2px 8px rgba(32,33,36,.08);
   position:relative;
-  box-shadow:0 3px 12px rgba(26,115,232,.35);
 }
-/* Google-coloured 4-dot pattern overlay */
-.top-bar::before{
-  content:'';position:absolute;inset:0;
-  background:
-    radial-gradient(circle at 15% 30%,rgba(234,67,53,.18) 0%,transparent 40%),
-    radial-gradient(circle at 85% 25%,rgba(251,188,5,.15) 0%,transparent 38%),
-    radial-gradient(circle at 50% 80%,rgba(52,168,83,.12) 0%,transparent 42%),
-    radial-gradient(circle at 72% 65%,rgba(156,39,176,.10) 0%,transparent 35%);
-  pointer-events:none;
+.brand-logo-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:3px}
+.brand-g-icon{width:28px;height:28px;flex-shrink:0}
+.brand-name{font-family:'Google Sans',sans-serif;font-size:20px;font-weight:700;color:var(--txt);letter-spacing:.01em}
+.brand-tag{font-size:11px;color:var(--sub);letter-spacing:.03em}
+.google-dots{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:6px}
+.g-dot{width:8px;height:8px;border-radius:50%}
+
+/* ═══════════════════════════════════════
+   HERO STRIP
+═══════════════════════════════════════ */
+.hero{flex-shrink:0;padding:8px 18px 7px;background:#F8FBFF;border-bottom:1px solid #EBF0FA;text-align:center}
+.hero h1{font-family:'Google Sans',sans-serif;font-size:13.5px;font-weight:700;color:#1a73e8;line-height:1.35}
+
+/* ═══════════════════════════════════════
+   STAR RATING — white theme, 3D effect
+═══════════════════════════════════════ */
+.stars-section{flex-shrink:0;padding:10px 18px 8px;background:#fff;border-bottom:1px solid var(--border)}
+.stars-label{font-size:10.5px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.06em;text-align:center;margin-bottom:6px}
+.stars-row{display:flex;justify-content:center;gap:6px;margin-bottom:4px}
+.star-btn{
+  background:none;border:none;padding:2px;cursor:pointer;
+  font-size:40px;line-height:1;
+  color:#E0E0E0;
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.12));
+  transition:color .15s,transform .18s cubic-bezier(.34,1.56,.64,1),filter .15s;
+  -webkit-text-stroke:1px #ccc;
+  position:relative;
 }
-.top-bar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#EA4335 0%,#FBBC05 33%,#34A853 66%,#4285F4 100%)}
-.brand-logo-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:4px}
-.brand-g-icon{width:32px;height:32px;flex-shrink:0}
-.brand-name{font-family:'Google Sans',sans-serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:.02em;text-shadow:0 1px 4px rgba(0,0,0,.25)}
-.brand-tag{font-size:11.5px;color:rgba(255,255,255,.82);letter-spacing:.04em;margin-top:1px}
-.google-badge-row{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:7px}
-.g-color-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-.badge-text{font-family:'Google Sans',sans-serif;font-size:11px;color:rgba(255,255,255,.88);font-weight:500;letter-spacing:.03em}
-
-/* ════════════════════════════════════════
-   HERO
-════════════════════════════════════════ */
-.hero{flex-shrink:0;padding:7px 16px 6px;background:linear-gradient(135deg,#e8f0fe,#fef9e7);border-bottom:1px solid #dde3ed;text-align:center}
-.hero h1{font-family:'Google Sans',sans-serif;font-size:13.5px;font-weight:700;color:#1a73e8;line-height:1.3}
-
-/* ════════════════════════════════════════
-   STAR RATING
-════════════════════════════════════════ */
-.stars-section{flex-shrink:0;padding:7px 16px 5px;background:#fff;position:relative}
-.stars-section::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#EA4335,#FBBC05,#34A853,#4285F4,#9C27B0)}
-.stars-row{
-  display:flex;justify-content:center;gap:2px;margin-bottom:3px;
-  background:linear-gradient(135deg,#0d47a1 0%,#1565c0 50%,#0d47a1 100%);
-  border-radius:14px;padding:8px 14px;
-  border:2px solid #4285F4;
-  box-shadow:0 0 0 1px rgba(66,133,244,.3),0 0 18px rgba(66,133,244,.45),0 0 34px rgba(66,133,244,.18),inset 0 1px 0 rgba(255,255,255,.15);
-  position:relative;overflow:hidden;
+.star-btn.lit{
+  color:#FBBC05;
+  -webkit-text-stroke:1px #d4a000;
+  filter:drop-shadow(0 2px 4px rgba(251,188,5,.5)) drop-shadow(0 0 8px rgba(251,188,5,.3));
 }
-.stars-row::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.08) 0%,transparent 60%);border-radius:12px;pointer-events:none}
-.star-btn{background:none;border:none;padding:1px 2px;cursor:pointer;font-size:38px;line-height:1;color:rgba(255,255,255,.2);filter:drop-shadow(0 0 3px rgba(255,255,255,.15));transition:color .15s,transform .15s,filter .15s;-webkit-text-stroke:1.5px rgba(251,188,5,.4)}
-.star-btn.lit{color:#FBBC05;-webkit-text-stroke:1px #e6a800;filter:drop-shadow(0 0 6px rgba(251,188,5,.8)) drop-shadow(0 0 14px rgba(251,188,5,.4))}
-.star-btn:active{transform:scale(.82)}
-.star-hint{font-size:10.5px;color:var(--sub);text-align:center;min-height:14px;font-style:italic;margin-top:1px}
-
-/* ════════════════════════════════════════
-   FORM AREA
-════════════════════════════════════════ */
-.form-body{flex:1;overflow:hidden;display:flex;flex-direction:column;padding:6px 14px 0;gap:5px}
-.field{flex-shrink:0}
-.fl{font-size:10px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;display:block}
-.fl .req{color:#EA4335;margin-left:2px}
-.field select,.field input{
-  width:100%;border:1.5px solid var(--border);border-radius:10px;
-  padding:9px 12px;font-size:14px;font-family:'Roboto',sans-serif;
-  color:var(--txt);background:#fff;outline:none;
-  transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;
+.star-btn:active{
+  transform:scale(.78) rotateZ(-8deg) !important;
+  filter:drop-shadow(0 4px 8px rgba(251,188,5,.7)) drop-shadow(0 0 14px rgba(251,188,5,.5));
 }
-.field select:focus,.field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(66,133,244,.12)}
-.field select{
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%235F6368' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;cursor:pointer;
+/* 3D pop on click */
+.star-btn.pop{
+  animation:starPop .35s cubic-bezier(.34,1.56,.64,1);
 }
-.field input::placeholder{color:#9AA0A6}
-
-/* Feedback — auto-height, no scrollbar */
-.feedback-wrap{flex-shrink:0}
-.feedback-wrap textarea{
-  width:100%;border:1.5px solid var(--border);border-radius:10px;
-  padding:9px 12px;font-size:13px;font-family:'Roboto',sans-serif;
-  color:var(--txt);background:#fff;outline:none;
-  transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;
-  resize:none;overflow:hidden;line-height:1.5;
-  min-height:40px;
+@keyframes starPop{
+  0%{transform:scale(1)}
+  40%{transform:scale(1.45) rotateZ(10deg)}
+  70%{transform:scale(.88) rotateZ(-5deg)}
+  100%{transform:scale(1) rotateZ(0deg)}
 }
-.feedback-wrap textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(66,133,244,.12)}
-
-/* WhatsApp input */
-.wa-wrap{position:relative}
-.wa-badge{position:absolute;left:0;top:0;bottom:0;width:44px;display:flex;align-items:center;justify-content:center;border-right:1.5px solid #c5e8cc;pointer-events:none;z-index:2;border-radius:10px 0 0 10px;background:#e8f9ed}
-.wa-badge svg{width:22px;height:22px}
-.wa-wrap input{padding-left:54px !important}
-
-/* Error state */
-.field input.err,.field select.err{border-color:#EA4335;box-shadow:0 0 0 3px rgba(234,67,53,.1)}
-.feedback-wrap textarea.err{border-color:#EA4335;box-shadow:0 0 0 3px rgba(234,67,53,.1)}
-.err-msg{font-size:10.5px;color:#EA4335;margin-top:2px;display:none}
+.star-hint{font-size:10.5px;color:var(--sub);text-align:center;min-height:15px;font-style:italic;transition:color .2s}
+.err-msg{font-size:10.5px;color:var(--red);margin-top:3px;display:none}
 .err-msg.show{display:block}
 
-/* ════════════════════════════════════════
-   SWIPE CTA — shorter
-════════════════════════════════════════ */
-.swipe-section{flex-shrink:0;padding:5px 0 3px;display:flex;flex-direction:column;align-items:center}
-.swipe-wrap{position:relative;background:#e8f0fe;border:2px solid #c5d6f5;border-radius:50px;height:48px;overflow:hidden;width:72%;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none}
-.swipe-fill{position:absolute;left:0;top:0;bottom:0;width:0%;border-radius:50px;background:linear-gradient(90deg,rgba(66,133,244,.35),transparent);transition:width .04s}
-.swipe-lbl{font-family:'Google Sans',sans-serif;font-size:11.5px;font-weight:600;color:#1a73e8;pointer-events:none;z-index:1;display:flex;align-items:center;gap:4px;transition:opacity .25s}
+/* ═══════════════════════════════════════
+   FORM BODY
+═══════════════════════════════════════ */
+.form-body{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;padding:12px 16px 8px;gap:12px}
+.field{}
+.fl{font-size:10.5px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:flex;align-items:center;gap:3px}
+.fl .req{color:var(--red)}
+.field select,.field input{
+  width:100%;border:1.5px solid var(--border);border-radius:var(--radius);
+  padding:11px 14px;font-size:14.5px;font-family:'Roboto',sans-serif;
+  color:var(--txt);background:#fff;outline:none;
+  transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.04);
+}
+.field select:focus,.field input:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(66,133,244,.14),inset 0 1px 3px rgba(0,0,0,.04);
+}
+.field select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%235F6368' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer;
+}
+.field input::placeholder{color:#B0B6BE}
+.field input.err,.field select.err{border-color:var(--red);box-shadow:0 0 0 3px rgba(234,67,53,.1)}
+
+/* WhatsApp */
+.wa-wrap{position:relative}
+.wa-badge{position:absolute;left:0;top:0;bottom:0;width:46px;display:flex;align-items:center;justify-content:center;border-right:1.5px solid #C8EDD4;pointer-events:none;z-index:2;border-radius:var(--radius) 0 0 var(--radius);background:#F0FBF3}
+.wa-badge svg{width:22px;height:22px}
+.wa-wrap input{padding-left:56px !important}
+
+/* Feedback — auto-resize */
+.feedback-wrap{}
+.feedback-wrap textarea{
+  width:100%;border:1.5px solid var(--border);border-radius:var(--radius);
+  padding:11px 14px;font-size:13.5px;font-family:'Roboto',sans-serif;
+  color:var(--txt);background:#fff;outline:none;
+  resize:none;overflow:hidden;line-height:1.55;min-height:44px;
+  transition:border-color .2s,box-shadow .2s;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.04);
+}
+.feedback-wrap textarea:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(66,133,244,.14),inset 0 1px 3px rgba(0,0,0,.04);
+}
+.feedback-wrap textarea.err{border-color:var(--red);box-shadow:0 0 0 3px rgba(234,67,53,.1)}
+
+/* ═══════════════════════════════════════
+   SWIPE CTA — compact
+═══════════════════════════════════════ */
+.swipe-section{flex-shrink:0;padding:8px 0 6px;display:flex;flex-direction:column;align-items:center;background:#fff;border-top:1px solid var(--border)}
+.swipe-wrap{
+  position:relative;background:#EBF2FF;border:2px solid #C5D8FF;
+  border-radius:50px;height:50px;overflow:hidden;width:70%;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;
+  box-shadow:0 2px 8px rgba(66,133,244,.15);
+}
+.swipe-fill{position:absolute;left:0;top:0;bottom:0;width:0%;border-radius:50px;background:linear-gradient(90deg,rgba(66,133,244,.3),transparent);transition:width .04s}
+.swipe-lbl{font-family:'Google Sans',sans-serif;font-size:12px;font-weight:600;color:#1a73e8;pointer-events:none;z-index:1;display:flex;align-items:center;gap:4px;transition:opacity .25s}
 .swipe-lbl.hidden{opacity:0}
 .swipe-lbl .arr{animation:arr 1.3s ease-in-out infinite}
 @keyframes arr{0%,100%{transform:translateX(0);opacity:.5}50%{transform:translateX(5px);opacity:1}}
-.swipe-thumb{position:absolute;left:4px;width:40px;height:40px;background:#fff;border:1.5px solid #c5d6f5;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:grab;z-index:2;box-shadow:0 2px 10px rgba(66,133,244,.35)}
+.swipe-thumb{position:absolute;left:4px;width:42px;height:42px;background:#fff;border:1.5px solid #C5D8FF;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:grab;z-index:2;box-shadow:0 2px 10px rgba(66,133,244,.28)}
 .swipe-thumb:active{cursor:grabbing}
 .gg{width:24px;height:24px}
-.disclaimer{text-align:center;font-size:9.5px;color:var(--sub);margin-top:2px;line-height:1.4}
+.disclaimer{text-align:center;font-size:9.5px;color:var(--sub);margin-top:4px;line-height:1.4}
 .disclaimer a{color:var(--blue);text-decoration:none}
 
-/* ════════════════════════════════════════
+/* ═══════════════════════════════════════
    ACK SCREEN
-════════════════════════════════════════ */
-#ackScreen .pw{justify-content:center;align-items:center;background:linear-gradient(160deg,#e8f0fe 0%,#fce8e6 100%);overflow:hidden}
+═══════════════════════════════════════ */
+#ackScreen .pw{justify-content:center;align-items:center;background:linear-gradient(160deg,#EBF2FF 0%,#FFF 100%)}
 .ack-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
-.ack-inner{position:relative;z-index:1;padding:28px 26px;text-align:center;max-width:360px}
-.ack-icon{font-size:60px;margin-bottom:14px;animation:bob 2s ease-in-out infinite;display:block}
+.ack-inner{position:relative;z-index:1;padding:30px 28px;text-align:center;max-width:360px}
+.ack-icon{font-size:62px;margin-bottom:16px;animation:bob 2s ease-in-out infinite;display:block}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.ack-title{font-family:'Google Sans',sans-serif;font-size:21px;font-weight:700;color:#1a73e8;margin-bottom:6px}
-.ack-sub{font-size:13px;color:var(--sub);line-height:1.75;margin-bottom:22px}
+.ack-title{font-family:'Google Sans',sans-serif;font-size:22px;font-weight:700;color:#1a73e8;margin-bottom:8px}
+.ack-sub{font-size:13.5px;color:var(--sub);line-height:1.75;margin-bottom:24px}
 .ack-btns{display:flex;gap:12px;justify-content:center}
-.btn-yes,.btn-no{flex:1;padding:14px 10px;border-radius:50px;font-size:14px;font-weight:600;font-family:'Google Sans',sans-serif;cursor:pointer;border:none;transition:transform .15s,box-shadow .15s;max-width:160px}
-.btn-yes{background:linear-gradient(135deg,#34a853,#1e8c3a);color:#fff;box-shadow:0 4px 14px rgba(52,168,83,.4)}
-.btn-no{background:#fff;color:var(--sub);border:1.5px solid var(--border)}
+.btn-yes,.btn-no{flex:1;padding:14px 10px;border-radius:50px;font-size:14px;font-weight:600;font-family:'Google Sans',sans-serif;cursor:pointer;border:none;transition:transform .15s,box-shadow .15s;max-width:165px}
+.btn-yes{background:linear-gradient(135deg,#34a853,#1e8c3a);color:#fff;box-shadow:0 4px 14px rgba(52,168,83,.35)}
+.btn-no{background:#fff;color:var(--sub);border:1.5px solid var(--border);box-shadow:var(--shadow)}
 .btn-yes:active,.btn-no:active{transform:scale(.95)}
 
-/* ════════════════════════════════════════
-   THANK YOU SCREEN
-════════════════════════════════════════ */
-#thankScreen .pw{justify-content:center;align-items:center;background:linear-gradient(160deg,#e8f0fe 0%,#fef9e7 100%);overflow:hidden}
-.thank-inner{padding:28px 26px;text-align:center;max-width:360px}
-.thank-icon{font-size:64px;margin-bottom:16px;display:block;animation:bob 2s ease-in-out infinite}
+/* ═══════════════════════════════════════
+   THANK YOU
+═══════════════════════════════════════ */
+#thankScreen .pw{justify-content:center;align-items:center;background:#fff}
+.thank-inner{padding:30px 28px;text-align:center;max-width:360px}
+.thank-icon{font-size:66px;margin-bottom:16px;display:block;animation:bob 2s ease-in-out infinite}
 .thank-title{font-family:'Google Sans',sans-serif;font-size:22px;font-weight:700;color:#1a73e8;margin-bottom:10px}
-.thank-sub{font-size:13px;color:var(--sub);line-height:1.8}
+.thank-sub{font-size:13.5px;color:var(--sub);line-height:1.8}
 
-/* ════════════════════════════════════════
+/* ═══════════════════════════════════════
    SPIN SCREEN
-════════════════════════════════════════ */
+═══════════════════════════════════════ */
 #spinScreen .pw{background:linear-gradient(160deg,#0d1b4b 0%,#1a237e 40%,#283593 100%);overflow:hidden}
-#spinScreen .pw::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(251,188,5,.08) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(66,133,244,.1) 0%,transparent 50%);pointer-events:none;z-index:0}
-.spin-top{flex-shrink:0;padding:16px 20px 10px;text-align:center;position:relative;z-index:1}
-.spin-top h2{font-family:'Google Sans',sans-serif;font-size:19px;font-weight:700;color:#fff;line-height:1.3}
-.spin-top p{font-size:11px;color:rgba(255,255,255,.7);margin-top:3px}
+#spinScreen .pw::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(251,188,5,.07) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(66,133,244,.09) 0%,transparent 50%);pointer-events:none;z-index:0}
 .star-deco{position:absolute;pointer-events:none;z-index:0;animation:twinkle 2s ease-in-out infinite}
 @keyframes twinkle{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:.8;transform:scale(1.3)}}
-.spin-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 20px 12px;gap:14px;position:relative;z-index:1}
+.spin-top{flex-shrink:0;padding:16px 20px 10px;text-align:center;position:relative;z-index:1}
+.spin-top h2{font-family:'Google Sans',sans-serif;font-size:19px;font-weight:700;color:#fff;line-height:1.3}
+.spin-top p{font-size:11.5px;color:rgba(255,255,255,.7);margin-top:3px}
+.spin-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 20px 14px;gap:16px;position:relative;z-index:1}
 .wheel-outer{position:relative;width:260px;height:260px;flex-shrink:0}
 .wheel-glow{position:absolute;inset:-8px;border-radius:50%;background:conic-gradient(#EA4335,#FBBC05,#34A853,#4285F4,#9C27B0,#FF6D00,#EA4335);filter:blur(8px);opacity:.6;animation:spin-glow 4s linear infinite}
 @keyframes spin-glow{to{transform:rotate(360deg)}}
@@ -182,162 +202,178 @@ html,body{width:100%;height:100%;overflow:hidden;background:#eef2fb;font-family:
 .spin-btn-wrap{position:relative;flex-shrink:0}
 .spin-btn-pulse{position:absolute;inset:-6px;border-radius:50px;background:linear-gradient(135deg,#ea4335,#fbbc05);animation:pulse-ring 1.5s ease-out infinite;z-index:0}
 @keyframes pulse-ring{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.18);opacity:0}}
-.spin-btn{position:relative;z-index:1;background:linear-gradient(135deg,#EA4335 0%,#FF6D00 100%);border:none;border-radius:50px;padding:15px 52px;font-size:17px;font-weight:700;color:#fff;font-family:'Google Sans',sans-serif;cursor:pointer;box-shadow:0 6px 24px rgba(234,67,53,.55);letter-spacing:.03em;animation:btn-bounce 2s ease-in-out infinite}
+.spin-btn{position:relative;z-index:1;background:linear-gradient(135deg,#EA4335 0%,#FF6D00 100%);border:none;border-radius:50px;padding:15px 52px;font-size:17px;font-weight:700;color:#fff;font-family:'Google Sans',sans-serif;cursor:pointer;box-shadow:0 6px 24px rgba(234,67,53,.5);letter-spacing:.03em;animation:btn-bounce 2s ease-in-out infinite}
 @keyframes btn-bounce{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-4px) scale(1.03)}}
 .spin-btn:active{transform:scale(.94)!important;animation:none}
 .spin-btn:disabled{opacity:.45;cursor:default;animation:none}
-.spin-note{font-size:11px;color:rgba(255,255,255,.6);text-align:center}
+.spin-note{font-size:11px;color:rgba(255,255,255,.55);text-align:center}
 
-/* ════════════════════════════════════════
+/* ═══════════════════════════════════════
    PRIZE SCREEN
-════════════════════════════════════════ */
-#prizeScreen .pw{background:linear-gradient(160deg,#fffde7 0%,#fff 60%);overflow:hidden;justify-content:center;align-items:center}
+═══════════════════════════════════════ */
+#prizeScreen .pw{background:#fff;overflow:hidden;justify-content:center;align-items:center}
 .prize-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
 .cp{position:absolute;animation:cpfall 2.8s ease forwards}
 @keyframes cpfall{0%{transform:translateY(-30px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(1080deg);opacity:0}}
-.prize-inner{position:relative;z-index:1;text-align:center;padding:24px 26px;max-width:360px;width:100%}
-.prize-emoji-big{font-size:80px;display:block;margin-bottom:10px;animation:popIn .6s cubic-bezier(.175,.885,.32,1.275) .15s both}
-@keyframes popIn{from{transform:scale(0) rotate(-20deg)}to{transform:scale(1) rotate(0deg)}}
-.prize-won{font-family:'Google Sans',sans-serif;font-size:12px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
-.prize-name{font-family:'Google Sans',sans-serif;font-size:28px;font-weight:700;color:#1a73e8;line-height:1.2;margin-bottom:4px}
-.prize-card{background:linear-gradient(135deg,#1a73e8,#0d47a1);border-radius:16px;padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;gap:12px}
-.prize-card-icon{font-size:32px;flex-shrink:0}
+.prize-inner{position:relative;z-index:1;text-align:center;padding:22px 26px;max-width:360px;width:100%}
+.prize-emoji-big{font-size:76px;display:block;margin-bottom:8px;animation:popIn .6s cubic-bezier(.175,.885,.32,1.275) .15s both}
+@keyframes popIn{from{transform:scale(0) rotate(-20deg)}to{transform:scale(1) rotate(0)}}
+.prize-won{font-family:'Google Sans',sans-serif;font-size:11.5px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.prize-name{font-family:'Google Sans',sans-serif;font-size:26px;font-weight:700;color:#1a73e8;line-height:1.25;margin-bottom:6px}
+.prize-card{background:linear-gradient(135deg,#1a73e8,#0d47a1);border-radius:16px;padding:14px 18px;margin-bottom:12px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 16px rgba(26,115,232,.3)}
+.prize-card-icon{font-size:30px;flex-shrink:0}
 .prize-card-text{text-align:left}
-.prize-card-text strong{font-family:'Google Sans',sans-serif;font-size:15px;font-weight:700;color:#fff;display:block}
+.prize-card-text strong{font-family:'Google Sans',sans-serif;font-size:14.5px;font-weight:700;color:#fff;display:block}
 .prize-card-text span{font-size:11px;color:rgba(255,255,255,.75)}
-.coupon-box{background:#fff8e1;border:2px dashed #FBBC05;border-radius:12px;padding:10px 16px;margin-bottom:14px;text-align:center}
+.coupon-box{background:#FFFDE7;border:2.5px dashed #FBBC05;border-radius:12px;padding:10px 16px;margin-bottom:12px}
 .coupon-label{font-size:10px;color:var(--sub);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
-.coupon-code{font-family:'Google Sans',sans-serif;font-size:22px;font-weight:700;color:#1a73e8;letter-spacing:.12em}
-.prize-sub-text{font-size:12px;color:var(--sub);line-height:1.6;margin-bottom:14px}
-.prize-done-msg{font-family:'Google Sans',sans-serif;font-size:18px;font-weight:700;color:#34a853;text-align:center;padding:10px 0 4px;letter-spacing:.01em;animation:bob 2s ease-in-out infinite;display:block}
+.coupon-code{font-family:'Google Sans',sans-serif;font-size:22px;font-weight:700;color:#1a73e8;letter-spacing:.14em}
+.prize-sub-text{font-size:12px;color:var(--sub);line-height:1.6;margin-bottom:12px}
+.prize-done-msg{font-family:'Google Sans',sans-serif;font-size:18px;font-weight:700;color:#34a853;text-align:center;padding:8px 0 2px;animation:bob 2s ease-in-out infinite;display:block}
 
-/* ════════════════════════════════════════
+/* ═══════════════════════════════════════
    PRIVACY SCREEN
-════════════════════════════════════════ */
-#privacyScreen .pw{background:#fff;overflow-y:auto}
-.privacy-header{flex-shrink:0;background:linear-gradient(135deg,#1557b0 0%,#1a73e8 100%);padding:16px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
-.privacy-back{background:rgba(255,255,255,.2);border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.privacy-title{font-family:'Google Sans',sans-serif;font-size:18px;font-weight:700;color:#fff}
-.privacy-body{padding:20px 18px 40px;line-height:1.7;font-size:13px;color:var(--txt)}
-.privacy-body h2{font-family:'Google Sans',sans-serif;font-size:15px;font-weight:700;color:#1a73e8;margin:18px 0 6px}
-.privacy-body p{margin-bottom:10px;color:var(--sub)}
-.privacy-body ul{padding-left:18px;margin-bottom:10px;color:var(--sub)}
-.privacy-body ul li{margin-bottom:4px}
+═══════════════════════════════════════ */
+#privacyScreen .pw{background:#fff}
+.privacy-header{flex-shrink:0;background:#fff;border-bottom:3px solid transparent;border-image:linear-gradient(90deg,#EA4335,#FBBC05,#34A853,#4285F4) 1;padding:14px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 6px rgba(0,0,0,.07)}
+.privacy-back{background:var(--bg);border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;color:var(--txt);font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.privacy-title{font-family:'Google Sans',sans-serif;font-size:17px;font-weight:700;color:var(--txt)}
+.privacy-body{flex:1;overflow-y:auto;padding:20px 18px 40px;line-height:1.7;font-size:13px;color:var(--sub)}
+.privacy-body h2{font-family:'Google Sans',sans-serif;font-size:14.5px;font-weight:700;color:#1a73e8;margin:18px 0 6px}
+.privacy-body p,.privacy-body ul{margin-bottom:10px}
+.privacy-body ul{padding-left:18px}
+.privacy-body li{margin-bottom:4px}
 
-/* ════════════════════════════════════════
-   ADMIN PORTAL
-════════════════════════════════════════ */
-#adminScreen .pw{background:#f0f4ff;overflow-y:auto;overflow-x:hidden}
-.admin-header{flex-shrink:0;background:linear-gradient(135deg,#1557b0 0%,#1a73e8 100%);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2)}
-.admin-header-left{display:flex;align-items:center;gap:10px}
-.admin-title{font-family:'Google Sans',sans-serif;font-size:17px;font-weight:700;color:#fff}
-.admin-logout{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:#fff;cursor:pointer;font-family:'Google Sans',sans-serif}
-.admin-body{padding:14px 14px 40px;display:flex;flex-direction:column;gap:14px}
-
-/* Admin tabs */
-.admin-tabs{display:flex;gap:6px;flex-wrap:wrap}
-.a-tab{flex:1;min-width:80px;padding:9px 8px;background:#fff;border:1.5px solid var(--border);border-radius:10px;font-size:11.5px;font-weight:600;font-family:'Google Sans',sans-serif;color:var(--sub);cursor:pointer;text-align:center;transition:all .2s}
-.a-tab.active{background:#1a73e8;border-color:#1a73e8;color:#fff;box-shadow:0 3px 10px rgba(26,115,232,.3)}
-
-.tab-panel{display:none}
-.tab-panel.active{display:block}
-
-/* Cards */
-.admin-card{background:#fff;border-radius:14px;padding:14px 16px;box-shadow:0 1px 6px rgba(0,0,0,.08)}
-.admin-card h3{font-family:'Google Sans',sans-serif;font-size:14px;font-weight:700;color:#1a73e8;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-
-/* Stats row */
-.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
-.stat-box{background:linear-gradient(135deg,#e8f0fe,#fff);border:1.5px solid #c5d6f5;border-radius:12px;padding:12px;text-align:center}
-.stat-num{font-family:'Google Sans',sans-serif;font-size:26px;font-weight:700;color:#1a73e8}
-.stat-lbl{font-size:10px;color:var(--sub);margin-top:2px;text-transform:uppercase;letter-spacing:.05em}
-
-/* Reviews table */
-.reviews-table-wrap{overflow-x:auto;margin-top:6px;border-radius:10px;border:1px solid var(--border)}
-.reviews-table{width:100%;border-collapse:collapse;font-size:11.5px;min-width:480px}
-.reviews-table th{background:#f0f4ff;padding:8px 10px;text-align:left;font-weight:600;color:var(--sub);border-bottom:1.5px solid var(--border);white-space:nowrap}
-.reviews-table td{padding:7px 10px;border-bottom:1px solid #f0f0f0;color:var(--txt);vertical-align:top}
-.reviews-table tr:last-child td{border-bottom:none}
-.reviews-table tr:hover td{background:#f8f9ff}
-.rating-stars{color:#FBBC05;letter-spacing:1px}
-
-/* Spin wheel admin */
-.seg-list{display:flex;flex-direction:column;gap:8px}
-.seg-item{display:flex;align-items:center;gap:8px;background:#f8f9fa;border-radius:10px;padding:8px 10px;border:1.5px solid var(--border)}
-.seg-color{width:14px;height:14px;border-radius:50%;flex-shrink:0}
-.seg-label{flex:1;font-size:13px;font-weight:500;color:var(--txt)}
-.seg-note{font-size:10.5px;color:var(--sub);font-style:italic}
-.prize-override-box{margin-top:12px;background:#fff8e1;border:1.5px dashed #FBBC05;border-radius:10px;padding:12px}
-.prize-override-box label{font-size:11px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:5px}
-.prize-override-box input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;font-family:'Roboto',sans-serif;outline:none}
-.prize-override-box input:focus{border-color:var(--blue)}
-.save-btn{margin-top:10px;background:linear-gradient(135deg,#34a853,#1e8c3a);border:none;border-radius:50px;padding:10px 24px;font-size:13px;font-weight:600;color:#fff;font-family:'Google Sans',sans-serif;cursor:pointer;box-shadow:0 3px 10px rgba(52,168,83,.35)}
-.save-btn:active{transform:scale(.97)}
-
-/* SEO panel */
-.seo-list{display:flex;flex-direction:column;gap:8px;margin-top:4px}
-.seo-item{background:#f8f9fa;border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:border-color .2s,background .2s;position:relative}
-.seo-item:hover{background:#e8f0fe;border-color:#4285F4}
-.seo-item-text{font-size:12px;color:var(--txt);line-height:1.55}
-.seo-item-tag{font-size:10px;color:var(--blue);font-weight:600;margin-bottom:3px;text-transform:uppercase;letter-spacing:.05em}
-.copy-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#202124;color:#fff;font-size:12px;padding:8px 18px;border-radius:20px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;font-family:'Google Sans',sans-serif}
-.copy-toast.show{opacity:1}
-
-/* Admin replies */
-.reply-list{display:flex;flex-direction:column;gap:8px;margin-top:4px}
-.reply-item{background:#f8f9fa;border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:border-color .2s}
-.reply-item:hover{background:#e8f0fe;border-color:#4285F4}
-.reply-item p{font-size:12px;color:var(--txt);line-height:1.55}
-.reply-item span{font-size:10px;color:var(--blue);font-weight:600;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:3px}
-
-/* Login screen */
-#loginScreen .pw{justify-content:center;align-items:center;background:linear-gradient(160deg,#e8f0fe 0%,#f0f4ff 100%)}
-.login-card{background:#fff;border-radius:20px;padding:30px 26px;max-width:340px;width:90%;box-shadow:0 8px 32px rgba(26,115,232,.15)}
-.login-logo{text-align:center;margin-bottom:20px}
-.login-logo div{font-family:'Google Sans',sans-serif;font-size:20px;font-weight:700;color:#1a73e8;margin-top:8px}
+/* ═══════════════════════════════════════
+   ADMIN LOGIN
+═══════════════════════════════════════ */
+#loginScreen .pw{justify-content:center;align-items:center;background:#F0F4F8}
+.login-card{background:#fff;border-radius:20px;padding:30px 26px;max-width:340px;width:90%;box-shadow:var(--shadow-md)}
+.login-logo{text-align:center;margin-bottom:22px}
+.login-logo .logo-icon{font-size:42px}
+.login-logo div{font-family:'Google Sans',sans-serif;font-size:19px;font-weight:700;color:var(--txt);margin-top:6px}
 .login-logo span{font-size:11px;color:var(--sub)}
 .login-field{margin-bottom:14px}
 .login-field label{font-size:11px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px}
-.login-field input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:15px;font-family:'Roboto',sans-serif;outline:none;transition:border-color .2s}
+.login-field input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:15px;font-family:'Roboto',sans-serif;outline:none;transition:border-color .2s;box-shadow:inset 0 1px 3px rgba(0,0,0,.04)}
 .login-field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(66,133,244,.12)}
-.login-btn{width:100%;background:linear-gradient(135deg,#1a73e8,#0d47a1);border:none;border-radius:50px;padding:13px;font-size:15px;font-weight:600;color:#fff;font-family:'Google Sans',sans-serif;cursor:pointer;box-shadow:0 4px 16px rgba(26,115,232,.35);margin-top:4px}
+.login-btn{width:100%;background:linear-gradient(135deg,#1a73e8,#0d47a1);border:none;border-radius:50px;padding:13px;font-size:15px;font-weight:600;color:#fff;font-family:'Google Sans',sans-serif;cursor:pointer;box-shadow:0 4px 16px rgba(26,115,232,.3);margin-top:4px}
 .login-btn:active{transform:scale(.98)}
-.login-err{font-size:12px;color:#EA4335;text-align:center;margin-top:8px;min-height:18px}
-.admin-trigger{position:fixed;bottom:12px;right:12px;background:rgba(26,115,232,.12);border:1px solid rgba(26,115,232,.2);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:50;font-size:16px}
+.login-err{font-size:12px;color:var(--red);text-align:center;margin-top:8px;min-height:18px}
 
-/* Loading spinner */
-.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
-@keyframes spin{to{transform:rotate(360deg)}}
+/* ═══════════════════════════════════════
+   ADMIN PORTAL
+═══════════════════════════════════════ */
+#adminScreen .pw{background:#F0F4F8}
+.admin-header{flex-shrink:0;background:#fff;border-bottom:3px solid transparent;border-image:linear-gradient(90deg,#EA4335,#FBBC05,#34A853,#4285F4) 1;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 6px rgba(0,0,0,.07)}
+.admin-header-left{display:flex;align-items:center;gap:8px}
+.admin-title{font-family:'Google Sans',sans-serif;font-size:17px;font-weight:700;color:var(--txt)}
+.admin-logout{background:var(--bg);border:1.5px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--sub);cursor:pointer;font-family:'Google Sans',sans-serif}
+.admin-body{flex:1;overflow-y:auto;padding:12px 12px 40px;display:flex;flex-direction:column;gap:12px}
+.admin-tabs{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px}
+.admin-tabs::-webkit-scrollbar{display:none}
+.a-tab{flex-shrink:0;padding:8px 12px;background:#fff;border:1.5px solid var(--border);border-radius:20px;font-size:11.5px;font-weight:600;font-family:'Google Sans',sans-serif;color:var(--sub);cursor:pointer;transition:all .2s;white-space:nowrap}
+.a-tab.active{background:#1a73e8;border-color:#1a73e8;color:#fff;box-shadow:0 3px 10px rgba(26,115,232,.28)}
+.tab-panel{display:none}
+.tab-panel.active{display:flex;flex-direction:column;gap:12px}
+.admin-card{background:#fff;border-radius:14px;padding:14px 15px;box-shadow:var(--shadow)}
+.admin-card-title{font-family:'Google Sans',sans-serif;font-size:13.5px;font-weight:700;color:var(--txt);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:6px}
+
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat-box{background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px;text-align:center;cursor:pointer;transition:background .2s,border-color .2s}
+.stat-box:hover{background:#EBF2FF;border-color:#C5D8FF}
+.stat-num{font-family:'Google Sans',sans-serif;font-size:26px;font-weight:700;color:#1a73e8}
+.stat-lbl{font-size:10px;color:var(--sub);margin-top:2px;text-transform:uppercase;letter-spacing:.05em}
+
+/* Table */
+.tbl-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
+.data-table{width:100%;border-collapse:collapse;font-size:11.5px;min-width:520px}
+.data-table th{background:#F0F4F8;padding:8px 10px;text-align:left;font-weight:600;color:var(--sub);border-bottom:1.5px solid var(--border);white-space:nowrap}
+.data-table td{padding:8px 10px;border-bottom:1px solid #F0F0F0;color:var(--txt);vertical-align:top}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:#F8FBFF}
+.r-stars{color:#FBBC05;letter-spacing:1px;font-size:13px}
+
+/* Editable list items */
+.edit-list{display:flex;flex-direction:column;gap:8px}
+.edit-item{display:flex;align-items:center;gap:8px;background:var(--bg);border-radius:10px;padding:8px 10px;border:1.5px solid var(--border)}
+.edit-item input{flex:1;border:none;background:transparent;font-size:13px;font-family:'Roboto',sans-serif;color:var(--txt);outline:none}
+.edit-item input:focus{background:#fff;border-radius:6px;padding:2px 6px;box-shadow:0 0 0 2px rgba(66,133,244,.2)}
+.edit-item-del{background:none;border:none;color:var(--red);font-size:18px;cursor:pointer;padding:0 2px;line-height:1}
+.edit-item-color{width:14px;height:14px;border-radius:50%;flex-shrink:0}
+
+/* Percent badge */
+.pct-input{width:54px;border:1.5px solid var(--border);border-radius:8px;padding:4px 6px;font-size:12px;text-align:center;font-family:'Roboto',sans-serif;background:#fff;outline:none}
+.pct-input:focus{border-color:var(--blue)}
+
+/* Add row button */
+.add-row-btn{background:var(--bg);border:1.5px dashed var(--border);border-radius:10px;padding:9px;width:100%;font-size:13px;color:var(--sub);cursor:pointer;font-family:'Roboto',sans-serif;transition:background .2s}
+.add-row-btn:hover{background:#EBF2FF;border-color:#C5D8FF;color:#1a73e8}
+
+/* Override box */
+.override-box{background:#FFFDE7;border:1.5px dashed #FBBC05;border-radius:10px;padding:12px;margin-top:10px}
+.override-box label{font-size:10.5px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:5px}
+.override-box input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;font-family:'Roboto',sans-serif;outline:none;margin-bottom:8px;background:#fff}
+.override-box input:focus{border-color:var(--blue)}
+
+/* Buttons */
+.btn-save{background:linear-gradient(135deg,#34a853,#1e8c3a);border:none;border-radius:50px;padding:10px 24px;font-size:13px;font-weight:600;color:#fff;font-family:'Google Sans',sans-serif;cursor:pointer;box-shadow:0 3px 10px rgba(52,168,83,.3)}
+.btn-save:active{transform:scale(.97)}
+.btn-primary{background:linear-gradient(135deg,#1a73e8,#0d47a1);border:none;border-radius:50px;padding:8px 18px;font-size:12.5px;font-weight:600;color:#fff;font-family:'Google Sans',sans-serif;cursor:pointer;box-shadow:0 3px 10px rgba(26,115,232,.28)}
+.btn-primary:active{transform:scale(.97)}
+.btn-sm{background:var(--bg);border:1.5px solid var(--border);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:600;color:var(--sub);cursor:pointer;font-family:'Google Sans',sans-serif}
+
+/* SEO & Reply items */
+.tmpl-item{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:border-color .2s,background .2s;margin-bottom:8px}
+.tmpl-item:hover{background:#EBF2FF;border-color:#4285F4}
+.tmpl-tag{font-size:10px;color:var(--blue);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.tmpl-text{font-size:12px;color:var(--txt);line-height:1.55}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(32,33,36,.55);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal-sheet{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:420px;padding:20px 18px 36px;max-height:80vh;overflow-y:auto;animation:slideUp .3s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-title{font-family:'Google Sans',sans-serif;font-size:16px;font-weight:700;color:var(--txt);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--sub);line-height:1}
+
+/* Toast */
+.copy-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#202124;color:#fff;font-size:12px;padding:9px 20px;border-radius:20px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;font-family:'Google Sans',sans-serif;white-space:nowrap}
+.copy-toast.show{opacity:1}
+
+/* Admin gear trigger */
+.admin-trigger{position:fixed;bottom:10px;right:10px;background:rgba(32,33,36,.08);border:1px solid rgba(32,33,36,.12);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:50;font-size:15px;color:var(--sub)}
 
 /* Refresh btn */
-.refresh-btn{background:#e8f0fe;border:1.5px solid #c5d6f5;border-radius:20px;padding:5px 12px;font-size:11px;font-weight:600;color:#1a73e8;cursor:pointer;font-family:'Google Sans',sans-serif;float:right}
+.refresh-btn{background:var(--bg);border:1.5px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--blue);cursor:pointer;font-family:'Google Sans',sans-serif}
+
+/* Loading */
+.loading-row{text-align:center;padding:20px;color:var(--sub);font-size:12px}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════ SCREEN 1 — REVIEW FORM ═══════════════ -->
+<!-- ═══════════════ SCREEN 1 — FORM ═══════════════ -->
 <div class="screen active" id="formScreen">
 <div class="pw">
-
   <div class="top-bar">
     <div class="brand-logo-row">
-      <!-- Google G icon SVG -->
       <svg class="brand-g-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-        <path d="M44.5 20H24v8h11.7C34.2 33.2 29.6 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 6.2 29.2 4 24 4 12.95 4 4 12.95 4 24s8.95 20 20 20c11.05 0 20-8.95 20-20 0-1.34-.14-2.65-.39-3.91L44.5 20z" fill="rgba(255,255,255,0.3)"/>
-        <path d="M6.31 14.69l6.6 4.84C14.6 16 19 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 6.2 29.2 4 24 4 16.1 4 9.3 8.4 6.31 14.69z" fill="#EA4335" opacity=".7"/>
-        <path d="M24 44c5.2 0 9.9-1.8 13.6-4.7l-6.3-5.3C29.3 35.6 26.8 36.5 24 36.5c-5.6 0-10.2-3.8-11.8-9H5.8C8.7 38.9 15.9 44 24 44z" fill="#34A853" opacity=".7"/>
-        <path d="M44.5 20H24v8h11.7c-.7 2-2 3.7-3.7 5l6.3 5.3C41.3 35.3 44.5 30 44.5 24c0-1.34-.14-2.65-.39-3.91L44.5 20z" fill="#4285F4" opacity=".7"/>
-        <path d="M6.31 14.69l6.6 4.84C14.6 16 19 13 24 13V4C16.1 4 9.3 8.4 6.31 14.69z" fill="#FBBC05" opacity=".7"/>
+        <path d="M44.5 20H24v8h11.7C34.2 33.2 29.6 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 6.2 29.2 4 24 4 12.95 4 4 12.95 4 24s8.95 20 20 20c11.05 0 20-8.95 20-20 0-1.34-.14-2.65-.39-3.91L44.5 20z" fill="#E0E0E0"/>
+        <path d="M6.31 14.69l6.6 4.84C14.6 16 19 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 6.2 29.2 4 24 4 16.1 4 9.3 8.4 6.31 14.69z" fill="#EA4335"/>
+        <path d="M24 44c5.2 0 9.9-1.8 13.6-4.7l-6.3-5.3C29.3 35.6 26.8 36.5 24 36.5c-5.6 0-10.2-3.8-11.8-9H5.8C8.7 38.9 15.9 44 24 44z" fill="#34A853"/>
+        <path d="M44.5 20H24v8h11.7c-.7 2-2 3.7-3.7 5l6.3 5.3C41.3 35.3 44.5 30 44.5 24c0-1.34-.14-2.65-.39-3.91L44.5 20z" fill="#4285F4"/>
+        <path d="M6.31 14.69l6.6 4.84C14.6 16 19 13 24 13V4C16.1 4 9.3 8.4 6.31 14.69z" fill="#FBBC05"/>
       </svg>
-      <div class="brand-name">The Hunger Station</div>
+      <div class="brand-name">The Coffee House</div>
     </div>
     <div class="brand-tag">Powered by Google Reviews</div>
-    <div class="google-badge-row">
-      <div class="g-color-dot" style="background:#EA4335"></div>
-      <div class="g-color-dot" style="background:#FBBC05"></div>
-      <div class="g-color-dot" style="background:#34A853"></div>
-      <div class="g-color-dot" style="background:#4285F4"></div>
-      <span class="badge-text">Share your experience · Earn a surprise reward</span>
+    <div class="google-dots">
+      <div class="g-dot" style="background:#EA4335"></div>
+      <div class="g-dot" style="background:#FBBC05"></div>
+      <div class="g-dot" style="background:#34A853"></div>
+      <div class="g-dot" style="background:#4285F4"></div>
     </div>
   </div>
 
@@ -346,26 +382,23 @@ html,body{width:100%;height:100%;overflow:hidden;background:#eef2fb;font-family:
   </div>
 
   <div class="stars-section">
+    <div class="stars-label">Tap to rate your experience</div>
     <div class="stars-row" id="starRow">
-      <button class="star-btn" onclick="rate(1)">★</button>
-      <button class="star-btn" onclick="rate(2)">★</button>
-      <button class="star-btn" onclick="rate(3)">★</button>
-      <button class="star-btn" onclick="rate(4)">★</button>
-      <button class="star-btn" onclick="rate(5)">★</button>
+      <button class="star-btn" data-val="1" onclick="rate(1)">★</button>
+      <button class="star-btn" data-val="2" onclick="rate(2)">★</button>
+      <button class="star-btn" data-val="3" onclick="rate(3)">★</button>
+      <button class="star-btn" data-val="4" onclick="rate(4)">★</button>
+      <button class="star-btn" data-val="5" onclick="rate(5)">★</button>
     </div>
-    <div class="star-hint" id="starHint">Tap to rate your experience</div>
+    <div class="star-hint" id="starHint"></div>
     <div class="err-msg" id="starErr">⚠️ Please select a star rating.</div>
   </div>
 
   <div class="form-body">
-
     <div class="field">
       <span class="fl">Recommended Staff Name <span class="req">*</span></span>
       <select id="staffSelect">
         <option value="" disabled selected>Select staff member</option>
-        <option value="Niral">Niral</option>
-        <option value="Rahul">Rahul</option>
-        <option value="Priya">Priya</option>
       </select>
       <div class="err-msg" id="staffErr">⚠️ Please select a staff member.</div>
     </div>
@@ -392,16 +425,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#eef2fb;font-family:
 
     <div class="feedback-wrap">
       <span class="fl">Recommend Feedback <span class="req">*</span></span>
-      <textarea id="reviewInput" placeholder="A perfect café with great ambiance, delicious food, and excellent service." rows="2" oninput="autoResize(this)"></textarea>
+      <textarea id="reviewInput" placeholder="Share your experience here..." rows="2" oninput="autoResize(this)"></textarea>
       <div class="err-msg" id="reviewErr">⚠️ Please enter your feedback.</div>
     </div>
 
     <div class="swipe-section">
       <div class="swipe-wrap" id="swipeTrack">
         <div class="swipe-fill" id="swipeFill"></div>
-        <div class="swipe-lbl" id="swipeLbl">
-          → Swipe → Post on Google &nbsp;<span class="arr">→</span>
-        </div>
+        <div class="swipe-lbl" id="swipeLbl">Swipe → Post on Google &nbsp;<span class="arr">→</span></div>
         <div class="swipe-thumb" id="swipeThumb">
           <svg class="gg" viewBox="0 0 24 24">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -411,14 +442,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#eef2fb;font-family:
           </svg>
         </div>
       </div>
-      <p class="disclaimer">Swiping copies your review &amp; opens Google · <a href="https://www.google.com/search?sca_esv=9bf0671a5571d02c&sxsrf=ANbL-n51eQl712NkQcaqaN_JhhxfGEZ9Ig:1775028258990&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOVKP0Sbr5PWWe6aW3y2abWpzeODYT6YnRyZx08QHNcTRItEVzX08uDggHUqq9UahMj07NkA4kokUmSVYiT5kYpAHVe-rJPkFhUv6tCdZ_spevuMbXwAIRgmRRcfCy-obSHS0MufINlBbb3LIss21QviZ_jm2&q=The+Hunger+Station+-+Multi+Cuisine+Restaurant+near+Kihim+Beach+Reviews&sa=X&ved=2ahUKEwiho9_Gj8yTAxVN6zgGHWR1DVEQ0bkNegQIPBAF&biw=1366&bih=633&dpr=1#lrd=0x3be879e029012a63:0x1793d693dc601d89,3,,,," onclick="openPrivacy(event)">Privacy Policy</a></p>
+      <p class="disclaimer">Opens Google Reviews &amp; copies your text · <a href="#" onclick="openPrivacy(event)">Privacy Policy</a></p>
     </div>
-
   </div>
 </div>
 </div>
 
-<!-- ═══════════════ SCREEN 2 — ACK ═══════════════ -->
+<!-- ═══════════════ ACK ═══════════════ -->
 <div class="screen" id="ackScreen">
 <div class="pw">
   <div class="ack-confetti" id="ackConfetti"></div>
@@ -434,26 +464,26 @@ html,body{width:100%;height:100%;overflow:hidden;background:#eef2fb;font-family:
 </div>
 </div>
 
-<!-- ═══════════════ SCREEN — THANK YOU ═══════════════ -->
+<!-- ═══════════════ THANK YOU ═══════════════ -->
 <div class="screen" id="thankScreen">
 <div class="pw">
   <div class="thank-inner">
     <span class="thank-icon">🙏</span>
     <div class="thank-title">Thank You for Your Feedback!</div>
-    <p class="thank-sub">We truly appreciate your time to share your experience.<br><br>We are sorry we didn't meet your expectations — we will work hard to improve and hope to serve you better on your next visit! 💙</p>
+    <p class="thank-sub">We truly appreciate your time to share your experience.<br><br>We're sorry we didn't meet your expectations — we'll work hard to improve and hope to serve you better on your next visit! 💙</p>
   </div>
 </div>
 </div>
 
-<!-- ═══════════════ SCREEN 3 — SPIN ═══════════════ -->
+<!-- ═══════════════ SPIN ═══════════════ -->
 <div class="screen" id="spinScreen">
 <div class="pw">
   <span class="star-deco" style="top:8%;left:8%;font-size:18px;animation-delay:0s">⭐</span>
   <span class="star-deco" style="top:12%;right:10%;font-size:14px;animation-delay:.5s">✨</span>
-  <span class="star-deco" style="top:30%;left:5%;font-size:12px;animation-delay:1s">🌟</span>
-  <span class="star-deco" style="top:25%;right:6%;font-size:16px;animation-delay:.8s">⭐</span>
-  <span class="star-deco" style="bottom:15%;left:7%;font-size:13px;animation-delay:1.4s">✨</span>
-  <span class="star-deco" style="bottom:12%;right:8%;font-size:15px;animation-delay:.3s">🌟</span>
+  <span class="star-deco" style="top:28%;left:5%;font-size:12px;animation-delay:1s">🌟</span>
+  <span class="star-deco" style="top:22%;right:6%;font-size:16px;animation-delay:.8s">⭐</span>
+  <span class="star-deco" style="bottom:14%;left:7%;font-size:13px;animation-delay:1.4s">✨</span>
+  <span class="star-deco" style="bottom:10%;right:8%;font-size:15px;animation-delay:.3s">🌟</span>
   <div class="spin-top">
     <h2>🎰 SPIN to WIN Your Surprise!</h2>
     <p>Thank you for your Google review — you deserve a FREE Treat!</p>
@@ -468,12 +498,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#eef2fb;font-family:
       <div class="spin-btn-pulse"></div>
       <button class="spin-btn" id="spinBtn" onclick="spinWheel()">🎯 SPIN NOW!</button>
     </div>
-    <p class="spin-note">Tap the button above to spin and reveal your prize!</p>
+    <p class="spin-note">Tap the button to spin and reveal your prize!</p>
   </div>
 </div>
 </div>
 
-<!-- ═══════════════ SCREEN 4 — PRIZE ═══════════════ -->
+<!-- ═══════════════ PRIZE ═══════════════ -->
 <div class="screen" id="prizeScreen">
 <div class="pw">
   <div class="prize-confetti" id="prizeConfetti"></div>
@@ -485,52 +515,45 @@ html,body{width:100%;height:100%;overflow:hidden;background:#eef2fb;font-family:
       <div class="prize-card-icon" id="prizeCardIcon">🎟️</div>
       <div class="prize-card-text">
         <strong id="prizeCardTitle">10% Off on Your Next Visit</strong>
-        <span id="prizeCardSub">Show this screen at the counter · Valid today only</span>
+        <span>Show this screen at the counter · Valid today only</span>
       </div>
     </div>
     <div class="coupon-box">
       <div class="coupon-label">Your Exclusive Coupon Code</div>
       <div class="coupon-code" id="couponCode">TCH10OFF</div>
     </div>
-    <p class="prize-sub-text" id="prizeSub">Show this screen &amp; coupon code to the cashier to claim your reward!</p>
+    <p class="prize-sub-text">Show this screen &amp; coupon code to the cashier to claim your reward!</p>
     <span class="prize-done-msg">😊 Enjoy &amp; Have a Great Day!</span>
   </div>
 </div>
 </div>
 
-<!-- ═══════════════ PRIVACY SCREEN ═══════════════ -->
+<!-- ═══════════════ PRIVACY ═══════════════ -->
 <div class="screen" id="privacyScreen">
-<div class="pw" style="overflow-y:auto">
+<div class="pw" style="flex-direction:column">
   <div class="privacy-header">
     <button class="privacy-back" onclick="closePrivacy()">←</button>
     <div class="privacy-title">Privacy Policy</div>
   </div>
   <div class="privacy-body">
     <h2>Data We Collect</h2>
-    <p>When you submit a review through this form, we collect the following information:</p>
+    <p>When you submit a review through this form, we collect:</p>
     <ul>
-      <li>Your name</li>
-      <li>WhatsApp mobile number</li>
-      <li>Star rating</li>
-      <li>Written feedback / review text</li>
-      <li>Recommended staff member name</li>
+      <li>Your name &amp; WhatsApp number</li>
+      <li>Star rating &amp; written feedback</li>
+      <li>Recommended staff member</li>
       <li>Date and time of submission</li>
     </ul>
     <h2>How We Use Your Data</h2>
-    <p>Your data is stored securely in a private Google Sheet accessible only to The Hunger Station management. We use it to:</p>
-    <ul>
-      <li>Improve our service quality based on your feedback</li>
-      <li>Recognise and reward staff members</li>
-      <li>Contact you regarding your reward or special offers (via WhatsApp)</li>
-    </ul>
+    <p>Your data is stored securely in a private Google Sheet accessible only to The Coffee House management, used to improve service quality and recognise staff.</p>
     <h2>Google Reviews</h2>
-    <p>When you choose to post on Google, your review text is copied to your clipboard and Google Reviews is opened in a new tab. We do not control what you post on Google — that is governed by Google's own privacy policy.</p>
+    <p>When you choose to post on Google, your review text is copied to your clipboard and Google Reviews is opened in a new tab. We do not control what you post on Google.</p>
     <h2>Data Sharing</h2>
-    <p>We do not sell, share, or transfer your personal data to any third parties outside of The Hunger Station team.</p>
+    <p>We do not sell or share your personal data with any third parties outside The Coffee House team.</p>
     <h2>Data Retention</h2>
-    <p>Your data is retained for up to 12 months for service improvement purposes, after which it may be anonymised or deleted.</p>
+    <p>Your data is retained for up to 12 months for service improvement purposes.</p>
     <h2>Contact Us</h2>
-    <p>For any privacy-related queries, please speak to a manager at The Hunger Station or contact us via WhatsApp.</p>
+    <p>For any privacy-related queries, please speak to a manager at The Coffee House.</p>
   </div>
 </div>
 </div>
@@ -540,9 +563,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#eef2fb;font-family:
 <div class="pw">
   <div class="login-card">
     <div class="login-logo">
-      <div style="font-size:40px">☕</div>
+      <div class="logo-icon">☕</div>
       <div>Admin Portal</div>
-      <span>The Hunger Station</span>
+      <span>The Coffee House</span>
     </div>
     <div class="login-field">
       <label>Username</label>
@@ -563,79 +586,116 @@ html,body{width:100%;height:100%;overflow:hidden;background:#eef2fb;font-family:
 <div class="pw">
   <div class="admin-header">
     <div class="admin-header-left">
-      <span style="font-size:22px">☕</span>
+      <span style="font-size:20px">☕</span>
       <div class="admin-title">Admin Portal</div>
     </div>
     <button class="admin-logout" onclick="adminLogout()">Sign Out</button>
   </div>
   <div class="admin-body">
 
-    <!-- Tabs -->
     <div class="admin-tabs">
-      <button class="a-tab active" onclick="switchTab('tabDashboard',this)">📊 Dashboard</button>
+      <button class="a-tab active" onclick="switchTab('tabDash',this)">📊 Dashboard</button>
       <button class="a-tab" onclick="switchTab('tabSpin',this)">🎡 Spin Wheel</button>
-      <button class="a-tab" onclick="switchTab('tabSEO',this)">✍️ SEO Reviews</button>
+      <button class="a-tab" onclick="switchTab('tabStaff',this)">👤 Staff</button>
+      <button class="a-tab" onclick="switchTab('tabSEO',this)">✍️ SEO</button>
       <button class="a-tab" onclick="switchTab('tabReplies',this)">💬 Replies</button>
+      <button class="a-tab" onclick="switchTab('tabConfig',this)">🔗 Config</button>
     </div>
 
-    <!-- ── Dashboard Tab ── -->
-    <div class="tab-panel active" id="tabDashboard">
+    <!-- DASHBOARD TAB -->
+    <div class="tab-panel active" id="tabDash">
       <div class="admin-card">
-        <h3>📈 Overview <button class="refresh-btn" onclick="loadAdminData()">↻ Refresh</button></h3>
-        <div class="stats-row">
-          <div class="stat-box"><div class="stat-num" id="statTotal">—</div><div class="stat-lbl">Total Reviews</div></div>
-          <div class="stat-box"><div class="stat-num" id="statGoogle">—</div><div class="stat-lbl">Google Reviews</div></div>
-          <div class="stat-box"><div class="stat-num" id="statAvg">—</div><div class="stat-lbl">Avg Rating</div></div>
-          <div class="stat-box"><div class="stat-num" id="statToday">—</div><div class="stat-lbl">Today</div></div>
+        <div class="admin-card-title">
+          📈 Today's Overview
+          <button class="refresh-btn" onclick="loadAdminData()">↻ Refresh</button>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-box" onclick="openStaffModal()">
+            <div class="stat-num" id="statTotal">—</div>
+            <div class="stat-lbl">Today's Count ↗</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" id="statGoogle">—</div>
+            <div class="stat-lbl">Google Reviews</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" id="statAvg">—</div>
+            <div class="stat-lbl">Avg Rating</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" id="statLow">—</div>
+            <div class="stat-lbl">Low Ratings (≤3)</div>
+          </div>
         </div>
       </div>
-      <div class="admin-card" style="margin-top:0">
-        <h3>📋 All Submissions</h3>
-        <div class="reviews-table-wrap">
-          <table class="reviews-table" id="reviewsTable">
-            <thead><tr><th>Name</th><th>Mobile</th><th>Staff</th><th>Rating</th><th>Coupon</th><th>Time</th></tr></thead>
-            <tbody id="reviewsTbody"><tr><td colspan="6" style="text-align:center;padding:20px;color:var(--sub)">Loading...</td></tr></tbody>
+      <div class="admin-card">
+        <div class="admin-card-title">📋 Today's Submissions <span style="font-size:10px;color:var(--sub);font-weight:400">(latest first)</span></div>
+        <div class="tbl-wrap">
+          <table class="data-table" id="reviewsTable">
+            <thead><tr><th>Name</th><th>Mobile</th><th>Staff</th><th>⭐</th><th>Coupon</th><th>Time</th></tr></thead>
+            <tbody id="reviewsTbody"><tr><td colspan="6" class="loading-row">Loading...</td></tr></tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- ── Spin Wheel Tab ── -->
+    <!-- SPIN WHEEL TAB -->
     <div class="tab-panel" id="tabSpin">
       <div class="admin-card">
-        <h3>🎡 Spin Wheel Segments</h3>
-        <p style="font-size:11.5px;color:var(--sub);margin-bottom:10px">All segments show different prizes but every winner receives a <strong>10% discount</strong> with a coupon code.</p>
-        <div class="seg-list" id="segList"></div>
-        <div class="prize-override-box">
-          <label>Universal Coupon Code (given to every winner)</label>
-          <input type="text" id="couponCodeInput" placeholder="e.g. TCH10OFF" maxlength="20">
-          <br>
-          <label style="margin-top:10px">Coupon Description (shown on prize card)</label>
-          <input type="text" id="couponDescInput" placeholder="e.g. 10% Off on your next order">
-          <br>
-          <button class="save-btn" onclick="savePrizeSettings()">💾 Save Settings</button>
+        <div class="admin-card-title">🎡 Wheel Segments <button class="btn-sm" onclick="addSegment()">+ Add</button></div>
+        <p style="font-size:11px;color:var(--sub);margin-bottom:10px">All segments visually show different prizes but every winner receives the coupon below.</p>
+        <div class="edit-list" id="segEditList"></div>
+        <div class="override-box">
+          <label>Universal Coupon Code (all winners)</label>
+          <input type="text" id="adminCouponCode" placeholder="e.g. TCH10OFF" maxlength="20">
+          <label>Prize Message (shown to customer)</label>
+          <input type="text" id="adminCouponDesc" placeholder="e.g. 10% Off on your next order">
+          <button class="btn-save" onclick="savePrizeSettings()">💾 Save Prize Settings</button>
         </div>
       </div>
     </div>
 
-    <!-- ── SEO Reviews Tab ── -->
+    <!-- STAFF TAB -->
+    <div class="tab-panel" id="tabStaff">
+      <div class="admin-card">
+        <div class="admin-card-title">👤 Staff Members <button class="btn-sm" onclick="addStaff()">+ Add</button></div>
+        <div class="edit-list" id="staffEditList"></div>
+        <button class="btn-save" style="margin-top:10px" onclick="saveStaff()">💾 Save Staff</button>
+      </div>
+    </div>
+
+    <!-- SEO TAB -->
     <div class="tab-panel" id="tabSEO">
       <div class="admin-card">
-        <h3>✍️ SEO Review Templates</h3>
-        <p style="font-size:11.5px;color:var(--sub);margin-bottom:10px">Tap any template to copy it. These are pre-loaded in the Recommend Feedback field for customers. Add more in your Google Sheet → "SEO_Reviews" tab.</p>
-        <div class="seo-list" id="seoList">
-          <div style="text-align:center;padding:20px;color:var(--sub);font-size:12px">Loading SEO templates...</div>
-        </div>
+        <div class="admin-card-title">✍️ SEO Review Templates <button class="refresh-btn" onclick="loadSEOTemplates()">↻</button></div>
+        <p style="font-size:11px;color:var(--sub);margin-bottom:10px">Fetched from Google Sheet → "SEO_Reviews" tab. Tap any template to copy it.</p>
+        <div id="seoListAdmin"><div class="loading-row">Loading...</div></div>
       </div>
     </div>
 
-    <!-- ── Replies Tab ── -->
+    <!-- REPLIES TAB -->
     <div class="tab-panel" id="tabReplies">
       <div class="admin-card">
-        <h3>💬 Admin Reply Templates</h3>
-        <p style="font-size:11.5px;color:var(--sub);margin-bottom:10px">Tap to copy a reply template. Add more in your Google Sheet → "Admin_Replies" tab.</p>
-        <div class="reply-list" id="replyList">
-          <div style="text-align:center;padding:20px;color:var(--sub);font-size:12px">Loading reply templates...</div>
+        <div class="admin-card-title">💬 Admin Reply Templates <button class="refresh-btn" onclick="loadReplyTemplates()">↻</button></div>
+        <p style="font-size:11px;color:var(--sub);margin-bottom:10px">Fetched from Google Sheet → "Admin_Replies" tab. Tap to copy.</p>
+        <div id="replyListAdmin"><div class="loading-row">Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- CONFIG TAB -->
+    <div class="tab-panel" id="tabConfig">
+      <div class="admin-card">
+        <div class="admin-card-title">🔗 Google Review URL</div>
+        <p style="font-size:11px;color:var(--sub);margin-bottom:8px">Set the custom Google review/search URL users are redirected to when they swipe.</p>
+        <textarea id="adminGoogleUrl" style="width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;font-size:12px;font-family:monospace;min-height:70px;outline:none;resize:none" placeholder="https://www.google.com/search?...#lrd=..."></textarea>
+        <button class="btn-save" style="margin-top:8px" onclick="saveGoogleUrl()">💾 Save URL</button>
+      </div>
+      <div class="admin-card">
+        <div class="admin-card-title">🔐 Change Password</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <input type="password" id="newPass1" placeholder="New password" style="border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;outline:none">
+          <input type="password" id="newPass2" placeholder="Confirm new password" style="border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;outline:none">
+          <button class="btn-save" onclick="changePassword()">💾 Update Password</button>
         </div>
       </div>
     </div>
@@ -644,91 +704,84 @@ html,body{width:100%;height:100%;overflow:hidden;background:#eef2fb;font-family:
 </div>
 </div>
 
-<!-- Copy toast -->
-<div class="copy-toast" id="copyToast">✅ Copied to clipboard!</div>
+<!-- ═══════════════ STAFF MODAL ═══════════════ -->
+<div class="modal-overlay" id="staffModal" onclick="closeModalOutside(event)">
+  <div class="modal-sheet">
+    <div class="modal-title">
+      👤 Today's Staff-wise Count
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div id="staffModalContent"><div class="loading-row">Loading...</div></div>
+  </div>
+</div>
 
-<!-- Hidden admin trigger (tap 5 times on footer area) -->
-<div class="admin-trigger" id="adminTrigger" onclick="openLogin()" title="Admin">⚙️</div>
+<!-- Toast -->
+<div class="copy-toast" id="copyToast">✅ Copied!</div>
+
+<!-- Admin gear trigger -->
+<div class="admin-trigger" id="adminTrigger" onclick="openLogin()">⚙️</div>
 
 <script>
-/* ═══════════════════════════════════════════════
-   CONFIG
-═══════════════════════════════════════════════ */
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwriM5tOV2NE3SCzoNdFAPuRf1Mv3EGveOr7VeXl0OZqwSWKQ1un7yahNVaavn10SQb/exec';
-const ADMIN_USER = 'admin';
-const ADMIN_PASS = 'coffee123'; // Change this password
+/* ═══════════════════════════════════════
+   CONFIG & STATE
+═══════════════════════════════════════ */
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxXmG7CmS3gx3n8c8Ge_DxfuKfrNs1qDrx6pGdEfbNmxfAyc-iz2_5421Ahz8McDUP7/exec';
 
-// Prize settings (can be overridden by admin)
-let PRIZE_COUPON_CODE = 'TCH10OFF';
-let PRIZE_COUPON_DESC = '10% Off on your next order';
+// All dynamic config stored in localStorage so it persists
+function loadConfig(){
+  return JSON.parse(localStorage.getItem('tchConfig') || 'null') || {
+    adminPass: 'coffee123',
+    googleUrl: 'https://www.google.com/search?q=The+Coffee+House+Review',
+    couponCode: 'TCH10OFF',
+    couponDesc: '10% Off on your next order',
+    staff: ['Niral','Rahul','Priya'],
+    segments: [
+      {text:'Free Coffee', emoji:'☕', color:'#EA4335'},
+      {text:'Free Cookie', emoji:'🍪', color:'#FBBC05'},
+      {text:'Combo Deal',  emoji:'🎁', color:'#34A853'},
+      {text:'Free Pastry', emoji:'🥐', color:'#4285F4'},
+      {text:'Gift Hamper', emoji:'🎀', color:'#9C27B0'},
+      {text:'Loyalty Pts', emoji:'⭐', color:'#FF6D00'},
+    ]
+  };
+}
+function saveConfig(cfg){ localStorage.setItem('tchConfig',JSON.stringify(cfg)); }
 
-const SEGMENTS = [
-  { text:'Free Coffee', emoji:'☕', color:'#EA4335' },
-  { text:'Free Cookie', emoji:'🍪', color:'#FBBC05' },
-  { text:'Combo Deal',  emoji:'🎁', color:'#34A853' },
-  { text:'Free Pastry', emoji:'🥐', color:'#4285F4' },
-  { text:'Gift Hamper', emoji:'🎀', color:'#9C27B0' },
-  { text:'Loyalty Pts', emoji:'⭐', color:'#FF6D00' },
-];
-const NSEGS = SEGMENTS.length;
-
-// SEO review templates (fallback if sheet not loaded)
-const SEO_TEMPLATES = [
-  { tag:'Ambience', text:'Absolutely loved the cozy ambience at The Hunger Station! The décor is warm and inviting, perfect for a relaxing break. The coffee was rich and aromatic — definitely one of the best in the area. Highly recommend to anyone looking for a quality café experience!' },
-  { tag:'Service', text:'Exceptional service at The Hunger Station! The staff was incredibly welcoming and attentive. My order arrived quickly and was exactly as expected. The team genuinely cares about every guest. Will be my go-to café from now on!' },
-  { tag:'Coffee Quality', text:'The Hunger Station serves some of the finest coffee I have had in a long time. Each cup is crafted with care and precision. The espresso was bold, the latte was perfectly balanced. A must-visit for true coffee lovers!' },
-  { tag:'Family Visit', text:'Visited The Hunger Station with family and had a wonderful time. The space is spacious and kid-friendly. Great menu options for everyone. The staff made us feel at home. We will definitely be returning — highly recommended for families!' },
-  { tag:'Work/Study', text:'The Hunger Station is my favourite spot for working and studying. Comfortable seating, fast Wi-Fi, and great coffee keep me productive all day. The team is always friendly and the energy is just right. Perfect for professionals and students alike!' },
-];
-
-// Admin reply templates (fallback)
-const ADMIN_REPLIES = [
-  { tag:'Positive Review', text:'Thank you so much for your kind words! 🌟 We are thrilled to hear you had a wonderful experience at The Hunger Station. Your feedback motivates our entire team to keep delivering the best quality and service. We look forward to seeing you again soon! ☕' },
-  { tag:'Negative Review', text:'Thank you for taking the time to share your feedback. We sincerely apologise that your experience did not meet expectations. We take all feedback seriously and would love the opportunity to make it right. Please visit us again and ask for the manager — we would love to serve you better! 🙏' },
-  { tag:'Average Review', text:'Thank you for your honest feedback! We are glad you visited The Hunger Station and appreciate you sharing your experience. We are always working to improve and hope your next visit will be even better. See you soon! 😊' },
-];
-
-/* ═══════════════════════════════════════════════
-   STATE
-═══════════════════════════════════════════════ */
-let userRating = 0;
-let spinning   = false;
-let wheelAngle = 0;
-let winIndex   = -1;
+let CFG = loadConfig();
+let userRating = 0, spinning = false, wheelAngle = 0, winIndex = -1;
 let submittedData = {};
 let previousScreen = 'formScreen';
 
-function getSubmittedNumbers(){
-  try{ return JSON.parse(localStorage.getItem('submitted_numbers')||'[]'); }catch(e){ return []; }
+/* ═══════════════════════════════════════
+   INIT — populate staff dropdown
+═══════════════════════════════════════ */
+function initStaffDropdown(){
+  const sel = document.getElementById('staffSelect');
+  sel.innerHTML = '<option value="" disabled selected>Select staff member</option>';
+  CFG.staff.forEach(s=>{
+    const o = document.createElement('option');
+    o.value = s; o.textContent = s;
+    sel.appendChild(o);
+  });
 }
-function saveNumber(num){
-  try{
-    const arr = getSubmittedNumbers();
-    if(!arr.includes(num)) arr.push(num);
-    localStorage.setItem('submitted_numbers', JSON.stringify(arr));
-  }catch(e){}
-}
-function isNumberBlocked(num){ return getSubmittedNumbers().includes(num.replace(/\s/g,'')); }
+initStaffDropdown();
 
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════
    SCREEN SWITCHER
-═══════════════════════════════════════════════ */
+═══════════════════════════════════════ */
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════
    AUTO-RESIZE TEXTAREA
-═══════════════════════════════════════════════ */
-function autoResize(el){
-  el.style.height='auto';
-  el.style.height=(el.scrollHeight)+'px';
-}
+═══════════════════════════════════════ */
+function autoResize(el){ el.style.height='auto'; el.style.height=el.scrollHeight+'px'; }
 
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════
    PRIVACY
-═══════════════════════════════════════════════ */
+═══════════════════════════════════════ */
 function openPrivacy(e){
   e.preventDefault();
   previousScreen = document.querySelector('.screen.active')?.id || 'formScreen';
@@ -736,42 +789,48 @@ function openPrivacy(e){
 }
 function closePrivacy(){ showScreen(previousScreen); }
 
-/* ═══════════════════════════════════════════════
-   STAR RATING
-═══════════════════════════════════════════════ */
-const starHints = {1:'😞 Poor',2:'😐 Fair',3:'🙂 Good',4:'😄 Great',5:'🤩 Excellent!'};
+/* ═══════════════════════════════════════
+   STAR RATING — 3D pop effect
+═══════════════════════════════════════ */
+const starHints={1:'😞 Poor — We\'ll do better',2:'😐 Fair — Thank you',3:'🙂 Good — Appreciate it!',4:'😄 Great — Thank you!',5:'🤩 Excellent! — You\'re amazing!'};
 function rate(val){
-  userRating = val;
-  document.querySelectorAll('.star-btn').forEach((s,i)=>s.classList.toggle('lit',i<val));
-  const h = document.getElementById('starHint');
-  h.textContent = starHints[val];
-  h.style.color = val>=4?'#34a853':val<=2?'#ea4335':'#FBBC05';
+  userRating=val;
+  const btns=document.querySelectorAll('.star-btn');
+  btns.forEach((s,i)=>{
+    s.classList.toggle('lit',i<val);
+    s.classList.remove('pop');
+  });
+  // Trigger pop animation on selected star
+  void btns[val-1].offsetWidth;
+  btns[val-1].classList.add('pop');
+  const h=document.getElementById('starHint');
+  h.textContent=starHints[val];
+  h.style.color=val>=4?'#34a853':val<=2?'#ea4335':'#FBBC05';
   document.getElementById('starErr').classList.remove('show');
 }
 
-/* ═══════════════════════════════════════════════
-   SWIPE LOGIC
-═══════════════════════════════════════════════ */
-const thumb = document.getElementById('swipeThumb');
-const track = document.getElementById('swipeTrack');
-const fill  = document.getElementById('swipeFill');
-const lbl   = document.getElementById('swipeLbl');
-let swiping = false, startX = 0;
+/* ═══════════════════════════════════════
+   DUPLICATE DETECTION
+═══════════════════════════════════════ */
+function getSubmitted(){ try{return JSON.parse(localStorage.getItem('submitted_numbers')||'[]')}catch(e){return[]} }
+function saveNumber(n){ try{const a=getSubmitted();if(!a.includes(n))a.push(n);localStorage.setItem('submitted_numbers',JSON.stringify(a))}catch(e){} }
+function isBlocked(n){ return getSubmitted().includes(n.replace(/\D/g,'')); }
 
-function startSwipe(x){ swiping=true;startX=x;thumb.style.transition='none';fill.style.transition='none'; }
+/* ═══════════════════════════════════════
+   SWIPE LOGIC
+═══════════════════════════════════════ */
+const thumb=document.getElementById('swipeThumb'),track=document.getElementById('swipeTrack'),fill=document.getElementById('swipeFill'),lbl=document.getElementById('swipeLbl');
+let swiping=false,startX=0;
+function startSwipe(x){swiping=true;startX=x;thumb.style.transition='none';fill.style.transition='none'}
 function moveSwipe(x){
   if(!swiping)return;
-  const max=track.offsetWidth-52;
-  let dx=Math.min(Math.max(x-startX,0),max);
-  thumb.style.left=(dx+4)+'px';
-  fill.style.width=(dx/max*100)+'%';
-  if(dx>max*0.35) lbl.classList.add('hidden'); else lbl.classList.remove('hidden');
-  if(dx>=max-2){ swiping=false; completeSwipe(); }
+  const max=track.offsetWidth-52,dx=Math.min(Math.max(x-startX,0),max);
+  thumb.style.left=(dx+4)+'px';fill.style.width=(dx/max*100)+'%';
+  dx>max*0.35?lbl.classList.add('hidden'):lbl.classList.remove('hidden');
+  if(dx>=max-2){swiping=false;completeSwipe();}
 }
-function endSwipe(){
-  if(!swiping)return; swiping=false;
-  resetSwipe();
-}
+function endSwipe(){if(!swiping)return;swiping=false;resetSwipe();}
+function resetSwipe(){thumb.style.transition='0.35s ease';fill.style.transition='0.35s ease';thumb.style.left='4px';fill.style.width='0%';lbl.classList.remove('hidden');}
 thumb.addEventListener('touchstart',e=>startSwipe(e.touches[0].clientX),{passive:true});
 window.addEventListener('touchmove',e=>{if(swiping)moveSwipe(e.touches[0].clientX);},{passive:true});
 window.addEventListener('touchend',endSwipe);
@@ -779,252 +838,160 @@ thumb.addEventListener('mousedown',e=>{startSwipe(e.clientX);e.preventDefault();
 window.addEventListener('mousemove',e=>{if(swiping)moveSwipe(e.clientX);});
 window.addEventListener('mouseup',endSwipe);
 
-function resetSwipe(){
-  thumb.style.transition='0.35s ease';fill.style.transition='0.35s ease';
-  thumb.style.left='4px';fill.style.width='0%';
-  lbl.classList.remove('hidden');
-}
-
 function completeSwipe(){
-  let valid = true;
-
-  if(userRating===0){
-    document.getElementById('starErr').classList.add('show'); valid=false;
-  } else { document.getElementById('starErr').classList.remove('show'); }
-
-  const staffVal = document.getElementById('staffSelect').value;
-  if(!staffVal){
-    document.getElementById('staffSelect').classList.add('err');
-    document.getElementById('staffErr').classList.add('show'); valid=false;
-  } else {
-    document.getElementById('staffSelect').classList.remove('err');
-    document.getElementById('staffErr').classList.remove('show');
-  }
-
-  const nameVal = document.getElementById('nameInput').value.trim();
-  if(!nameVal){
-    document.getElementById('nameInput').classList.add('err');
-    document.getElementById('nameErr').classList.add('show'); valid=false;
-  } else {
-    document.getElementById('nameInput').classList.remove('err');
-    document.getElementById('nameErr').classList.remove('show');
-  }
-
-  const rawMobile = document.getElementById('mobileInput').value.replace(/\D/g,'');
-  const mInput = document.getElementById('mobileInput');
-  const mErrEl = document.getElementById('mobileErr');
-  if(rawMobile.length !== 10){
-    mInput.classList.add('err');
-    mErrEl.textContent='⚠️ Please enter a valid 10-digit WhatsApp number.';
-    mErrEl.classList.add('show'); valid=false;
-  } else if(isNumberBlocked(rawMobile)){
-    mInput.classList.add('err');
-    mErrEl.textContent='⚠️ This number has already submitted a review.';
-    mErrEl.classList.add('show'); valid=false;
-  } else {
-    mInput.classList.remove('err'); mErrEl.classList.remove('show');
-  }
-
-  const reviewVal = document.getElementById('reviewInput').value.trim();
-  if(!reviewVal){
-    document.getElementById('reviewInput').classList.add('err');
-    document.getElementById('reviewErr').classList.add('show'); valid=false;
-  } else {
-    document.getElementById('reviewInput').classList.remove('err');
-    document.getElementById('reviewErr').classList.remove('show');
-  }
-
-  if(!valid){ resetSwipe(); return; }
-
-  const coupon = PRIZE_COUPON_CODE;
-  submittedData = {
-    name:rawMobile, // fix below
-    mobile:rawMobile,
-    staff:staffVal,
-    rating:userRating,
-    review:reviewVal,
-    time:new Date().toLocaleString('en-IN'),
-    coupon:coupon
-  };
-  submittedData.name = nameVal; // correct
-
+  let ok=true;
+  if(!userRating){document.getElementById('starErr').classList.add('show');ok=false;}
+  else document.getElementById('starErr').classList.remove('show');
+  const staff=document.getElementById('staffSelect').value;
+  if(!staff){document.getElementById('staffSelect').classList.add('err');document.getElementById('staffErr').classList.add('show');ok=false;}
+  else{document.getElementById('staffSelect').classList.remove('err');document.getElementById('staffErr').classList.remove('show');}
+  const name=document.getElementById('nameInput').value.trim();
+  if(!name){document.getElementById('nameInput').classList.add('err');document.getElementById('nameErr').classList.add('show');ok=false;}
+  else{document.getElementById('nameInput').classList.remove('err');document.getElementById('nameErr').classList.remove('show');}
+  const mobile=document.getElementById('mobileInput').value.replace(/\D/g,'');
+  const mEl=document.getElementById('mobileInput'),mErr=document.getElementById('mobileErr');
+  if(mobile.length!==10){mEl.classList.add('err');mErr.textContent='⚠️ Please enter a valid 10-digit WhatsApp number.';mErr.classList.add('show');ok=false;}
+  else if(isBlocked(mobile)){mEl.classList.add('err');mErr.textContent='⚠️ This number has already submitted a review.';mErr.classList.add('show');ok=false;}
+  else{mEl.classList.remove('err');mErr.classList.remove('show');}
+  const review=document.getElementById('reviewInput').value.trim();
+  if(!review){document.getElementById('reviewInput').classList.add('err');document.getElementById('reviewErr').classList.add('show');ok=false;}
+  else{document.getElementById('reviewInput').classList.remove('err');document.getElementById('reviewErr').classList.remove('show');}
+  if(!ok){resetSwipe();return;}
+  CFG=loadConfig();
+  submittedData={name,mobile,staff,rating:userRating,review,time:new Date().toLocaleString('en-IN'),coupon:CFG.couponCode,feedback:review};
   if(userRating<=3){
-    saveNumber(rawMobile);
-    submitToSheet(submittedData);
-    resetSwipe();
-    showScreen('thankScreen');
-    return;
+    saveNumber(mobile);submitToSheet(submittedData);resetSwipe();showScreen('thankScreen');return;
   }
-
-  try{ navigator.clipboard.writeText(reviewVal); }catch(e){}
-  window.open('https://g.page/r/YOUR_PLACE_ID/review','_blank');
+  try{navigator.clipboard.writeText(review);}catch(e){}
+  window.open(CFG.googleUrl||'https://www.google.com/search?q=The+Coffee+House','_blank');
   setTimeout(()=>showScreen('ackScreen'),400);
 }
 
-/* ═══════════════════════════════════════════════
-   GOOGLE SHEETS SUBMIT
-   ─────────────────────────────────────────────
-   Sheet columns required (Row 1 headers):
-   A=Name  B=Mobile  C=Staff  D=Rating  E=Review  F=Time  G=Coupon
-═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   SUBMIT TO SHEET
+   Columns: Name|Mobile|Staff|Rating|Review|Time|Coupon|RecommendedFeedback
+═══════════════════════════════════════ */
 function submitToSheet(data){
-  const qs = new URLSearchParams({
-    name:   data.name   || '',
-    mobile: data.mobile || '',
-    staff:  data.staff  || '',
-    rating: String(data.rating || ''),
-    review: data.review || '',
-    time:   data.time   || '',
-    coupon: data.coupon || ''
+  const qs=new URLSearchParams({
+    name:data.name||'',mobile:data.mobile||'',staff:data.staff||'',
+    rating:String(data.rating||''),review:data.review||'',
+    time:data.time||'',coupon:data.coupon||'',
+    recommended_feedback:data.feedback||''
   }).toString();
-
-  // GET — primary (most reliable with Apps Script no-cors)
-  fetch(SHEET_URL + '?' + qs, { method:'GET', mode:'no-cors' }).catch(()=>{});
+  fetch(SHEET_URL+'?'+qs,{method:'GET',mode:'no-cors'}).catch(()=>{});
 }
 
-/* ═══════════════════════════════════════════════
-   ACK SCREEN
-═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   ACK
+═══════════════════════════════════════ */
 function goToSpin(){
-  saveNumber(submittedData.mobile||'');
-  submitToSheet(submittedData);
-  bombConfettiLayer('ackConfetti');
-  setTimeout(()=>{ drawWheel(); showScreen('spinScreen'); },700);
+  saveNumber(submittedData.mobile||'');submitToSheet(submittedData);
+  bombConfetti('ackConfetti');
+  setTimeout(()=>{drawWheel();showScreen('spinScreen');},700);
 }
-function goBack(){ resetSwipe(); showScreen('formScreen'); }
+function goBack(){resetSwipe();showScreen('formScreen');}
 
-/* ═══════════════════════════════════════════════
-   AUDIO ENGINE
-═══════════════════════════════════════════════ */
-let audioCtx = null;
-function getAudioCtx(){
-  if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-  if(audioCtx.state==='suspended') audioCtx.resume();
+/* ═══════════════════════════════════════
+   AUDIO
+═══════════════════════════════════════ */
+let audioCtx=null;
+function getAudio(){
+  if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  if(audioCtx.state==='suspended')audioCtx.resume();
   return audioCtx;
 }
-
-function playTickSound(){
+function playTick(){
   try{
-    const ctx=getAudioCtx(),t=ctx.currentTime;
-    const osc=ctx.createOscillator(),g=ctx.createGain();
-    osc.connect(g);g.connect(ctx.destination);
-    osc.type='triangle';osc.frequency.value=900;
-    g.gain.setValueAtTime(0.18,t);
-    g.gain.exponentialRampToValueAtTime(0.001,t+0.07);
-    osc.start(t);osc.stop(t+0.08);
+    const ctx=getAudio(),t=ctx.currentTime,o=ctx.createOscillator(),g=ctx.createGain();
+    o.connect(g);g.connect(ctx.destination);o.type='triangle';o.frequency.value=900;
+    g.gain.setValueAtTime(0.2,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.07);
+    o.start(t);o.stop(t+0.08);
   }catch(e){}
 }
-
-function playWinnerSound(){
+function playWinner(){
   try{
-    const ctx=getAudioCtx(),t=ctx.currentTime;
-
-    // === CLAP simulation (noise bursts) ===
+    const ctx=getAudio(),t=ctx.currentTime;
+    // Claps
     for(let c=0;c<6;c++){
-      const buf=ctx.createBuffer(1,ctx.sampleRate*0.12,ctx.sampleRate);
+      const buf=ctx.createBuffer(1,Math.floor(ctx.sampleRate*.12),ctx.sampleRate);
       const d=buf.getChannelData(0);
-      for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.exp(-i/(ctx.sampleRate*0.04));
-      const src=ctx.createBufferSource();
-      const hp=ctx.createBiquadFilter();hp.type='highpass';hp.frequency.value=1200;
-      const cg=ctx.createGain();
-      src.buffer=buf;
-      src.connect(hp);hp.connect(cg);cg.connect(ctx.destination);
-      cg.gain.setValueAtTime(0.55,t+c*0.22);
-      cg.gain.exponentialRampToValueAtTime(0.001,t+c*0.22+0.18);
-      src.start(t+c*0.22);src.stop(t+c*0.22+0.2);
+      for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.exp(-i/(ctx.sampleRate*.04));
+      const s=ctx.createBufferSource(),hp=ctx.createBiquadFilter(),cg=ctx.createGain();
+      hp.type='highpass';hp.frequency.value=1200;s.buffer=buf;
+      s.connect(hp);hp.connect(cg);cg.connect(ctx.destination);
+      cg.gain.setValueAtTime(0.7,t+c*.22);cg.gain.exponentialRampToValueAtTime(0.001,t+c*.22+.2);
+      s.start(t+c*.22);s.stop(t+c*.22+.25);
     }
-
-    // === Fanfare melody ===
-    const melody=[
-      {f:523,d:0.18,s:0.7},{f:659,d:0.18,s:0.85},{f:784,d:0.18,s:1.0},
-      {f:1047,d:0.28,s:1.2},{f:1319,d:0.18,s:1.45},{f:1047,d:0.12,s:1.65},
-      {f:1319,d:0.35,s:1.8}
-    ];
-    melody.forEach(n=>{
-      const osc=ctx.createOscillator(),g=ctx.createGain();
-      osc.connect(g);g.connect(ctx.destination);
-      osc.type='square';osc.frequency.value=n.f;
-      g.gain.setValueAtTime(0,t+n.s);
-      g.gain.linearRampToValueAtTime(0.28,t+n.s+0.04);
-      g.gain.exponentialRampToValueAtTime(0.001,t+n.s+n.d+0.1);
-      osc.start(t+n.s);osc.stop(t+n.s+n.d+0.15);
+    // Fanfare
+    [{f:523,s:0,d:.18},{f:659,s:.18,d:.18},{f:784,s:.36,d:.18},{f:1047,s:.54,d:.28},{f:1319,s:.82,d:.22},{f:1047,s:1.04,d:.12},{f:1319,s:1.16,d:.38}].forEach(n=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);o.type='square';o.frequency.value=n.f;
+      g.gain.setValueAtTime(0,t+n.s);g.gain.linearRampToValueAtTime(0.3,t+n.s+.04);
+      g.gain.exponentialRampToValueAtTime(0.001,t+n.s+n.d+.08);
+      o.start(t+n.s);o.stop(t+n.s+n.d+.1);
     });
-
-    // === Euphoric chord swell ===
-    const chordFreqs=[523,659,784,1047];
-    chordFreqs.forEach((f,i)=>{
-      const osc=ctx.createOscillator(),g=ctx.createGain();
-      osc.connect(g);g.connect(ctx.destination);
-      osc.type='sine';osc.frequency.value=f;
-      g.gain.setValueAtTime(0,t+2.1);
-      g.gain.linearRampToValueAtTime(0.22,t+2.4);
-      g.gain.exponentialRampToValueAtTime(0.001,t+3.2);
-      osc.start(t+2.1);osc.stop(t+3.3);
+    // Chord swell
+    [523,659,784,1047].forEach(f=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.value=f;
+      g.gain.setValueAtTime(0,t+1.8);g.gain.linearRampToValueAtTime(0.25,t+2.1);
+      g.gain.exponentialRampToValueAtTime(0.001,t+3.0);o.start(t+1.8);o.stop(t+3.1);
     });
-
-    // === Bass thump x2 ===
-    [0,0.35].forEach(offset=>{
-      const bd=ctx.createOscillator(),bg=ctx.createGain();
-      bd.connect(bg);bg.connect(ctx.destination);
-      bd.type='sine';bd.frequency.setValueAtTime(200,t+offset);
-      bd.frequency.exponentialRampToValueAtTime(40,t+offset+0.3);
-      bg.gain.setValueAtTime(0.65,t+offset);
-      bg.gain.exponentialRampToValueAtTime(0.001,t+offset+0.4);
-      bd.start(t+offset);bd.stop(t+offset+0.45);
+    // Bass
+    [0,.38].forEach(off=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);o.type='sine';
+      o.frequency.setValueAtTime(200,t+off);o.frequency.exponentialRampToValueAtTime(40,t+off+.3);
+      g.gain.setValueAtTime(0.7,t+off);g.gain.exponentialRampToValueAtTime(0.001,t+off+.42);
+      o.start(t+off);o.stop(t+off+.45);
     });
-
-    // === Shimmer top sparkle ===
+    // Shimmer
     [2093,2637,3136,3520].forEach((f,i)=>{
-      const osc=ctx.createOscillator(),g=ctx.createGain();
-      osc.connect(g);g.connect(ctx.destination);
-      osc.type='sine';osc.frequency.value=f;
-      g.gain.setValueAtTime(0.12,t+0.8+i*0.07);
-      g.gain.exponentialRampToValueAtTime(0.001,t+0.8+i*0.07+0.5);
-      osc.start(t+0.8+i*0.07);osc.stop(t+0.8+i*0.07+0.55);
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.value=f;
+      g.gain.setValueAtTime(0.14,t+.9+i*.07);g.gain.exponentialRampToValueAtTime(0.001,t+.9+i*.07+.5);
+      o.start(t+.9+i*.07);o.stop(t+.9+i*.07+.55);
     });
-
   }catch(e){}
 }
-
 let tickInterval=null;
-function startTickSound(duration){
-  let ticks=0,total=38;
-  tickInterval=setInterval(()=>{
-    playTickSound();ticks++;
-    if(ticks>=total) clearInterval(tickInterval);
-  },duration/total);
+function startTick(dur){
+  let n=0,total=40;
+  tickInterval=setInterval(()=>{playTick();if(++n>=total)clearInterval(tickInterval);},dur/total);
 }
 
-/* ═══════════════════════════════════════════════
-   WHEEL DRAW & SPIN
-═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   WHEEL — always stops at index 0 (10% Off segment)
+═══════════════════════════════════════ */
+function getSegments(){ CFG=loadConfig(); return CFG.segments; }
+
 function drawWheel(angleRad=0){
-  const canvas=document.getElementById('wheelCanvas');
-  const ctx=canvas.getContext('2d');
-  const cx=130,cy=130,r=126,slice=(2*Math.PI)/NSEGS;
+  const segs=getSegments(),n=segs.length;
+  const canvas=document.getElementById('wheelCanvas'),ctx=canvas.getContext('2d');
+  const cx=130,cy=130,r=126,sl=(2*Math.PI)/n;
   ctx.clearRect(0,0,260,260);
-  SEGMENTS.forEach((seg,i)=>{
-    const s=angleRad+i*slice-Math.PI/2,e=s+slice;
+  segs.forEach((seg,i)=>{
+    const s=angleRad+i*sl-Math.PI/2,e=s+sl;
     ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,s,e);ctx.closePath();
     ctx.fillStyle=seg.color;ctx.fill();
-    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r*0.55,s,e);ctx.closePath();
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r*.55,s,e);ctx.closePath();
     ctx.fillStyle='rgba(255,255,255,.08)';ctx.fill();
     ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,s,e);ctx.closePath();
     ctx.strokeStyle='rgba(255,255,255,.7)';ctx.lineWidth=2.5;ctx.stroke();
-    ctx.save();ctx.translate(cx,cy);ctx.rotate(s+slice/2);ctx.textAlign='right';
-    ctx.font='16px serif';ctx.fillText(seg.emoji,r-8,-4);
-    ctx.fillStyle='#fff';ctx.font='bold 10.5px Google Sans,Roboto,sans-serif';
-    ctx.shadowColor='rgba(0,0,0,.4)';ctx.shadowBlur=3;ctx.fillText(seg.text,r-8,9);
+    ctx.save();ctx.translate(cx,cy);ctx.rotate(s+sl/2);ctx.textAlign='right';
+    ctx.font='15px serif';ctx.fillText(seg.emoji,r-8,-4);
+    ctx.fillStyle='#fff';ctx.font='bold 10px Google Sans,Roboto,sans-serif';
+    ctx.shadowColor='rgba(0,0,0,.4)';ctx.shadowBlur=3;
+    ctx.fillText(seg.text.length>10?seg.text.slice(0,9)+'…':seg.text,r-8,9);
     ctx.restore();
   });
   ctx.beginPath();ctx.arc(cx,cy,r,0,2*Math.PI);
   ctx.strokeStyle='rgba(255,255,255,.5)';ctx.lineWidth=4;ctx.stroke();
-  const hubR=28;
-  ctx.beginPath();ctx.arc(cx,cy,hubR,0,2*Math.PI);
-  const grad=ctx.createRadialGradient(cx,cy,2,cx,cy,hubR);
+  const hR=28,grad=ctx.createRadialGradient(cx,cy,2,cx,cy,hR);
   grad.addColorStop(0,'#fff');grad.addColorStop(1,'#f0f0f0');
-  ctx.fillStyle=grad;ctx.fill();ctx.strokeStyle='rgba(0,0,0,.15)';ctx.lineWidth=2;ctx.stroke();
-  ctx.save();ctx.translate(cx,cy);ctx.fillStyle='#1a73e8';ctx.font='bold 20px serif';
+  ctx.beginPath();ctx.arc(cx,cy,hR,0,2*Math.PI);ctx.fillStyle=grad;ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,.15)';ctx.lineWidth=2;ctx.stroke();
+  ctx.save();ctx.translate(cx,cy);ctx.fillStyle='#1a73e8';ctx.font='bold 18px serif';
   ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowBlur=0;ctx.fillText('🎡',0,0);ctx.restore();
 }
 
@@ -1032,66 +999,65 @@ function spinWheel(){
   if(spinning)return;
   spinning=true;
   document.getElementById('spinBtn').disabled=true;
-  // Always win (random segment display, but prize is fixed 10% off)
-  winIndex=Math.floor(Math.random()*NSEGS);
-  const sliceDeg=360/NSEGS;
+  CFG=loadConfig();
+  const segs=CFG.segments,n=segs.length;
+  // Always land on index 0 (first segment = winner)
+  winIndex=0;
+  const sliceDeg=360/n;
   const targetDeg=360-(winIndex*sliceDeg)-(sliceDeg/2);
-  const spins=1800+targetDeg;
-  const finalDeg=wheelAngle+spins;
+  const spins=1800+targetDeg,finalDeg=wheelAngle+spins;
   wheelAngle=finalDeg%360;
   const canvas=document.getElementById('wheelCanvas');
   canvas.style.transition='transform 5s cubic-bezier(.17,.67,.12,.99)';
   canvas.style.transform=`rotate(${finalDeg}deg)`;
-  startTickSound(5000);
-  setTimeout(()=>{ spinning=false; showPrize(); },5300);
+  startTick(5000);
+  setTimeout(()=>{spinning=false;showPrize();},5300);
 }
 
 function showPrize(){
-  const seg=SEGMENTS[winIndex];
+  CFG=loadConfig();
+  const seg=CFG.segments[winIndex]||CFG.segments[0];
   document.getElementById('prizeEmoji').textContent=seg.emoji;
-  document.getElementById('prizeName').textContent=PRIZE_COUPON_DESC;
+  document.getElementById('prizeName').textContent=CFG.couponDesc;
   document.getElementById('prizeCardIcon').textContent=seg.emoji;
-  document.getElementById('prizeCardTitle').textContent=PRIZE_COUPON_DESC;
-  document.getElementById('prizeCardSub').textContent='Show this screen at the counter · Valid today only';
-  document.getElementById('couponCode').textContent=PRIZE_COUPON_CODE;
-  document.getElementById('prizeSub').textContent='Show this screen & coupon code to the cashier to claim your reward!';
-  bombConfettiLayer('prizeConfetti');
+  document.getElementById('prizeCardTitle').textContent=CFG.couponDesc;
+  document.getElementById('couponCode').textContent=CFG.couponCode;
+  bombConfetti('prizeConfetti');
   showScreen('prizeScreen');
-  setTimeout(()=>playWinnerSound(),350);
+  setTimeout(()=>playWinner(),350);
 }
 
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════
    CONFETTI
-═══════════════════════════════════════════════ */
-function bombConfettiLayer(layerId){
-  const layer=document.getElementById(layerId);layer.innerHTML='';
-  const colors=['#EA4335','#FBBC05','#34A853','#4285F4','#FF6D00','#9C27B0','#00BCD4','#FF4081','#fff'];
+═══════════════════════════════════════ */
+function bombConfetti(id){
+  const l=document.getElementById(id);l.innerHTML='';
+  const c=['#EA4335','#FBBC05','#34A853','#4285F4','#FF6D00','#9C27B0','#00BCD4','#FF4081','#fff'];
   for(let i=0;i<110;i++){
     const d=document.createElement('div');d.className='cp';
     const sz=5+Math.random()*10;
-    d.style.cssText=`left:${Math.random()*100}%;top:${-20+Math.random()*30}%;width:${sz}px;height:${sz}px;background:${colors[i%colors.length]};border-radius:${Math.random()>.45?'50%':'3px'};animation-delay:${Math.random()*1.2}s;animation-duration:${2+Math.random()*2}s;`;
-    layer.appendChild(d);
+    d.style.cssText=`left:${Math.random()*100}%;top:${-20+Math.random()*30}%;width:${sz}px;height:${sz}px;background:${c[i%c.length]};border-radius:${Math.random()>.45?'50%':'3px'};animation-delay:${Math.random()*1.2}s;animation-duration:${2+Math.random()*2}s;position:absolute;`;
+    l.appendChild(d);
   }
 }
 
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════
    ADMIN LOGIN
-═══════════════════════════════════════════════ */
-function openLogin(){
-  showScreen('loginScreen');
-}
+═══════════════════════════════════════ */
+function openLogin(){ showScreen('loginScreen'); }
 function doLogin(){
+  CFG=loadConfig();
   const u=document.getElementById('loginUser').value.trim();
   const p=document.getElementById('loginPass').value;
-  if(u===ADMIN_USER && p===ADMIN_PASS){
+  if(u==='admin'&&p===CFG.adminPass){
     document.getElementById('loginErr').textContent='';
     showScreen('adminScreen');
-    loadAdminData();
-    populateSpinAdmin();
-    loadSEOTemplates();
-    loadReplyTemplates();
+    loadAdminData();loadSegmentEditor();loadStaffEditor();loadSEOTemplates();loadReplyTemplates();
+    document.getElementById('adminGoogleUrl').value=CFG.googleUrl||'';
+    document.getElementById('adminCouponCode').value=CFG.couponCode||'TCH10OFF';
+    document.getElementById('adminCouponDesc').value=CFG.couponDesc||'10% Off on your next order';
   } else {
-    document.getElementById('loginErr').textContent='Invalid username or password.';
+    document.getElementById('loginErr').textContent='❌ Invalid username or password.';
   }
 }
 function adminLogout(){
@@ -1100,178 +1066,244 @@ function adminLogout(){
   showScreen('formScreen');
 }
 
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════
    ADMIN TABS
-═══════════════════════════════════════════════ */
-function switchTab(panelId, btn){
+═══════════════════════════════════════ */
+function switchTab(id,btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.a-tab').forEach(b=>b.classList.remove('active'));
-  document.getElementById(panelId).classList.add('active');
+  document.getElementById(id).classList.add('active');
   btn.classList.add('active');
 }
 
-/* ═══════════════════════════════════════════════
-   ADMIN — LOAD REVIEWS FROM SHEET
-═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   ADMIN — LOAD TODAY'S DATA (FIFO reverse = latest first)
+═══════════════════════════════════════ */
 async function loadAdminData(){
-  document.getElementById('reviewsTbody').innerHTML=`<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--sub)"><span class="spinner"></span>Loading...</td></tr>`;
+  document.getElementById('reviewsTbody').innerHTML='<tr><td colspan="6" class="loading-row">Loading...</td></tr>';
+  document.getElementById('statTotal').textContent='…';
   try{
-    const res = await fetch(SHEET_URL + '?action=getAll', { method:'GET' });
-    const json = await res.json();
-    renderAdminTable(json.data || []);
+    const res=await fetch(SHEET_URL+'?action=getAll');
+    const json=await res.json();
+    renderDashboard(json.data||[]);
   }catch(e){
-    // Demo data if sheet not connected
-    renderAdminTable([
-      {Name:'Aditya Shah',Mobile:'9876543210',Staff:'Niral',Rating:'5',Coupon:'TCH10OFF',Time:'30/03/2026, 10:15:00'},
-      {Name:'Priya Patel',Mobile:'9988776655',Staff:'Rahul',Rating:'4',Coupon:'TCH10OFF',Time:'30/03/2026, 11:30:00'},
+    renderDashboard([
+      {Name:'Demo User',Mobile:'9876543210',Staff:'Niral',Rating:'5',Coupon:'TCH10OFF',Time:new Date().toLocaleString('en-IN')},
     ]);
   }
 }
 
-function renderAdminTable(rows){
-  const tbody = document.getElementById('reviewsTbody');
-  if(!rows.length){
-    tbody.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--sub)">No submissions yet.</td></tr>`;
-    document.getElementById('statTotal').textContent='0';
-    document.getElementById('statGoogle').textContent='0';
-    document.getElementById('statAvg').textContent='—';
-    document.getElementById('statToday').textContent='0';
-    return;
-  }
-  let total=rows.length,googleCount=0,ratingSum=0,ratingCount=0,todayCount=0;
+function renderDashboard(allRows){
   const today=new Date().toLocaleDateString('en-IN');
+  // Filter today only
+  const rows=allRows.filter(r=>{
+    const t=r.Time||r.time||'';
+    return t.startsWith(today)||t.includes(today);
+  });
+  // FIFO reverse: latest first
+  rows.reverse();
+
+  let total=rows.length,googleC=0,rSum=0,rN=0,lowC=0;
+  const tbody=document.getElementById('reviewsTbody');
   tbody.innerHTML='';
-  rows.forEach(r=>{
-    const rating=parseInt(r.Rating)||0;
-    if(rating>=4) googleCount++;
-    if(rating>0){ ratingSum+=rating; ratingCount++; }
-    if((r.Time||'').startsWith(today)) todayCount++;
-    const stars='★'.repeat(Math.max(0,rating))+'☆'.repeat(Math.max(0,5-rating));
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td>${r.Name||'—'}</td><td>${r.Mobile||'—'}</td><td>${r.Staff||'—'}</td><td class="rating-stars">${stars}</td><td><code style="background:#f0f4ff;padding:2px 6px;border-radius:6px;font-size:11px">${r.Coupon||'—'}</code></td><td style="white-space:nowrap">${r.Time||'—'}</td>`;
-    tbody.appendChild(tr);
-  });
+
+  if(!rows.length){
+    tbody.innerHTML='<tr><td colspan="6" class="loading-row">No submissions today yet.</td></tr>';
+  } else {
+    rows.forEach(r=>{
+      const rating=parseInt(r.Rating||r.rating)||0;
+      if(rating>=4)googleC++;if(rating>0){rSum+=rating;rN++;}
+      if(rating>0&&rating<=3)lowC++;
+      const stars='★'.repeat(Math.max(0,rating))+'☆'.repeat(Math.max(0,5-rating));
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td>${r.Name||r.name||'—'}</td><td>${r.Mobile||r.mobile||'—'}</td><td>${r.Staff||r.staff||'—'}</td><td class="r-stars" style="font-size:11px">${stars}</td><td><code style="background:#F0F4FF;padding:2px 6px;border-radius:6px;font-size:10px">${r.Coupon||r.coupon||'—'}</code></td><td style="white-space:nowrap;font-size:11px">${(r.Time||r.time||'—').split(',')[1]||r.Time||r.time||'—'}</td>`;
+      tbody.appendChild(tr);
+    });
+  }
   document.getElementById('statTotal').textContent=total;
-  document.getElementById('statGoogle').textContent=googleCount;
-  document.getElementById('statAvg').textContent=ratingCount?(ratingSum/ratingCount).toFixed(1):'—';
-  document.getElementById('statToday').textContent=todayCount;
+  document.getElementById('statGoogle').textContent=googleC;
+  document.getElementById('statAvg').textContent=rN?(rSum/rN).toFixed(1):'—';
+  document.getElementById('statLow').textContent=lowC;
+
+  // Store for modal
+  window._todayRows=rows;
+  window._allRows=allRows;
 }
 
-/* ═══════════════════════════════════════════════
-   ADMIN — SPIN WHEEL SETTINGS
-═══════════════════════════════════════════════ */
-function populateSpinAdmin(){
-  const list=document.getElementById('segList');
-  list.innerHTML='';
-  SEGMENTS.forEach(seg=>{
-    const div=document.createElement('div');
-    div.className='seg-item';
-    div.innerHTML=`<div class="seg-color" style="background:${seg.color}"></div><div class="seg-label">${seg.emoji} ${seg.text}</div><div class="seg-note">→ Always wins 10% off</div>`;
-    list.appendChild(div);
+/* ═══════════════════════════════════════
+   STAFF MODAL — today's staff-wise count
+═══════════════════════════════════════ */
+function openStaffModal(){
+  document.getElementById('staffModal').classList.add('open');
+  const rows=window._todayRows||[];
+  const counts={};
+  rows.forEach(r=>{const s=r.Staff||r.staff||'Unknown';counts[s]=(counts[s]||0)+1;});
+  const content=document.getElementById('staffModalContent');
+  if(!Object.keys(counts).length){
+    content.innerHTML='<p style="text-align:center;color:var(--sub);font-size:13px;padding:16px">No submissions today.</p>';return;
+  }
+  let html='<table class="data-table" style="min-width:0;width:100%"><thead><tr><th>Staff Member</th><th>Count</th><th>% Share</th></tr></thead><tbody>';
+  const total=rows.length;
+  Object.entries(counts).sort((a,b)=>b[1]-a[1]).forEach(([s,c])=>{
+    html+=`<tr><td>${s}</td><td style="font-weight:700;color:#1a73e8">${c}</td><td>${((c/total)*100).toFixed(0)}%</td></tr>`;
   });
-  document.getElementById('couponCodeInput').value=PRIZE_COUPON_CODE;
-  document.getElementById('couponDescInput').value=PRIZE_COUPON_DESC;
+  html+='</tbody></table>';
+  content.innerHTML=html;
 }
+function closeModal(){ document.getElementById('staffModal').classList.remove('open'); }
+function closeModalOutside(e){ if(e.target===document.getElementById('staffModal'))closeModal(); }
 
+/* ═══════════════════════════════════════
+   SEGMENT EDITOR
+═══════════════════════════════════════ */
+function loadSegmentEditor(){
+  CFG=loadConfig();
+  const list=document.getElementById('segEditList');
+  list.innerHTML='';
+  CFG.segments.forEach((seg,i)=>renderSegRow(list,seg,i));
+}
+function renderSegRow(list,seg,i){
+  const d=document.createElement('div');d.className='edit-item';d.dataset.index=i;
+  d.innerHTML=`
+    <div class="edit-item-color" style="background:${seg.color}"></div>
+    <input value="${seg.emoji}" style="width:36px;text-align:center" onchange="updateSeg(${i},'emoji',this.value)" title="Emoji">
+    <input value="${seg.text}" style="flex:2" onchange="updateSeg(${i},'text',this.value)" placeholder="Segment name">
+    <input type="color" value="${seg.color}" style="width:30px;height:30px;border:none;padding:0;background:none;cursor:pointer;border-radius:6px" onchange="updateSeg(${i},'color',this.value)" title="Color">
+    <button class="edit-item-del" onclick="deleteSeg(${i})" title="Remove">×</button>
+  `;
+  list.appendChild(d);
+}
+function updateSeg(i,key,val){
+  CFG=loadConfig();CFG.segments[i][key]=val;saveConfig(CFG);
+  if(key==='color'){const d=document.querySelectorAll('#segEditList .edit-item')[i];if(d)d.querySelector('.edit-item-color').style.background=val;}
+  drawWheel();
+}
+function deleteSeg(i){
+  CFG=loadConfig();if(CFG.segments.length<=2){showToast('⚠️ Minimum 2 segments required');return;}
+  CFG.segments.splice(i,1);saveConfig(CFG);loadSegmentEditor();drawWheel();
+}
+function addSegment(){
+  CFG=loadConfig();
+  CFG.segments.push({text:'New Prize',emoji:'🎁',color:'#607D8B'});
+  saveConfig(CFG);loadSegmentEditor();drawWheel();
+}
 function savePrizeSettings(){
-  const code=document.getElementById('couponCodeInput').value.trim().toUpperCase();
-  const desc=document.getElementById('couponDescInput').value.trim();
-  if(code) PRIZE_COUPON_CODE=code;
-  if(desc) PRIZE_COUPON_DESC=desc;
-  showToast('✅ Prize settings saved!');
+  CFG=loadConfig();
+  const code=document.getElementById('adminCouponCode').value.trim().toUpperCase();
+  const desc=document.getElementById('adminCouponDesc').value.trim();
+  if(code)CFG.couponCode=code;if(desc)CFG.couponDesc=desc;
+  saveConfig(CFG);showToast('✅ Prize settings saved!');
 }
 
-/* ═══════════════════════════════════════════════
-   ADMIN — SEO TEMPLATES
-═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   STAFF EDITOR
+═══════════════════════════════════════ */
+function loadStaffEditor(){
+  CFG=loadConfig();
+  const list=document.getElementById('staffEditList');list.innerHTML='';
+  CFG.staff.forEach((s,i)=>{
+    const d=document.createElement('div');d.className='edit-item';
+    d.innerHTML=`<span style="font-size:16px">👤</span><input value="${s}" onchange="updateStaffItem(${i},this.value)" style="flex:1"><button class="edit-item-del" onclick="deleteStaff(${i})">×</button>`;
+    list.appendChild(d);
+  });
+}
+function updateStaffItem(i,val){CFG=loadConfig();CFG.staff[i]=val;saveConfig(CFG);}
+function deleteStaff(i){
+  CFG=loadConfig();if(CFG.staff.length<=1){showToast('⚠️ Minimum 1 staff required');return;}
+  CFG.staff.splice(i,1);saveConfig(CFG);loadStaffEditor();
+}
+function addStaff(){
+  CFG=loadConfig();CFG.staff.push('New Staff');saveConfig(CFG);loadStaffEditor();
+}
+function saveStaff(){
+  CFG=loadConfig();saveConfig(CFG);initStaffDropdown();showToast('✅ Staff list saved!');
+}
+
+/* ═══════════════════════════════════════
+   SEO TEMPLATES (from sheet, fallback local)
+═══════════════════════════════════════ */
+const SEO_FALLBACK=[
+  {Tag:'Ambience',Text:'Absolutely loved the cozy ambience at The Coffee House! The décor is warm and inviting, perfect for a relaxing break. The coffee was rich and aromatic — definitely one of the best in the area. Highly recommend!'},
+  {Tag:'Service',Text:'Exceptional service at The Coffee House! The staff was incredibly welcoming and attentive. My order arrived quickly and was exactly as expected. Will be my go-to café!'},
+  {Tag:'Coffee Quality',Text:'The Coffee House serves some of the finest coffee I\'ve had in a long time. Each cup is crafted with care. The espresso was bold, the latte perfectly balanced. A must-visit for coffee lovers!'},
+  {Tag:'Family Visit',Text:'Visited with family and had a wonderful time. Spacious, kid-friendly, great menu options. The staff made us feel at home. Highly recommended for families!'},
+  {Tag:'Work/Study',Text:'Perfect spot for working and studying. Comfortable seating, great coffee, and the team is always friendly. Perfect for professionals and students alike!'},
+];
 async function loadSEOTemplates(){
-  const list=document.getElementById('seoList');
-  let templates=SEO_TEMPLATES;
+  const el=document.getElementById('seoListAdmin');
+  el.innerHTML='<div class="loading-row">Loading from Google Sheet...</div>';
+  let templates=SEO_FALLBACK;
   try{
-    const res=await fetch(SHEET_URL+'?action=getSEO',{method:'GET'});
+    const res=await fetch(SHEET_URL+'?action=getSEO');
     const json=await res.json();
-    if(json.data&&json.data.length) templates=json.data;
+    if(json.data&&json.data.length)templates=json.data;
   }catch(e){}
-  renderSEOList(list,templates);
-}
-function renderSEOList(list,templates){
-  list.innerHTML='';
+  el.innerHTML='';
   templates.forEach(t=>{
-    const div=document.createElement('div');
-    div.className='seo-item';
-    div.innerHTML=`<div class="seo-item-tag">${t.tag||t.Tag||'Template'}</div><div class="seo-item-text">${t.text||t.Text||''}</div>`;
-    div.onclick=()=>{ copyText(t.text||t.Text||''); };
-    list.appendChild(div);
+    const d=document.createElement('div');d.className='tmpl-item';
+    d.innerHTML=`<div class="tmpl-tag">${t.Tag||t.tag||'Template'}</div><div class="tmpl-text">${t.Text||t.text||''}</div>`;
+    d.onclick=()=>copyText(t.Text||t.text||'');
+    el.appendChild(d);
   });
 }
 
-/* ═══════════════════════════════════════════════
-   ADMIN — REPLY TEMPLATES
-═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   REPLY TEMPLATES (from sheet, fallback local)
+═══════════════════════════════════════ */
+const REPLY_FALLBACK=[
+  {Tag:'5-Star Reply',Text:'Thank you so much for your kind words! 🌟 We are thrilled to hear you had a wonderful experience at The Coffee House. Your feedback motivates our entire team. We look forward to seeing you again soon! ☕'},
+  {Tag:'Low Rating Reply',Text:'Thank you for taking the time to share your feedback. We sincerely apologise that your experience didn\'t meet expectations. We\'d love the opportunity to make it right — please visit us again and ask for the manager! 🙏'},
+  {Tag:'Average Rating Reply',Text:'Thank you for your honest feedback! We\'re glad you visited and appreciate you sharing your experience. We\'re always working to improve and hope your next visit will be even better! 😊'},
+];
 async function loadReplyTemplates(){
-  const list=document.getElementById('replyList');
-  let replies=ADMIN_REPLIES;
+  const el=document.getElementById('replyListAdmin');
+  el.innerHTML='<div class="loading-row">Loading from Google Sheet...</div>';
+  let replies=REPLY_FALLBACK;
   try{
-    const res=await fetch(SHEET_URL+'?action=getReplies',{method:'GET'});
+    const res=await fetch(SHEET_URL+'?action=getReplies');
     const json=await res.json();
-    if(json.data&&json.data.length) replies=json.data;
+    if(json.data&&json.data.length)replies=json.data;
   }catch(e){}
-  list.innerHTML='';
+  el.innerHTML='';
   replies.forEach(r=>{
-    const div=document.createElement('div');
-    div.className='reply-item';
-    div.innerHTML=`<span>${r.tag||r.Tag||'Reply'}</span><p>${r.text||r.Text||''}</p>`;
-    div.onclick=()=>{ copyText(r.text||r.Text||''); };
-    list.appendChild(div);
+    const d=document.createElement('div');d.className='tmpl-item';
+    d.innerHTML=`<div class="tmpl-tag">${r.Tag||r.tag||'Reply'}</div><div class="tmpl-text">${r.Text||r.text||''}</div>`;
+    d.onclick=()=>copyText(r.Text||r.text||'');
+    el.appendChild(d);
   });
 }
 
-/* ═══════════════════════════════════════════════
-   COPY UTILITY
-═══════════════════════════════════════════════ */
-function copyText(txt){
-  try{ navigator.clipboard.writeText(txt); showToast('✅ Copied to clipboard!'); }
-  catch(e){ showToast('Tap and hold to copy'); }
+/* ═══════════════════════════════════════
+   CONFIG SAVE
+═══════════════════════════════════════ */
+function saveGoogleUrl(){
+  CFG=loadConfig();
+  const url=document.getElementById('adminGoogleUrl').value.trim();
+  if(url){CFG.googleUrl=url;saveConfig(CFG);showToast('✅ Google URL saved!');}
 }
+function changePassword(){
+  const p1=document.getElementById('newPass1').value;
+  const p2=document.getElementById('newPass2').value;
+  if(!p1){showToast('⚠️ Enter a new password');return;}
+  if(p1!==p2){showToast('⚠️ Passwords do not match');return;}
+  if(p1.length<6){showToast('⚠️ Minimum 6 characters');return;}
+  CFG=loadConfig();CFG.adminPass=p1;saveConfig(CFG);
+  document.getElementById('newPass1').value='';document.getElementById('newPass2').value='';
+  showToast('✅ Password updated!');
+}
+
+/* ═══════════════════════════════════════
+   COPY UTIL & TOAST
+═══════════════════════════════════════ */
+function copyText(txt){try{navigator.clipboard.writeText(txt);showToast('✅ Copied to clipboard!');}catch(e){showToast('Tap & hold to copy');}}
 function showToast(msg){
-  const t=document.getElementById('copyToast');
-  t.textContent=msg;t.classList.add('show');
+  const t=document.getElementById('copyToast');t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2200);
 }
 
-/* ═══════════════════════════════════════════════
-   RESET
-═══════════════════════════════════════════════ */
-function goHome(){
-  userRating=0;spinning=false;winIndex=-1;wheelAngle=0;submittedData={};
-  document.querySelectorAll('.star-btn').forEach(s=>s.classList.remove('lit'));
-  document.getElementById('starHint').textContent='Tap to rate your experience';
-  document.getElementById('starHint').style.color='';
-  document.getElementById('starErr').classList.remove('show');
-  document.getElementById('staffSelect').value='';
-  document.getElementById('staffSelect').classList.remove('err');
-  document.getElementById('staffErr').classList.remove('show');
-  document.getElementById('nameInput').value='';
-  document.getElementById('nameInput').classList.remove('err');
-  document.getElementById('nameErr').classList.remove('show');
-  document.getElementById('mobileInput').value='';
-  document.getElementById('mobileInput').classList.remove('err');
-  document.getElementById('mobileErr').classList.remove('show');
-  document.getElementById('reviewInput').value='';
-  document.getElementById('reviewInput').classList.remove('err');
-  document.getElementById('reviewInput').style.height='auto';
-  document.getElementById('reviewErr').classList.remove('show');
-  resetSwipe();
-  const c=document.getElementById('wheelCanvas');
-  c.style.transition='none';c.style.transform='rotate(0deg)';
-  document.getElementById('spinBtn').disabled=false;
-  document.getElementById('prizeConfetti').innerHTML='';
-  document.getElementById('ackConfetti').innerHTML='';
-  drawWheel();
-  showScreen('formScreen');
-}
-
-/* Init */
+/* ═══════════════════════════════════════
+   INIT
+═══════════════════════════════════════ */
 drawWheel();
 </script>
 </body>
