@@ -1161,12 +1161,19 @@ async function loadAdminData(){
 }
 
 function renderDashboard(allRows){
-  const today=new Date().toLocaleDateString('en-IN');
-  // Filter today only
-  const rows=allRows.filter(r=>{
-    const t=r.Time||r.time||'';
-    return t.startsWith(today)||t.includes(today);
-  });
+  const now = new Date();
+const rows = allRows.filter(r => {
+  const t = r.Time || r.time || '';
+  if (!t) return false;
+
+  const rowDate = new Date(t);
+
+  return (
+    rowDate.getDate() === now.getDate() &&
+    rowDate.getMonth() === now.getMonth() &&
+    rowDate.getFullYear() === now.getFullYear()
+  );
+});
   // FIFO reverse: latest first
   rows.reverse();
 
