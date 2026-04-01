@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>The Coffee House</title>
+<title>The Hunger Station</title>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════
@@ -366,7 +366,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
         <path d="M44.5 20H24v8h11.7c-.7 2-2 3.7-3.7 5l6.3 5.3C41.3 35.3 44.5 30 44.5 24c0-1.34-.14-2.65-.39-3.91L44.5 20z" fill="#4285F4"/>
         <path d="M6.31 14.69l6.6 4.84C14.6 16 19 13 24 13V4C16.1 4 9.3 8.4 6.31 14.69z" fill="#FBBC05"/>
       </svg>
-      <div class="brand-name">The Coffee House</div>
+      <div class="brand-name">The Hunger Station</div>
     </div>
     <div class="brand-tag">Powered by Google Reviews</div>
     <div class="google-dots">
@@ -545,15 +545,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
       <li>Date and time of submission</li>
     </ul>
     <h2>How We Use Your Data</h2>
-    <p>Your data is stored securely in a private Google Sheet accessible only to The Coffee House management, used to improve service quality and recognise staff.</p>
+    <p>Your data is stored securely in a private Google Sheet accessible only to The Hunger Station management, used to improve service quality and recognise staff.</p>
     <h2>Google Reviews</h2>
     <p>When you choose to post on Google, your review text is copied to your clipboard and Google Reviews is opened in a new tab. We do not control what you post on Google.</p>
     <h2>Data Sharing</h2>
-    <p>We do not sell or share your personal data with any third parties outside The Coffee House team.</p>
+    <p>We do not sell or share your personal data with any third parties outside The Hunger Station team.</p>
     <h2>Data Retention</h2>
     <p>Your data is retained for up to 12 months for service improvement purposes.</p>
     <h2>Contact Us</h2>
-    <p>For any privacy-related queries, please speak to a manager at The Coffee House.</p>
+    <p>For any privacy-related queries, please speak to a manager at The Hunger Station.</p>
   </div>
 </div>
 </div>
@@ -565,7 +565,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
     <div class="login-logo">
       <div class="logo-icon">☕</div>
       <div>Admin Portal</div>
-      <span>The Coffee House</span>
+      <span>The Hunger Station</span>
     </div>
     <div class="login-field">
       <label>Username</label>
@@ -725,7 +725,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
 /* ═══════════════════════════════════════
    CONFIG & STATE
 ═══════════════════════════════════════ */
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbz5cDF_CMowEGXlh8rGiVyQ-EshUyo7rHRTSdkoX4w9D5FU3EqDfJ3RgimI1wXFY-JD/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwTOwtwlKdX11VRBhWxAwoDnmr0GO_OvRToQZX_DvfyB3rMKjrmeelYSJ_ZfvHkSm3d/exec';
 
 // All dynamic config stored in localStorage so it persists
 function loadConfig(){
@@ -1290,9 +1290,9 @@ function saveStaff(){
    SEO TEMPLATES (from sheet, fallback local)
 ═══════════════════════════════════════ */
 const SEO_FALLBACK=[
-  {Tag:'Ambience',Text:'Absolutely loved the cozy ambience at The Coffee House! The décor is warm and inviting, perfect for a relaxing break. The coffee was rich and aromatic — definitely one of the best in the area. Highly recommend!'},
-  {Tag:'Service',Text:'Exceptional service at The Coffee House! The staff was incredibly welcoming and attentive. My order arrived quickly and was exactly as expected. Will be my go-to café!'},
-  {Tag:'Coffee Quality',Text:'The Coffee House serves some of the finest coffee I\'ve had in a long time. Each cup is crafted with care. The espresso was bold, the latte perfectly balanced. A must-visit for coffee lovers!'},
+  {Tag:'Ambience',Text:'Absolutely loved the cozy ambience at The Hunger Station! The décor is warm and inviting, perfect for a relaxing break. The coffee was rich and aromatic — definitely one of the best in the area. Highly recommend!'},
+  {Tag:'Service',Text:'Exceptional service at The Hunger Station! The staff was incredibly welcoming and attentive. My order arrived quickly and was exactly as expected. Will be my go-to café!'},
+  {Tag:'Coffee Quality',Text:'The Hunger Station serves some of the finest coffee I\'ve had in a long time. Each cup is crafted with care. The espresso was bold, the latte perfectly balanced. A must-visit for coffee lovers!'},
   {Tag:'Family Visit',Text:'Visited with family and had a wonderful time. Spacious, kid-friendly, great menu options. The staff made us feel at home. Highly recommended for families!'},
   {Tag:'Work/Study',Text:'Perfect spot for working and studying. Comfortable seating, great coffee, and the team is always friendly. Perfect for professionals and students alike!'},
 ];
@@ -1318,7 +1318,7 @@ async function loadSEOTemplates(){
    REPLY TEMPLATES (from sheet, fallback local)
 ═══════════════════════════════════════ */
 const REPLY_FALLBACK=[
-  {Tag:'5-Star Reply',Text:'Thank you so much for your kind words! 🌟 We are thrilled to hear you had a wonderful experience at The Coffee House. Your feedback motivates our entire team. We look forward to seeing you again soon! ☕'},
+  {Tag:'5-Star Reply',Text:'Thank you so much for your kind words! 🌟 We are thrilled to hear you had a wonderful experience at The Hunger Station. Your feedback motivates our entire team. We look forward to seeing you again soon! ☕'},
   {Tag:'Low Rating Reply',Text:'Thank you for taking the time to share your feedback. We sincerely apologise that your experience didn\'t meet expectations. We\'d love the opportunity to make it right — please visit us again and ask for the manager! 🙏'},
   {Tag:'Average Rating Reply',Text:'Thank you for your honest feedback! We\'re glad you visited and appreciate you sharing your experience. We\'re always working to improve and hope your next visit will be even better! 😊'},
 ];
@@ -1376,12 +1376,12 @@ function showToast(msg){
 
 // SEO fallback templates (used when sheet is unreachable)
 const SEO_FORM_FALLBACK = [
-  'Absolutely loved the cozy ambience at The Coffee House! The décor is warm and inviting, perfect for a relaxing break. The coffee was rich and aromatic — definitely one of the best in the area. Highly recommended!',
-  'Exceptional service at The Coffee House! The staff was incredibly welcoming and attentive. My order arrived quickly and was exactly as expected. The team genuinely cares about every guest. Will be my go-to café from now on!',
-  'The Coffee House serves some of the finest coffee I've had in a long time. Each cup is crafted with care and precision. The espresso was bold, the latte perfectly balanced. A must-visit for true coffee lovers!',
-  'Visited The Coffee House with my family and had a wonderful time. Spacious, kid-friendly, great menu options for everyone. The staff made us feel at home. Highly recommended for families!',
-  'The Coffee House is my favourite spot for working and studying. Comfortable seating, great coffee, and the team is always friendly. Perfect for professionals and students alike!',
-  'Great experience at The Coffee House! The drinks were crafted to perfection and the presentation was beautiful. The staff were polite and efficient. Looking forward to my next visit!',
+  'Absolutely loved the cozy ambience at The Hunger Station! The décor is warm and inviting, perfect for a relaxing break. The coffee was rich and aromatic — definitely one of the best in the area. Highly recommended!',
+  'Exceptional service at The Hunger Station! The staff was incredibly welcoming and attentive. My order arrived quickly and was exactly as expected. The team genuinely cares about every guest. Will be my go-to café from now on!',
+  "The Hunger Station serves some of the finest coffee I've had in a long time. Each cup is crafted with care and precision. The espresso was bold, the latte perfectly balanced. A must-visit for true coffee lovers!",
+  'Visited The Hunger Station with my family and had a wonderful time. Spacious, kid-friendly, great menu options for everyone. The staff made us feel at home. Highly recommended for families!',
+  'The Hunger Station is my favourite spot for working and studying. Comfortable seating, great coffee, and the team is always friendly. Perfect for professionals and students alike!',
+  'Great experience at The Hunger Station! The drinks were crafted to perfection and the presentation was beautiful. The staff were polite and efficient. Looking forward to my next visit!',
 ];
 
 async function fetchSEOTemplates() {
