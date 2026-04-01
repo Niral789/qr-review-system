@@ -510,17 +510,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
   <div class="prize-inner">
     <span class="prize-emoji-big" id="prizeEmoji">🎉</span>
     <div class="prize-won">🎊 Congratulations! You Won</div>
-    <div class="prize-name" id="prizeName">10% Off</div>
+    <div class="prize-name" id="prizeName">10% OFF</div>
     <div class="prize-card">
       <div class="prize-card-icon" id="prizeCardIcon">🎟️</div>
       <div class="prize-card-text">
-        <strong id="prizeCardTitle">10% Off on Your Next Visit</strong>
+        <strong id="prizeCardTitle">10% OFF on Your Next Visit</strong>
         <span>Show this screen at the counter · Valid today only</span>
       </div>
     </div>
     <div class="coupon-box">
       <div class="coupon-label">Your Exclusive Coupon Code</div>
-      <div class="coupon-code" id="couponCode">TCH10OFF</div>
+      <div class="coupon-code" id="couponCode">THS10OFF</div>
     </div>
     <p class="prize-sub-text">Show this screen &amp; coupon code to the cashier to claim your reward!</p>
     <span class="prize-done-msg">😊 Enjoy &amp; Have a Great Day!</span>
@@ -647,9 +647,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
         <div class="edit-list" id="segEditList"></div>
         <div class="override-box">
           <label>Universal Coupon Code (all winners)</label>
-          <input type="text" id="adminCouponCode" placeholder="e.g. TCH10OFF" maxlength="20">
+          <input type="text" id="adminCouponCode" placeholder="e.g. THS10OFF" maxlength="20">
           <label>Prize Message (shown to customer)</label>
-          <input type="text" id="adminCouponDesc" placeholder="e.g. 10% Off on your next order">
+          <input type="text" id="adminCouponDesc" placeholder="e.g. 10% Off on your current order">
           <button class="btn-save" onclick="savePrizeSettings()">💾 Save Prize Settings</button>
         </div>
       </div>
@@ -732,8 +732,8 @@ function loadConfig(){
   return JSON.parse(localStorage.getItem('tchConfig') || 'null') || {
     adminPass: 'coffee123',
     googleUrl: 'https://www.google.com/search?q=The+Coffee+House+Review',
-    couponCode: 'TCH10OFF',
-    couponDesc: '10% Off on your next order',
+    couponCode: 'THS10OFF',
+    couponDesc: '10% Off on your current order',
     staff: ['Niral','Rahul','Priya'],
     seoPointer: 0,          // tracks which SEO template to show next (sequential)
     cachedSEO:  [],         // cached SEO templates fetched from sheet
@@ -1080,8 +1080,8 @@ function doLogin(){
     showScreen('adminScreen');
     loadAdminData();loadSegmentEditor();loadStaffEditor();loadSEOTemplates();loadReplyTemplates();
     document.getElementById('adminGoogleUrl').value=CFG.googleUrl||'';
-    document.getElementById('adminCouponCode').value=CFG.couponCode||'TCH10OFF';
-    document.getElementById('adminCouponDesc').value=CFG.couponDesc||'10% Off on your next order';
+    document.getElementById('adminCouponCode').value=CFG.couponCode||'THS10OFF';
+    document.getElementById('adminCouponDesc').value=CFG.couponDesc||'10% Off on your current order';
   } else {
     document.getElementById('loginErr').textContent='❌ Invalid username or password.';
   }
