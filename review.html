@@ -270,7 +270,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
 .admin-title{font-family:'Google Sans',sans-serif;font-size:17px;font-weight:700;color:var(--txt)}
 .admin-logout{background:var(--bg);border:1.5px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--sub);cursor:pointer;font-family:'Google Sans',sans-serif}
 .admin-body{flex:1;overflow-y:auto;padding:12px 12px 40px;display:flex;flex-direction:column;gap:12px}
-.admin-tabs{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px}
+.admin-tabs{flex-shrink:0;display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;padding:8px 12px 6px;background:#fff;border-bottom:1px solid var(--border)}
 .admin-tabs::-webkit-scrollbar{display:none}
 .a-tab{flex-shrink:0;padding:8px 12px;background:#fff;border:1.5px solid var(--border);border-radius:20px;font-size:11.5px;font-weight:600;font-family:'Google Sans',sans-serif;color:var(--sub);cursor:pointer;transition:all .2s;white-space:nowrap}
 .a-tab.active{background:#1a73e8;border-color:#1a73e8;color:#fff;box-shadow:0 3px 10px rgba(26,115,232,.28)}
@@ -360,15 +360,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
   <div class="top-bar">
     <div class="brand-logo-row">
       <svg class="brand-g-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-        <path d="M44.5 20H24v8h11.7C34.2 33.2 29.6 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 6.2 29.2 4 24 4 12.95 4 4 12.95 4 24s8.95 20 20 20c11.05 0 20-8.95 20-20 0-1.34-.14-2.65-.39-3.91L44.5 20z" fill="#E0E0E0"/>
-        <path d="M6.31 14.69l6.6 4.84C14.6 16 19 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 6.2 29.2 4 24 4 16.1 4 9.3 8.4 6.31 14.69z" fill="#EA4335"/>
-        <path d="M24 44c5.2 0 9.9-1.8 13.6-4.7l-6.3-5.3C29.3 35.6 26.8 36.5 24 36.5c-5.6 0-10.2-3.8-11.8-9H5.8C8.7 38.9 15.9 44 24 44z" fill="#34A853"/>
-        <path d="M44.5 20H24v8h11.7c-.7 2-2 3.7-3.7 5l6.3 5.3C41.3 35.3 44.5 30 44.5 24c0-1.34-.14-2.65-.39-3.91L44.5 20z" fill="#4285F4"/>
-        <path d="M6.31 14.69l6.6 4.84C14.6 16 19 13 24 13V4C16.1 4 9.3 8.4 6.31 14.69z" fill="#FBBC05"/>
+        <circle cx="24" cy="24" r="22" fill="#FFF3E0"/>
+        <text x="24" y="32" font-size="26" text-anchor="middle" font-family="serif">☕</text>
       </svg>
       <div class="brand-name">The Hunger Station</div>
     </div>
-    <div class="brand-tag">Powered by Google Reviews</div>
+    <div class="brand-tag">Share Your Experience · The Hunger Station</div>
     <div class="google-dots">
       <div class="g-dot" style="background:#EA4335"></div>
       <div class="g-dot" style="background:#FBBC05"></div>
@@ -432,13 +429,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
     <div class="swipe-section">
       <div class="swipe-wrap" id="swipeTrack">
         <div class="swipe-fill" id="swipeFill"></div>
-        <div class="swipe-lbl" id="swipeLbl">→→ Swipe → Post on Google &nbsp;<span class="arr">→</span></div>
+        <div class="swipe-lbl" id="swipeLbl">Swipe → Post on Google &nbsp;<span class="arr">→</span></div>
         <div class="swipe-thumb" id="swipeThumb">
-          <svg class="gg" viewBox="0 0 24 24">
-            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          <svg class="gg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="11" fill="#EBF2FF" stroke="#C5D8FF" stroke-width="1.5"/>
+            <path d="M9 12h6M13 10l2 2-2 2" stroke="#1a73e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
       </div>
@@ -510,17 +505,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
   <div class="prize-inner">
     <span class="prize-emoji-big" id="prizeEmoji">🎉</span>
     <div class="prize-won">🎊 Congratulations! You Won</div>
-    <div class="prize-name" id="prizeName">10% OFF</div>
+    <div class="prize-name" id="prizeName">10% Off</div>
     <div class="prize-card">
       <div class="prize-card-icon" id="prizeCardIcon">🎟️</div>
       <div class="prize-card-text">
-        <strong id="prizeCardTitle">10% OFF on Your Next Visit</strong>
+        <strong id="prizeCardTitle">10% Off on Your Next Visit</strong>
         <span>Show this screen at the counter · Valid today only</span>
       </div>
     </div>
     <div class="coupon-box">
       <div class="coupon-label">Your Exclusive Coupon Code</div>
-      <div class="coupon-code" id="couponCode">THS10OFF</div>
+      <div class="coupon-code" id="couponCode">TCH10OFF</div>
     </div>
     <p class="prize-sub-text">Show this screen &amp; coupon code to the cashier to claim your reward!</p>
     <span class="prize-done-msg">😊 Enjoy &amp; Have a Great Day!</span>
@@ -591,16 +586,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
     </div>
     <button class="admin-logout" onclick="adminLogout()">Sign Out</button>
   </div>
-  <div class="admin-body">
-
-    <div class="admin-tabs">
+  <div class="admin-tabs" id="adminTabsBar">
       <button class="a-tab active" onclick="switchTab('tabDash',this)">📊 Dashboard</button>
       <button class="a-tab" onclick="switchTab('tabSpin',this)">🎡 Spin Wheel</button>
       <button class="a-tab" onclick="switchTab('tabStaff',this)">👤 Staff</button>
       <button class="a-tab" onclick="switchTab('tabSEO',this)">✍️ SEO</button>
       <button class="a-tab" onclick="switchTab('tabReplies',this)">💬 Replies</button>
       <button class="a-tab" onclick="switchTab('tabConfig',this)">🔗 Config</button>
-    </div>
+  </div>
+  <div class="admin-body">
+
+    <!-- (tabs removed from here, now above) -->
 
     <!-- DASHBOARD TAB -->
     <div class="tab-panel active" id="tabDash">
@@ -647,9 +643,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
         <div class="edit-list" id="segEditList"></div>
         <div class="override-box">
           <label>Universal Coupon Code (all winners)</label>
-          <input type="text" id="adminCouponCode" placeholder="e.g. THS10OFF" maxlength="20">
+          <input type="text" id="adminCouponCode" placeholder="e.g. TCH10OFF" maxlength="20">
           <label>Prize Message (shown to customer)</label>
-          <input type="text" id="adminCouponDesc" placeholder="e.g. 10% Off on your current order">
+          <input type="text" id="adminCouponDesc" placeholder="e.g. 10% Off on your next order">
           <button class="btn-save" onclick="savePrizeSettings()">💾 Save Prize Settings</button>
         </div>
       </div>
@@ -732,8 +728,8 @@ function loadConfig(){
   return JSON.parse(localStorage.getItem('tchConfig') || 'null') || {
     adminPass: 'coffee123',
     googleUrl: 'https://www.google.com/search?q=The+Coffee+House+Review',
-    couponCode: 'THS10OFF',
-    couponDesc: '10% Off on your current order',
+    couponCode: 'TCH10OFF',
+    couponDesc: '10% Off on your next order',
     staff: ['Niral','Rahul','Priya'],
     seoPointer: 0,          // tracks which SEO template to show next (sequential)
     cachedSEO:  [],         // cached SEO templates fetched from sheet
@@ -1080,8 +1076,8 @@ function doLogin(){
     showScreen('adminScreen');
     loadAdminData();loadSegmentEditor();loadStaffEditor();loadSEOTemplates();loadReplyTemplates();
     document.getElementById('adminGoogleUrl').value=CFG.googleUrl||'';
-    document.getElementById('adminCouponCode').value=CFG.couponCode||'THS10OFF';
-    document.getElementById('adminCouponDesc').value=CFG.couponDesc||'10% Off on your current order';
+    document.getElementById('adminCouponCode').value=CFG.couponCode||'TCH10OFF';
+    document.getElementById('adminCouponDesc').value=CFG.couponDesc||'10% Off on your next order';
   } else {
     document.getElementById('loginErr').textContent='❌ Invalid username or password.';
   }
@@ -1106,78 +1102,100 @@ function switchTab(id,btn){
    ADMIN — LOAD TODAY'S DATA (FIFO reverse = latest first)
    Uses JSONP to bypass CORS — Apps Script supports callback= param.
 ═══════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   JSONP helper — the ONLY reliable way to READ from Apps Script
+   (fetch() always hits CORS; JSONP uses <script> tag which has no CORS)
+═══════════════════════════════════════ */
+function jsonpFetch(url, timeoutMs = 9000) {
+  return new Promise((resolve, reject) => {
+    const cbName = '_cb_' + Date.now() + '_' + Math.floor(Math.random() * 9999);
+    const script = document.createElement('script');
+    const timer = setTimeout(() => {
+      cleanup();
+      reject(new Error('JSONP timeout'));
+    }, timeoutMs);
+    function cleanup() {
+      delete window[cbName];
+      try { document.body.removeChild(script); } catch(e) {}
+      clearTimeout(timer);
+    }
+    window[cbName] = (data) => { cleanup(); resolve(data); };
+    script.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + cbName;
+    script.onerror = () => { cleanup(); reject(new Error('JSONP script error')); };
+    document.body.appendChild(script);
+  });
+}
+
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function normalizeRows(json) {
+  if (Array.isArray(json)) return json;
+  if (json && Array.isArray(json.data)) return json.data;
+  if (json && Array.isArray(json.rows)) return json.rows;
+  if (json && Array.isArray(json.submissions)) return json.submissions;
+  return [];
+}
+
 async function loadAdminData(){
   document.getElementById('reviewsTbody').innerHTML='<tr><td colspan="6" class="loading-row">⏳ Loading submissions...</td></tr>';
   document.getElementById('statTotal').textContent='…';
 
-  // Try standard fetch first (works when script is deployed as "Anyone")
   try {
-    const res = await fetch(SHEET_URL + '?action=getAll', {
-      method: 'GET',
-      cache: 'no-store'
-    });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const json = await res.json();
-    renderDashboard(json.data || []);
+    const json = await jsonpFetch(SHEET_URL + '?action=getAll');
+    renderDashboard(normalizeRows(json));
     return;
   } catch(e1) {
-    // Fetch failed (CORS or network) — try JSONP fallback
+    // JSONP failed — try plain fetch as last resort (may work if served from same origin/file)
   }
 
-  // JSONP fallback — Apps Script supports ?callback=fnName
   try {
-    await new Promise((resolve, reject) => {
-      const cbName = '_gsCallback_' + Date.now();
-      const script = document.createElement('script');
-      const timer = setTimeout(() => {
-        delete window[cbName];
-        document.head.removeChild(script);
-        reject(new Error('timeout'));
-      }, 8000);
-      window[cbName] = (json) => {
-        clearTimeout(timer);
-        delete window[cbName];
-        try { document.head.removeChild(script); } catch(e) {}
-        renderDashboard(json.data || []);
-        resolve();
-      };
-      script.src = SHEET_URL + '?action=getAll&callback=' + cbName;
-      script.onerror = () => { clearTimeout(timer); reject(new Error('script error')); };
-      document.head.appendChild(script);
-    });
+    const res = await fetch(SHEET_URL + '?action=getAll', { method:'GET', cache:'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    const json = JSON.parse(text.trim().replace(/^\uFEFF/, ''));
+    renderDashboard(normalizeRows(json));
     return;
-  } catch(e2) {
-    // Both methods failed — show helpful message
-  }
+  } catch(e2) {}
 
-  // Show empty state with diagnostics hint
+  // Both failed
   renderDashboard([]);
   document.getElementById('reviewsTbody').innerHTML =
     '<tr><td colspan="6" style="text-align:center;padding:16px;color:var(--sub);font-size:12px">' +
     '⚠️ Could not connect to Google Sheet.<br>' +
-    '<small>Make sure your Apps Script is deployed with <strong>"Anyone"</strong> access.<br>' +
-    'Also ensure <code>doGet</code> handles <code>action=getAll</code> and returns JSON with CORS headers.</small>' +
+    '<small>Check that your Apps Script <code>doGet</code> handles <code>action=getAll</code> and supports the <code>callback=</code> param for JSONP.<br>' +
+    'Redeploy with <strong>"Anyone"</strong> access after every code change.</small>' +
     '</td></tr>';
 }
 
+function isToday(timeStr) {
+  if (!timeStr) return false;
+  const now = new Date();
+  // Try DD/MM/YYYY parse (en-IN format)
+  const m = timeStr.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (m) {
+    const d = parseInt(m[1]), mo = parseInt(m[2]) - 1, y = parseInt(m[3]);
+    return d === now.getDate() && mo === now.getMonth() && y === now.getFullYear();
+  }
+  // Fallback: native Date parse
+  try {
+    const parsed = new Date(timeStr);
+    if (!isNaN(parsed)) {
+      return parsed.getDate() === now.getDate() && parsed.getMonth() === now.getMonth() && parsed.getFullYear() === now.getFullYear();
+    }
+  } catch(e) {}
+  // Last resort: check if today's DD/MM/YYYY string appears anywhere in timeStr
+  const pad = n => String(n).padStart(2,'0');
+  const todayStr = pad(now.getDate()) + '/' + pad(now.getMonth()+1) + '/' + now.getFullYear();
+  return timeStr.includes(todayStr);
+}
+
 function renderDashboard(allRows){
- const now = new Date();
-
-// Create today's date in SAME format as sheet (D/M/YYYY)
-const today =
-  now.getDate() + "/" +
-  (now.getMonth() + 1) + "/" +
-  now.getFullYear();
-
-const rows = allRows.filter(r => {
-  const t = r.Time || r.time || '';
-  if (!t) return false;
-
-  const datePart = t.split(',')[0].trim(); // "1/4/2026"
-
-  return datePart === today;
-});
-  // FIFO reverse: latest first
+  // Filter today only using robust parser
+  const rows = allRows.filter(r => {
+    const t = r.Time || r.time || r.Timestamp || r.timestamp || '';
+    return isToday(t);
+  });
+  // FIFO: sheet rows come in chronological order, reverse = latest first
   rows.reverse();
 
   let total=rows.length,googleC=0,rSum=0,rN=0,lowC=0;
@@ -1193,7 +1211,7 @@ const rows = allRows.filter(r => {
       if(rating>0&&rating<=3)lowC++;
       const stars='★'.repeat(Math.max(0,rating))+'☆'.repeat(Math.max(0,5-rating));
       const tr=document.createElement('tr');
-      tr.innerHTML=`<td>${r.Name||r.name||'—'}</td><td>${r.Mobile||r.mobile||'—'}</td><td>${r.Staff||r.staff||'—'}</td><td class="r-stars" style="font-size:11px">${stars}</td><td><code style="background:#F0F4FF;padding:2px 6px;border-radius:6px;font-size:10px">${r.Coupon||r.coupon||'—'}</code></td><td style="white-space:nowrap;font-size:11px">${(r.Time||r.time||'—').split(',')[1]||r.Time||r.time||'—'}</td>`;
+      tr.innerHTML=`<td>${escHtml(r.Name||r.name||'—')}</td><td>${escHtml(r.Mobile||r.mobile||'—')}</td><td>${escHtml(r.Staff||r.staff||'—')}</td><td class="r-stars" style="font-size:11px">${stars}</td><td><code style="background:#F0F4FF;padding:2px 6px;border-radius:6px;font-size:10px">${escHtml(r.Coupon||r.coupon||'—')}</code></td><td style="white-space:nowrap;font-size:11px">${escHtml((r.Time||r.time||r.Timestamp||r.timestamp||'—').split(',')[1]||(r.Time||r.time||r.Timestamp||r.timestamp||'—'))}</td>`;
       tbody.appendChild(tr);
     });
   }
@@ -1300,25 +1318,25 @@ function saveStaff(){
    SEO TEMPLATES (from sheet, fallback local)
 ═══════════════════════════════════════ */
 const SEO_FALLBACK=[
-  {Tag:'Ambience',Text:'Absolutely loved the cozy ambience at The Hunger Station! The décor is warm and inviting, perfect. Highly recommend!'},
-  {Tag:'Service',Text:'Exceptional service at The Hunger Station! The staff was incredibly welcoming and a as expected. Will be my go-to café!'},
-  {Tag:'Coffee Quality',Text:'The Hunger Station serves some of the finest coffee I\'ve had in a long time. Each cup is crafted wtte perfectly balanced. A must-visit for coffee lovers!'},
-  {Tag:'Family Visit',Text:'Visited with family and had a wonderful time. Spacious, kid-friendly, great menu options. The commended for families!'},
-  {Tag:'Work/Study',Text:'Perfect spot for working and studying. Comfortable seating, great coffee, and the team is alor professionals and students alike!'},
+  {Tag:'Ambience',Text:'Absolutely loved the cozy ambience at The Hunger Station! The décor is warm and inviting, perfect for a relaxing break. The coffee was rich and aromatic — definitely one of the best in the area. Highly recommend!'},
+  {Tag:'Service',Text:'Exceptional service at The Hunger Station! The staff was incredibly welcoming and attentive. My order arrived quickly and was exactly as expected. Will be my go-to café!'},
+  {Tag:'Coffee Quality',Text:'The Hunger Station serves some of the finest coffee I\'ve had in a long time. Each cup is crafted with care. The espresso was bold, the latte perfectly balanced. A must-visit for coffee lovers!'},
+  {Tag:'Family Visit',Text:'Visited with family and had a wonderful time. Spacious, kid-friendly, great menu options. The staff made us feel at home. Highly recommended for families!'},
+  {Tag:'Work/Study',Text:'Perfect spot for working and studying. Comfortable seating, great coffee, and the team is always friendly. Perfect for professionals and students alike!'},
 ];
 async function loadSEOTemplates(){
   const el=document.getElementById('seoListAdmin');
   el.innerHTML='<div class="loading-row">Loading from Google Sheet...</div>';
   let templates=SEO_FALLBACK;
   try{
-    const res=await fetch(SHEET_URL+'?action=getSEO');
-    const json=await res.json();
-    if(json.data&&json.data.length)templates=json.data;
+    const json = await jsonpFetch(SHEET_URL + '?action=getSEO');
+    const rows = json.data || json.rows || json || [];
+    if(Array.isArray(rows) && rows.length) templates = rows;
   }catch(e){}
   el.innerHTML='';
   templates.forEach(t=>{
     const d=document.createElement('div');d.className='tmpl-item';
-    d.innerHTML=`<div class="tmpl-tag">${t.Tag||t.tag||'Template'}</div><div class="tmpl-text">${t.Text||t.text||''}</div>`;
+    d.innerHTML=`<div class="tmpl-tag">${escHtml(t.Tag||t.tag||'Template')}</div><div class="tmpl-text">${escHtml(t.Text||t.text||'')}</div>`;
     d.onclick=()=>copyText(t.Text||t.text||'');
     el.appendChild(d);
   });
@@ -1337,14 +1355,14 @@ async function loadReplyTemplates(){
   el.innerHTML='<div class="loading-row">Loading from Google Sheet...</div>';
   let replies=REPLY_FALLBACK;
   try{
-    const res=await fetch(SHEET_URL+'?action=getReplies');
-    const json=await res.json();
-    if(json.data&&json.data.length)replies=json.data;
+    const json = await jsonpFetch(SHEET_URL + '?action=getReplies');
+    const rows = json.data || json.rows || json || [];
+    if(Array.isArray(rows) && rows.length) replies = rows;
   }catch(e){}
   el.innerHTML='';
   replies.forEach(r=>{
     const d=document.createElement('div');d.className='tmpl-item';
-    d.innerHTML=`<div class="tmpl-tag">${r.Tag||r.tag||'Reply'}</div><div class="tmpl-text">${r.Text||r.text||''}</div>`;
+    d.innerHTML=`<div class="tmpl-tag">${escHtml(r.Tag||r.tag||'Reply')}</div><div class="tmpl-text">${escHtml(r.Text||r.text||'')}</div>`;
     d.onclick=()=>copyText(r.Text||r.text||'');
     el.appendChild(d);
   });
@@ -1402,12 +1420,10 @@ async function fetchSEOTemplates() {
   }
   // Try to fetch from sheet
   try {
-    const res = await fetch(SHEET_URL + '?action=getSEO', { cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const json = await res.json();
-    if (json.data && json.data.length > 0) {
-      // Extract text from rows — supports {Tag, Text} or {SrNo, Tag, Text} formats
-      const texts = json.data
+    const json = await jsonpFetch(SHEET_URL + '?action=getSEO');
+    const rows = json.data || json.rows || json || [];
+    if (Array.isArray(rows) && rows.length > 0) {
+      const texts = rows
         .map(row => row.Text || row.text || row.Review || row.review || '')
         .filter(t => t.trim().length > 10);
       if (texts.length > 0) {
