@@ -432,7 +432,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
     <div class="swipe-section">
       <div class="swipe-wrap" id="swipeTrack">
         <div class="swipe-fill" id="swipeFill"></div>
-        <div class="swipe-lbl" id="swipeLbl">Swipe → Post on Google &nbsp;<span class="arr">→</span></div>
+        <div class="swipe-lbl" id="swipeLbl">→  Swipe → Post on Google &nbsp;<span class="arr">→</span></div>
         <div class="swipe-thumb" id="swipeThumb">
           <svg class="gg" viewBox="0 0 24 24">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -1161,17 +1161,30 @@ async function loadAdminData(){
 }
 
 function renderDashboard(allRows){
-  const now = new Date();
+ const now = new Date();
+
+const todayDate = now.getDate();
+const todayMonth = now.getMonth() + 1;
+const todayYear = now.getFullYear();
+
 const rows = allRows.filter(r => {
   const t = r.Time || r.time || '';
   if (!t) return false;
 
-  const rowDate = new Date(t);
+  // Example: "1/4/2026, 7:55:37 PM"
+  const datePart = t.split(',')[0]; // "1/4/2026"
+  const parts = datePart.split('/');
+
+  if (parts.length !== 3) return false;
+
+  const day = parseInt(parts[0]);
+  const month = parseInt(parts[1]);
+  const year = parseInt(parts[2]);
 
   return (
-    rowDate.getDate() === now.getDate() &&
-    rowDate.getMonth() === now.getMonth() &&
-    rowDate.getFullYear() === now.getFullYear()
+    day === todayDate &&
+    month === todayMonth &&
+    year === todayYear
   );
 });
   // FIFO reverse: latest first
