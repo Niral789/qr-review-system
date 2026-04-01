@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>The Hunger Station</title>
+<title>The Coffee House</title>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════
@@ -366,7 +366,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
         <path d="M44.5 20H24v8h11.7c-.7 2-2 3.7-3.7 5l6.3 5.3C41.3 35.3 44.5 30 44.5 24c0-1.34-.14-2.65-.39-3.91L44.5 20z" fill="#4285F4"/>
         <path d="M6.31 14.69l6.6 4.84C14.6 16 19 13 24 13V4C16.1 4 9.3 8.4 6.31 14.69z" fill="#FBBC05"/>
       </svg>
-      <div class="brand-name">The Hunger Station</div>
+      <div class="brand-name">The Coffee House</div>
     </div>
     <div class="brand-tag">Powered by Google Reviews</div>
     <div class="google-dots">
@@ -432,7 +432,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
     <div class="swipe-section">
       <div class="swipe-wrap" id="swipeTrack">
         <div class="swipe-fill" id="swipeFill"></div>
-        <div class="swipe-lbl" id="swipeLbl">→ Swipe → Post on Google &nbsp;<span class="arr">→</span></div>
+        <div class="swipe-lbl" id="swipeLbl">Swipe → Post on Google &nbsp;<span class="arr">→</span></div>
         <div class="swipe-thumb" id="swipeThumb">
           <svg class="gg" viewBox="0 0 24 24">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -545,15 +545,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
       <li>Date and time of submission</li>
     </ul>
     <h2>How We Use Your Data</h2>
-    <p>Your data is stored securely in a private Google Sheet accessible only to The Hunger Station management, used to improve service quality and recognise staff.</p>
+    <p>Your data is stored securely in a private Google Sheet accessible only to The Coffee House management, used to improve service quality and recognise staff.</p>
     <h2>Google Reviews</h2>
     <p>When you choose to post on Google, your review text is copied to your clipboard and Google Reviews is opened in a new tab. We do not control what you post on Google.</p>
     <h2>Data Sharing</h2>
-    <p>We do not sell or share your personal data with any third parties outside The Hunger Station team.</p>
+    <p>We do not sell or share your personal data with any third parties outside The Coffee House team.</p>
     <h2>Data Retention</h2>
     <p>Your data is retained for up to 12 months for service improvement purposes.</p>
     <h2>Contact Us</h2>
-    <p>For any privacy-related queries, please speak to a manager at The Hunger Station.</p>
+    <p>For any privacy-related queries, please speak to a manager at The Coffee House.</p>
   </div>
 </div>
 </div>
@@ -565,7 +565,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
     <div class="login-logo">
       <div class="logo-icon">☕</div>
       <div>Admin Portal</div>
-      <span>The Hunger Station</span>
+      <span>The Coffee House</span>
     </div>
     <div class="login-field">
       <label>Username</label>
@@ -725,7 +725,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
 /* ═══════════════════════════════════════
    CONFIG & STATE
 ═══════════════════════════════════════ */
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxXmG7CmS3gx3n8c8Ge_DxfuKfrNs1qDrx6pGdEfbNmxfAyc-iz2_5421Ahz8McDUP7/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbz5cDF_CMowEGXlh8rGiVyQ-EshUyo7rHRTSdkoX4w9D5FU3EqDfJ3RgimI1wXFY-JD/exec';
 
 // All dynamic config stored in localStorage so it persists
 function loadConfig(){
@@ -735,6 +735,8 @@ function loadConfig(){
     couponCode: 'TCH10OFF',
     couponDesc: '10% Off on your next order',
     staff: ['Niral','Rahul','Priya'],
+    seoPointer: 0,          // tracks which SEO template to show next (sequential)
+    cachedSEO:  [],         // cached SEO templates fetched from sheet
     segments: [
       {text:'Free Coffee', emoji:'☕', color:'#EA4335'},
       {text:'Free Cookie', emoji:'🍪', color:'#FBBC05'},
@@ -869,16 +871,35 @@ function completeSwipe(){
 
 /* ═══════════════════════════════════════
    SUBMIT TO SHEET
-   Columns: Name|Mobile|Staff|Rating|Review|Time|Coupon|RecommendedFeedback
+   Columns: Name|Mobile|Staff|Rating|Review|Time|Coupon|Recommended_Feedback
+   Uses Image ping — bypasses all CORS/preflight issues completely.
+   Your Apps Script doGet() reads e.parameter.* for each field.
 ═══════════════════════════════════════ */
 function submitToSheet(data){
-  const qs=new URLSearchParams({
-    name:data.name||'',mobile:data.mobile||'',staff:data.staff||'',
-    rating:String(data.rating||''),review:data.review||'',
-    time:data.time||'',coupon:data.coupon||'',
-    recommended_feedback:data.feedback||''
+  const qs = new URLSearchParams({
+    action:               'submit',
+    name:                 String(data.name   ||''),
+    mobile:               String(data.mobile ||''),
+    staff:                String(data.staff  ||''),
+    rating:               String(data.rating ||''),
+    review:               String(data.review ||''),
+    time:                 String(data.time   ||''),
+    coupon:               String(data.coupon ||''),
+    recommended_feedback: String(data.feedback||'')
   }).toString();
-  fetch(SHEET_URL+'?'+qs,{method:'GET',mode:'no-cors'}).catch(()=>{});
+
+  const fullUrl = SHEET_URL + '?' + qs;
+
+  // ✅ Most reliable method: Image ping — no CORS, no preflight, works everywhere
+  try {
+    const img = new Image();
+    img.src = fullUrl;
+  } catch(e) {}
+
+  // ✅ Backup: fetch no-cors
+  try {
+    fetch(fullUrl, { method:'GET', mode:'no-cors' }).catch(()=>{});
+  } catch(e) {}
 }
 
 /* ═══════════════════════════════════════
@@ -889,7 +910,12 @@ function goToSpin(){
   bombConfetti('ackConfetti');
   setTimeout(()=>{drawWheel();showScreen('spinScreen');},700);
 }
-function goBack(){resetSwipe();showScreen('formScreen');}
+function goBack(){
+  resetSwipe();
+  showScreen('formScreen');
+  // Refill if user cleared the textarea while going back
+  setTimeout(()=>fillNextSEOReview(), 100);
+}
 
 /* ═══════════════════════════════════════
    AUDIO
@@ -1078,19 +1104,60 @@ function switchTab(id,btn){
 
 /* ═══════════════════════════════════════
    ADMIN — LOAD TODAY'S DATA (FIFO reverse = latest first)
+   Uses JSONP to bypass CORS — Apps Script supports callback= param.
 ═══════════════════════════════════════ */
 async function loadAdminData(){
-  document.getElementById('reviewsTbody').innerHTML='<tr><td colspan="6" class="loading-row">Loading...</td></tr>';
+  document.getElementById('reviewsTbody').innerHTML='<tr><td colspan="6" class="loading-row">⏳ Loading submissions...</td></tr>';
   document.getElementById('statTotal').textContent='…';
-  try{
-    const res=await fetch(SHEET_URL+'?action=getAll');
-    const json=await res.json();
-    renderDashboard(json.data||[]);
-  }catch(e){
-    renderDashboard([
-      {Name:'Demo User',Mobile:'9876543210',Staff:'Niral',Rating:'5',Coupon:'TCH10OFF',Time:new Date().toLocaleString('en-IN')},
-    ]);
+
+  // Try standard fetch first (works when script is deployed as "Anyone")
+  try {
+    const res = await fetch(SHEET_URL + '?action=getAll', {
+      method: 'GET',
+      cache: 'no-store'
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    renderDashboard(json.data || []);
+    return;
+  } catch(e1) {
+    // Fetch failed (CORS or network) — try JSONP fallback
   }
+
+  // JSONP fallback — Apps Script supports ?callback=fnName
+  try {
+    await new Promise((resolve, reject) => {
+      const cbName = '_gsCallback_' + Date.now();
+      const script = document.createElement('script');
+      const timer = setTimeout(() => {
+        delete window[cbName];
+        document.head.removeChild(script);
+        reject(new Error('timeout'));
+      }, 8000);
+      window[cbName] = (json) => {
+        clearTimeout(timer);
+        delete window[cbName];
+        try { document.head.removeChild(script); } catch(e) {}
+        renderDashboard(json.data || []);
+        resolve();
+      };
+      script.src = SHEET_URL + '?action=getAll&callback=' + cbName;
+      script.onerror = () => { clearTimeout(timer); reject(new Error('script error')); };
+      document.head.appendChild(script);
+    });
+    return;
+  } catch(e2) {
+    // Both methods failed — show helpful message
+  }
+
+  // Show empty state with diagnostics hint
+  renderDashboard([]);
+  document.getElementById('reviewsTbody').innerHTML =
+    '<tr><td colspan="6" style="text-align:center;padding:16px;color:var(--sub);font-size:12px">' +
+    '⚠️ Could not connect to Google Sheet.<br>' +
+    '<small>Make sure your Apps Script is deployed with <strong>"Anyone"</strong> access.<br>' +
+    'Also ensure <code>doGet</code> handles <code>action=getAll</code> and returns JSON with CORS headers.</small>' +
+    '</td></tr>';
 }
 
 function renderDashboard(allRows){
@@ -1223,9 +1290,9 @@ function saveStaff(){
    SEO TEMPLATES (from sheet, fallback local)
 ═══════════════════════════════════════ */
 const SEO_FALLBACK=[
-  {Tag:'Ambience',Text:'Absolutely loved the cozy ambience at The Hunger Station! The décor is warm and inviting, perfect for a relaxing break. The coffee was rich and aromatic — definitely one of the best in the area. Highly recommend!'},
-  {Tag:'Service',Text:'Exceptional service at The Hunger Station! The staff was incredibly welcoming and attentive. My order arrived quickly and was exactly as expected. Will be my go-to café!'},
-  {Tag:'Coffee Quality',Text:'The Hunger Station serves some of the finest coffee I\'ve had in a long time. Each cup is crafted with care. The espresso was bold, the latte perfectly balanced. A must-visit for coffee lovers!'},
+  {Tag:'Ambience',Text:'Absolutely loved the cozy ambience at The Coffee House! The décor is warm and inviting, perfect for a relaxing break. The coffee was rich and aromatic — definitely one of the best in the area. Highly recommend!'},
+  {Tag:'Service',Text:'Exceptional service at The Coffee House! The staff was incredibly welcoming and attentive. My order arrived quickly and was exactly as expected. Will be my go-to café!'},
+  {Tag:'Coffee Quality',Text:'The Coffee House serves some of the finest coffee I\'ve had in a long time. Each cup is crafted with care. The espresso was bold, the latte perfectly balanced. A must-visit for coffee lovers!'},
   {Tag:'Family Visit',Text:'Visited with family and had a wonderful time. Spacious, kid-friendly, great menu options. The staff made us feel at home. Highly recommended for families!'},
   {Tag:'Work/Study',Text:'Perfect spot for working and studying. Comfortable seating, great coffee, and the team is always friendly. Perfect for professionals and students alike!'},
 ];
@@ -1251,7 +1318,7 @@ async function loadSEOTemplates(){
    REPLY TEMPLATES (from sheet, fallback local)
 ═══════════════════════════════════════ */
 const REPLY_FALLBACK=[
-  {Tag:'5-Star Reply',Text:'Thank you so much for your kind words! 🌟 We are thrilled to hear you had a wonderful experience at The Hunger Station. Your feedback motivates our entire team. We look forward to seeing you again soon! ☕'},
+  {Tag:'5-Star Reply',Text:'Thank you so much for your kind words! 🌟 We are thrilled to hear you had a wonderful experience at The Coffee House. Your feedback motivates our entire team. We look forward to seeing you again soon! ☕'},
   {Tag:'Low Rating Reply',Text:'Thank you for taking the time to share your feedback. We sincerely apologise that your experience didn\'t meet expectations. We\'d love the opportunity to make it right — please visit us again and ask for the manager! 🙏'},
   {Tag:'Average Rating Reply',Text:'Thank you for your honest feedback! We\'re glad you visited and appreciate you sharing your experience. We\'re always working to improve and hope your next visit will be even better! 😊'},
 ];
@@ -1302,9 +1369,79 @@ function showToast(msg){
 }
 
 /* ═══════════════════════════════════════
+   SEO SEQUENTIAL AUTO-FILL
+   Fetches templates from sheet, caches locally, fills textarea
+   sequentially: Sr.1 → Sr.2 → Sr.3 → ... → wraps around.
+═══════════════════════════════════════ */
+
+// SEO fallback templates (used when sheet is unreachable)
+const SEO_FORM_FALLBACK = [
+  'Absolutely loved the cozy ambience at The Coffee House! The décor is warm and inviting, perfect for a relaxing break. The coffee was rich and aromatic — definitely one of the best in the area. Highly recommended!',
+  'Exceptional service at The Coffee House! The staff was incredibly welcoming and attentive. My order arrived quickly and was exactly as expected. The team genuinely cares about every guest. Will be my go-to café from now on!',
+  'The Coffee House serves some of the finest coffee I've had in a long time. Each cup is crafted with care and precision. The espresso was bold, the latte perfectly balanced. A must-visit for true coffee lovers!',
+  'Visited The Coffee House with my family and had a wonderful time. Spacious, kid-friendly, great menu options for everyone. The staff made us feel at home. Highly recommended for families!',
+  'The Coffee House is my favourite spot for working and studying. Comfortable seating, great coffee, and the team is always friendly. Perfect for professionals and students alike!',
+  'Great experience at The Coffee House! The drinks were crafted to perfection and the presentation was beautiful. The staff were polite and efficient. Looking forward to my next visit!',
+];
+
+async function fetchSEOTemplates() {
+  // Return cached if available and fresh (within same session)
+  CFG = loadConfig();
+  if (CFG.cachedSEO && CFG.cachedSEO.length > 0) {
+    return CFG.cachedSEO;
+  }
+  // Try to fetch from sheet
+  try {
+    const res = await fetch(SHEET_URL + '?action=getSEO', { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    if (json.data && json.data.length > 0) {
+      // Extract text from rows — supports {Tag, Text} or {SrNo, Tag, Text} formats
+      const texts = json.data
+        .map(row => row.Text || row.text || row.Review || row.review || '')
+        .filter(t => t.trim().length > 10);
+      if (texts.length > 0) {
+        CFG = loadConfig();
+        CFG.cachedSEO = texts;
+        saveConfig(CFG);
+        return texts;
+      }
+    }
+  } catch(e) {
+    // Sheet unreachable — use fallback
+  }
+  return SEO_FORM_FALLBACK;
+}
+
+async function fillNextSEOReview() {
+  const textarea = document.getElementById('reviewInput');
+  if (!textarea) return;
+
+  // Only fill if textarea is currently empty
+  if (textarea.value.trim() !== '') return;
+
+  const templates = await fetchSEOTemplates();
+  if (!templates || templates.length === 0) return;
+
+  CFG = loadConfig();
+  const pointer = (typeof CFG.seoPointer === 'number') ? CFG.seoPointer : 0;
+  const index = pointer % templates.length;  // wraps around
+
+  textarea.value = templates[index];
+  autoResize(textarea);
+
+  // Advance pointer for next customer
+  CFG.seoPointer = index + 1;
+  saveConfig(CFG);
+}
+
+/* ═══════════════════════════════════════
    INIT
 ═══════════════════════════════════════ */
 drawWheel();
+
+// On page load: pre-fill the feedback textarea with the next SEO template
+fillNextSEOReview();
 </script>
 </body>
 </html>
