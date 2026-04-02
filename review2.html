@@ -245,21 +245,21 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
 .privacy-body li{margin-bottom:4px}
 
 /* ═══════════════════════════════════════
-   ADMIN LOGIN
+   ACCESS PORTAL
 ═══════════════════════════════════════ */
-#loginScreen .pw{justify-content:center;align-items:center;background:#F0F4F8}
-.login-card{background:#fff;border-radius:20px;padding:30px 26px;max-width:340px;width:90%;box-shadow:var(--shadow-md)}
-.login-logo{text-align:center;margin-bottom:22px}
-.login-logo .logo-icon{font-size:42px}
-.login-logo div{font-family:'Google Sans',sans-serif;font-size:19px;font-weight:700;color:var(--txt);margin-top:6px}
-.login-logo span{font-size:11px;color:var(--sub)}
-.login-field{margin-bottom:14px}
-.login-field label{font-size:11px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px}
-.login-field input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:15px;font-family:'Roboto',sans-serif;outline:none;transition:border-color .2s;box-shadow:inset 0 1px 3px rgba(0,0,0,.04)}
-.login-field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(66,133,244,.12)}
-.login-btn{width:100%;background:linear-gradient(135deg,#1a73e8,#0d47a1);border:none;border-radius:50px;padding:13px;font-size:15px;font-weight:600;color:#fff;font-family:'Google Sans',sans-serif;cursor:pointer;box-shadow:0 4px 16px rgba(26,115,232,.3);margin-top:4px}
-.login-btn:active{transform:scale(.98)}
-.login-err{font-size:12px;color:var(--red);text-align:center;margin-top:8px;min-height:18px}
+#authScreen .pw{justify-content:center;align-items:center;background:#F0F4F8}
+.auth-card{background:#fff;border-radius:20px;padding:30px 26px;max-width:340px;width:90%;box-shadow:var(--shadow-md)}
+.auth-logo{text-align:center;margin-bottom:22px}
+.auth-logo .logo-icon{font-size:42px}
+.auth-logo div{font-family:'Google Sans',sans-serif;font-size:19px;font-weight:700;color:var(--txt);margin-top:6px}
+.auth-logo span{font-size:11px;color:var(--sub)}
+.auth-field{margin-bottom:14px}
+.auth-field label{font-size:11px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px}
+.auth-field input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:15px;font-family:'Roboto',sans-serif;outline:none;transition:border-color .2s;box-shadow:inset 0 1px 3px rgba(0,0,0,.04)}
+.auth-field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(66,133,244,.12)}
+.auth-btn{width:100%;background:linear-gradient(135deg,#1a73e8,#0d47a1);border:none;border-radius:50px;padding:13px;font-size:15px;font-weight:600;color:#fff;font-family:'Google Sans',sans-serif;cursor:pointer;box-shadow:0 4px 16px rgba(26,115,232,.3);margin-top:4px}
+.auth-btn:active{transform:scale(.98)}
+.auth-err{font-size:12px;color:var(--red);text-align:center;margin-top:8px;min-height:18px}
 
 /* ═══════════════════════════════════════
    ADMIN PORTAL
@@ -464,7 +464,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
   <span class="star-deco" style="bottom:10%;right:8%;font-size:15px;animation-delay:.3s">🌟</span>
   <div class="spin-top">
     <h2>🎰 SPIN to WIN Your Surprise!</h2>
-    <p>Thank you for your Google review — you deserve a FREE Treat!</p>
+    <p>Thank you for your review — you deserve a FREE Treat!</p>
   </div>
   <div class="spin-area">
     <div class="wheel-outer">
@@ -537,24 +537,24 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
 </div>
 
 <!-- ═══════════════ MANAGEMENT DASHBOARD ═══════════════ -->
-<div class="screen" id="loginScreen">
+<div class="screen" id="authScreen">
 <div class="pw">
-  <div class="login-card">
-    <div class="login-logo">
+  <div class="auth-card">
+    <div class="auth-logo">
       <div class="logo-icon">☕</div>
       <div>Management Portal</div>
       <span>The Hunger Station</span>
     </div>
-    <div class="login-field">
+    <div class="auth-field">
       <label>Access ID</label>
-      <input type="text" id="loginUser" placeholder="ID" autocomplete="off">
+      <input type="text" id="authU" placeholder="ID" autocomplete="off">
     </div>
-    <div class="login-field">
+    <div class="auth-field">
       <label>Passcode</label>
-      <input type="text" id="loginPass" placeholder="••••••••" style="-webkit-text-security:disc" onkeydown="if(event.key==='Enter')doLogin()">
+      <input type="text" id="authP" placeholder="••••••••" style="-webkit-text-security:disc" onkeydown="if(event.key==='Enter')verifyAuth()">
     </div>
-    <button class="login-btn" onclick="doLogin()">Enter</button>
-    <div class="login-err" id="loginErr"></div>
+    <button class="auth-btn" onclick="verifyAuth()">Enter</button>
+    <div class="auth-err" id="authErr"></div>
   </div>
 </div>
 </div>
@@ -671,9 +671,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
       <div class="admin-card">
         <div class="admin-card-title">🔐 Change Passcode</div>
         <div style="display:flex;flex-direction:column;gap:8px">
-          <input type="text" id="newPass1" placeholder="New passcode" style="-webkit-text-security:disc;border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;outline:none">
-          <input type="text" id="newPass2" placeholder="Confirm new passcode" style="-webkit-text-security:disc;border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;outline:none">
-          <button class="btn-save" onclick="changePassword()">💾 Update Passcode</button>
+          <input type="text" id="newKey1" placeholder="New passcode" style="-webkit-text-security:disc;border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;outline:none">
+          <input type="text" id="newKey2" placeholder="Confirm new passcode" style="-webkit-text-security:disc;border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;outline:none">
+          <button class="btn-save" onclick="modifyKey()">💾 Update Passcode</button>
         </div>
       </div>
     </div>
@@ -697,7 +697,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
 <div class="copy-toast" id="copyToast">✅ Copied!</div>
 
 <!-- Admin gear trigger -->
-<div class="admin-trigger" id="adminTrigger" onclick="openLogin()">⚙️</div>
+<div class="admin-trigger" id="adminTrigger" onclick="openAuth()">⚙️</div>
 
 <script>
 /* ═══════════════════════════════════════
@@ -708,7 +708,7 @@ const SHEET_URL = ''; // YOUR URL WAS FLAGED BY GOOGLE. PLEASE GENERATE A NEW AP
 // All dynamic config stored in localStorage so it persists
 function loadConfig(){
   return JSON.parse(localStorage.getItem('tchConfig') || 'null') || {
-    adminPass: 'coffee123',
+    adminKey: 'coffee123',
     googleUrl: 'https://www.google.com/search?q=The+Coffee+House+Review',
     couponCode: 'TCH10OFF',
     couponDesc: '10% Off on your next order',
@@ -1040,27 +1040,29 @@ function bombConfetti(id){
 }
 
 /* ═══════════════════════════════════════
-   ADMIN LOGIN
+   MANAGEMENT PORTAL ACCESS
 ═══════════════════════════════════════ */
-function openLogin(){ showScreen('loginScreen'); }
-function doLogin(){
+function openAuth(){ showScreen('authScreen'); }
+function verifyAuth(){
   CFG=loadConfig();
-  const u=document.getElementById('loginUser').value.trim();
-  const p=document.getElementById('loginPass').value;
-  if(u==='admin'&&p===CFG.adminPass){
-    document.getElementById('loginErr').textContent='';
+  const u=document.getElementById('authU').value.trim();
+  const p=document.getElementById('authP').value;
+  let key = CFG.adminKey; 
+  if(!key) key = CFG.adminPass || 'coffee123';
+  if(u==='admin'&&p===key){
+    document.getElementById('authErr').textContent='';
     showScreen('adminScreen');
     loadAdminData();loadSegmentEditor();loadStaffEditor();loadSEOTemplates();loadReplyTemplates();
     document.getElementById('adminGoogleUrl').value=CFG.googleUrl||'';
     document.getElementById('adminCouponCode').value=CFG.couponCode||'TCH10OFF';
     document.getElementById('adminCouponDesc').value=CFG.couponDesc||'10% Off on your next order';
   } else {
-    document.getElementById('loginErr').textContent='❌ Invalid access ID or passcode.';
+    document.getElementById('authErr').textContent='❌ Invalid access ID or passcode.';
   }
 }
 function adminLogout(){
-  document.getElementById('loginUser').value='';
-  document.getElementById('loginPass').value='';
+  document.getElementById('authU').value='';
+  document.getElementById('authP').value='';
   showScreen('formScreen');
 }
 
@@ -1347,14 +1349,14 @@ function saveGoogleUrl(){
   const url=document.getElementById('adminGoogleUrl').value.trim();
   if(url){CFG.googleUrl=url;saveConfig(CFG);showToast('✅ Google URL saved!');}
 }
-function changePassword(){
-  const p1=document.getElementById('newPass1').value;
-  const p2=document.getElementById('newPass2').value;
+function modifyKey(){
+  const p1=document.getElementById('newKey1').value;
+  const p2=document.getElementById('newKey2').value;
   if(!p1){showToast('⚠️ Enter a new passcode');return;}
   if(p1!==p2){showToast('⚠️ Passcodes do not match');return;}
   if(p1.length<6){showToast('⚠️ Minimum 6 characters');return;}
-  CFG=loadConfig();CFG.adminPass=p1;saveConfig(CFG);
-  document.getElementById('newPass1').value='';document.getElementById('newPass2').value='';
+  CFG=loadConfig();CFG.adminKey=p1;saveConfig(CFG);
+  document.getElementById('newKey1').value='';document.getElementById('newKey2').value='';
   showToast('✅ Passcode updated!');
 }
 
