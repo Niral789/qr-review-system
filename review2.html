@@ -420,7 +420,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
     <div class="swipe-section">
       <div class="swipe-wrap" id="swipeTrack">
         <div class="swipe-fill" id="swipeFill"></div>
-        <div class="swipe-lbl" id="swipeLbl">Swipe → Post on Googlee &nbsp;<span class="arr">→</span></div>
+        <div class="swipe-lbl" id="swipeLbl">Swipe → Post your Review &nbsp;<span class="arr">→</span></div>
         <div class="swipe-thumb" id="swipeThumb">
           <span style="font-size: 22px;">🚀</span>
         </div>
@@ -438,7 +438,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
   <div class="ack-inner">
     <span class="ack-icon">🌟</span>
     <div class="ack-title">Did You Post Your Review?</div>
-    <p class="ack-sub">We opened Googlee Reviews for you.<br>Did you successfully submit your rating?<br><strong>Honest answer = a mystery prize 🎁</strong></p>
+    <p class="ack-sub">We opened the review page for you.<br>Did you successfully submit your rating?<br><strong>Honest answer = a mystery prize 🎁</strong></p>
     <div class="ack-btns">
       <button class="btn-yes" onclick="goToSpin()">✅ Yes, I Posted!</button>
       <button class="btn-no" onclick="goBack()">Not Yet</button>
@@ -528,9 +528,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
       <li>Date and time of submission</li>
     </ul>
     <h2>How We Use Your Data</h2>
-    <p>Your data is stored securely in a private Googlee Sheet accessible only to The Hunger Station management, used to improve service quality and recognise staff.</p>
-    <h2>Google Reviews</h2>
-    <p>When you choose to post on Googlee, your review text is copied to your clipboard and Google Reviews is opened in a new tab. We do not control what you post on Google.</p>
+    <p>Your data is stored securely in a private database accessible only to The Hunger Station management, used to improve service quality and recognise staff.</p>
+    <h2>Public Reviews</h2>
+    <p>When you choose to post publicly, your review text is copied to your clipboard and the review site is opened in a new tab.</p>
     <h2>Data Sharing</h2>
     <p>We do not sell or share your personal data with any third parties outside The Hunger Station team.</p>
     <h2>Data Retention</h2>
@@ -556,7 +556,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
     </div>
     <div class="login-field">
       <label>Password</label>
-      <input type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+      <input type="text" id="loginPass" placeholder="••••••••" style="-webkit-text-security:disc" onkeydown="if(event.key==='Enter')doLogin()">
     </div>
     <button class="login-btn" onclick="doLogin()">Sign In</button>
     <div class="login-err" id="loginErr"></div>
@@ -599,7 +599,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
           </div>
           <div class="stat-box">
             <div class="stat-num" id="statGoogle">—</div>
-            <div class="stat-lbl">Googlee Reviews</div>
+            <div class="stat-lbl">Public Reviews</div>
           </div>
           <div class="stat-box">
             <div class="stat-num" id="statAvg">—</div>
@@ -668,16 +668,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:
     <!-- CONFIG TAB -->
     <div class="tab-panel" id="tabConfig">
       <div class="admin-card">
-        <div class="admin-card-title">🔗 Googlee Review URL</div>
-        <p style="font-size:11px;color:var(--sub);margin-bottom:8px">Set the custom Google review/search URL users are redirected to when they swipe.</p>
+        <div class="admin-card-title">🔗 Public Review URL</div>
+        <p style="font-size:11px;color:var(--sub);margin-bottom:8px">Set the custom review/search URL users are redirected to when they swipe.</p>
         <textarea id="adminGoogleUrl" style="width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;font-size:12px;font-family:monospace;min-height:70px;outline:none;resize:none" placeholder="https://www.google.com/search?...#lrd=..."></textarea>
         <button class="btn-save" style="margin-top:8px" onclick="saveGoogleUrl()">💾 Save URL</button>
       </div>
       <div class="admin-card">
         <div class="admin-card-title">🔐 Change Password</div>
         <div style="display:flex;flex-direction:column;gap:8px">
-          <input type="password" id="newPass1" placeholder="New password" style="border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;outline:none">
-          <input type="password" id="newPass2" placeholder="Confirm new password" style="border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;outline:none">
+          <input type="text" id="newPass1" placeholder="New password" style="-webkit-text-security:disc;border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;outline:none">
+          <input type="text" id="newPass2" placeholder="Confirm new password" style="-webkit-text-security:disc;border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;outline:none">
           <button class="btn-save" onclick="changePassword()">💾 Update Password</button>
         </div>
       </div>
@@ -873,15 +873,9 @@ function submitToSheet(data){
 
   const fullUrl = SHEET_URL + '?' + qs;
 
-  // ✅ Most reliable method: Image ping — no CORS, no preflight, works everywhere
+  // Standard submission using fetch no-cors to avoid heuristic image-ping flags
   try {
-    const img = new Image();
-    img.src = fullUrl;
-  } catch(e) {}
-
-  // ✅ Backup: fetch no-cors
-  try {
-    fetch(fullUrl, { method:'GET', mode:'no-cors' }).catch(()=>{});
+    fetch(fullUrl, { method:'GET', mode:'no-cors', cache:'no-store' }).catch(()=>{});
   } catch(e) {}
 }
 
