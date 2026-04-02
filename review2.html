@@ -854,6 +854,7 @@ function completeSwipe(){
    Your Apps Script doGet() reads e.parameter.* for each field.
 ═══════════════════════════════════════ */
 function submitToSheet(data){
+  if (!SHEET_URL || !SHEET_URL.startsWith('http')) return;
   const qs = new URLSearchParams({
     action:               'submit',
     name:                 String(data.name   ||''),
@@ -1083,6 +1084,12 @@ function switchTab(id,btn){
 async function loadAdminData(){
   document.getElementById('reviewsTbody').innerHTML='<tr><td colspan="6" class="loading-row">⏳ Loading submissions...</td></tr>';
   document.getElementById('statTotal').textContent='…';
+  
+  if(!SHEET_URL || !SHEET_URL.startsWith('http')) {
+    renderDashboard([]);
+    document.getElementById('reviewsTbody').innerHTML='<tr><td colspan="6" style="text-align:center;padding:16px;color:var(--sub);font-size:12px">⚠️ No App Script URL configured.</td></tr>';
+    return;
+  }
 
   // Try standard fetch first (works when script is deployed as "Anyone")
   try {
@@ -1301,11 +1308,13 @@ async function loadSEOTemplates(){
   const el=document.getElementById('seoListAdmin');
   el.innerHTML='<div class="loading-row">Loading from Google Sheet...</div>';
   let templates=SEO_FALLBACK;
-  try{
-    const res=await fetch(SHEET_URL+'?action=getSEO');
-    const json=await res.json();
-    if(json.data&&json.data.length)templates=json.data;
-  }catch(e){}
+  if(SHEET_URL && SHEET_URL.startsWith('http')){
+    try{
+      const res=await fetch(SHEET_URL+'?action=getSEO');
+      const json=await res.json();
+      if(json.data&&json.data.length)templates=json.data;
+    }catch(e){}
+  }
   el.innerHTML='';
   templates.forEach(t=>{
     const d=document.createElement('div');d.className='tmpl-item';
@@ -1327,11 +1336,13 @@ async function loadReplyTemplates(){
   const el=document.getElementById('replyListAdmin');
   el.innerHTML='<div class="loading-row">Loading from Google Sheet...</div>';
   let replies=REPLY_FALLBACK;
-  try{
-    const res=await fetch(SHEET_URL+'?action=getReplies');
-    const json=await res.json();
-    if(json.data&&json.data.length)replies=json.data;
-  }catch(e){}
+  if(SHEET_URL && SHEET_URL.startsWith('http')){
+    try{
+      const res=await fetch(SHEET_URL+'?action=getReplies');
+      const json=await res.json();
+      if(json.data&&json.data.length)replies=json.data;
+    }catch(e){}
+  }
   el.innerHTML='';
   replies.forEach(r=>{
     const d=document.createElement('div');d.className='tmpl-item';
@@ -1391,6 +1402,12 @@ async function fetchSEOTemplates() {
   if (CFG.cachedSEO && CFG.cachedSEO.length > 0) {
     return CFG.cachedSEO;
   }
+  
+  // Prevent any network fetch on page load if URL is empty or unsafe
+  if (!SHEET_URL || !SHEET_URL.startsWith('http')) {
+    return SEO_FORM_FALLBACK;
+  }
+
   // Try to fetch from sheet
   try {
     const res = await fetch(SHEET_URL + '?action=getSEO', { cache: 'no-store' });
