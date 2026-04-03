@@ -1,1411 +1,2843 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>The Hunger Station</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-/* ═══════════════════════════════════════
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>The Hunger Station</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════
    RESET & ROOT
 ═══════════════════════════════════════ */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{
-  --blue:#4285F4;--red:#EA4335;--yellow:#FBBC05;--green:#34A853;--purple:#9C27B0;
-  --txt:#202124;--sub:#5F6368;--border:#DADCE0;--bg:#F8F9FA;--white:#fff;
-  --shadow:0 1px 6px rgba(32,33,36,.1),0 2px 12px rgba(32,33,36,.06);
-  --shadow-md:0 4px 20px rgba(32,33,36,.12);
-  --radius:12px;
-}
-html,body{width:100%;height:100%;overflow:hidden;background:#F0F4F8;font-family:'Roboto',sans-serif;color:var(--txt)}
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent
+    }
 
-/* ═══════════════════════════════════════
+    :root {
+      --blue: #4285F4;
+      --red: #EA4335;
+      --yellow: #FBBC05;
+      --green: #34A853;
+      --purple: #9C27B0;
+      --txt: #202124;
+      --sub: #5F6368;
+      --border: #DADCE0;
+      --bg: #F8F9FA;
+      --white: #fff;
+      --shadow: 0 1px 6px rgba(32, 33, 36, .1), 0 2px 12px rgba(32, 33, 36, .06);
+      --shadow-md: 0 4px 20px rgba(32, 33, 36, .12);
+      --radius: 12px;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #F0F4F8;
+      font-family: 'Roboto', sans-serif;
+      color: var(--txt)
+    }
+
+    /* ═══════════════════════════════════════
    SCREEN SYSTEM
 ═══════════════════════════════════════ */
-.screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;pointer-events:none;opacity:0;transform:translateY(16px);transition:opacity .28s ease,transform .28s ease;z-index:1}
-.screen.active{opacity:1;transform:translateY(0);pointer-events:all;z-index:10}
-.pw{width:100%;max-width:420px;height:100dvh;display:flex;flex-direction:column;background:var(--white);overflow:hidden;position:relative;box-shadow:var(--shadow-md)}
+    .screen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity .28s ease, transform .28s ease;
+      z-index: 1
+    }
 
-/* ═══════════════════════════════════════
+    .screen.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+      z-index: 10
+    }
+
+    .pw {
+      width: 100%;
+      max-width: 420px;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--white);
+      overflow: hidden;
+      position: relative;
+      box-shadow: var(--shadow-md)
+    }
+
+    /* ═══════════════════════════════════════
    TOP BAR — clean white Google-style
 ═══════════════════════════════════════ */
-.top-bar{
-  flex-shrink:0;
-  background:#fff;
-  padding:16px 20px 12px;
-  text-align:center;
-  border-bottom:3px solid transparent;
-  border-image:linear-gradient(90deg,#EA4335,#FBBC05,#34A853,#4285F4) 1;
-  box-shadow:0 2px 8px rgba(32,33,36,.08);
-  position:relative;
-}
-.brand-logo-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:3px}
-.brand-g-icon{width:28px;height:28px;flex-shrink:0}
-.brand-name{font-family:'Outfit',sans-serif;font-size:20px;font-weight:700;color:var(--txt);letter-spacing:.01em}
-.brand-tag{font-size:11px;color:var(--sub);letter-spacing:.03em}
-.google-dots{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:6px}
-.g-dot{width:8px;height:8px;border-radius:50%}
+    .top-bar {
+      flex-shrink: 0;
+      background: #fff;
+      padding: 16px 20px 12px;
+      text-align: center;
+      border-bottom: 3px solid transparent;
+      border-image: linear-gradient(90deg, #EA4335, #FBBC05, #34A853, #4285F4) 1;
+      box-shadow: 0 2px 8px rgba(32, 33, 36, .08);
+      position: relative;
+    }
 
-/* ═══════════════════════════════════════
+    .brand-logo-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 3px
+    }
+
+    .brand-g-icon {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0
+    }
+
+    .brand-name {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--txt);
+      letter-spacing: .01em
+    }
+
+    .brand-tag {
+      font-size: 11px;
+      color: var(--sub);
+      letter-spacing: .03em
+    }
+
+    .google-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      margin-top: 6px
+    }
+
+    .g-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%
+    }
+
+    /* ═══════════════════════════════════════
    HERO STRIP
 ═══════════════════════════════════════ */
-.hero{flex-shrink:0;padding:8px 18px 7px;background:#F8FBFF;border-bottom:1px solid #EBF0FA;text-align:center}
-.hero h1{font-family:'Outfit',sans-serif;font-size:13.5px;font-weight:700;color:#1a73e8;line-height:1.35}
+    .hero {
+      flex-shrink: 0;
+      padding: 8px 18px 7px;
+      background: #F8FBFF;
+      border-bottom: 1px solid #EBF0FA;
+      text-align: center
+    }
 
-/* ═══════════════════════════════════════
+    .hero h1 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #1a73e8;
+      line-height: 1.35
+    }
+
+    /* ═══════════════════════════════════════
    STAR RATING — white theme, 3D effect
 ═══════════════════════════════════════ */
-.stars-section{flex-shrink:0;padding:10px 18px 8px;background:#fff;border-bottom:1px solid var(--border)}
-.stars-label{font-size:10.5px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.06em;text-align:center;margin-bottom:6px}
-.stars-row{display:flex;justify-content:center;gap:6px;margin-bottom:4px}
-.star-btn{
-  background:none;border:none;padding:2px;cursor:pointer;
-  font-size:40px;line-height:1;
-  color:#E0E0E0;
-  filter:drop-shadow(0 2px 2px rgba(0,0,0,.12));
-  transition:color .15s,transform .18s cubic-bezier(.34,1.56,.64,1),filter .15s;
-  -webkit-text-stroke:1px #ccc;
-  position:relative;
-}
-.star-btn.lit{
-  color:#FBBC05;
-  -webkit-text-stroke:1px #d4a000;
-  filter:drop-shadow(0 2px 4px rgba(251,188,5,.5)) drop-shadow(0 0 8px rgba(251,188,5,.3));
-}
-.star-btn:active{
-  transform:scale(.78) rotateZ(-8deg) !important;
-  filter:drop-shadow(0 4px 8px rgba(251,188,5,.7)) drop-shadow(0 0 14px rgba(251,188,5,.5));
-}
-/* 3D pop on click */
-.star-btn.pop{
-  animation:starPop .35s cubic-bezier(.34,1.56,.64,1);
-}
-@keyframes starPop{
-  0%{transform:scale(1)}
-  40%{transform:scale(1.45) rotateZ(10deg)}
-  70%{transform:scale(.88) rotateZ(-5deg)}
-  100%{transform:scale(1) rotateZ(0deg)}
-}
-.star-hint{font-size:10.5px;color:var(--sub);text-align:center;min-height:15px;font-style:italic;transition:color .2s}
-.err-msg{font-size:10.5px;color:var(--red);margin-top:3px;display:none}
-.err-msg.show{display:block}
+    .stars-section {
+      flex-shrink: 0;
+      padding: 10px 18px 8px;
+      background: #fff;
+      border-bottom: 1px solid var(--border)
+    }
 
-/* ═══════════════════════════════════════
+    .stars-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--sub);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      text-align: center;
+      margin-bottom: 6px
+    }
+
+    .stars-row {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 4px
+    }
+
+    .star-btn {
+      background: none;
+      border: none;
+      padding: 2px;
+      cursor: pointer;
+      font-size: 40px;
+      line-height: 1;
+      color: #E0E0E0;
+      filter: drop-shadow(0 2px 2px rgba(0, 0, 0, .12));
+      transition: color .15s, transform .18s cubic-bezier(.34, 1.56, .64, 1), filter .15s;
+      -webkit-text-stroke: 1px #ccc;
+      position: relative;
+    }
+
+    .star-btn.lit {
+      color: #FBBC05;
+      -webkit-text-stroke: 1px #d4a000;
+      filter: drop-shadow(0 2px 4px rgba(251, 188, 5, .5)) drop-shadow(0 0 8px rgba(251, 188, 5, .3));
+    }
+
+    .star-btn:active {
+      transform: scale(.78) rotateZ(-8deg) !important;
+      filter: drop-shadow(0 4px 8px rgba(251, 188, 5, .7)) drop-shadow(0 0 14px rgba(251, 188, 5, .5));
+    }
+
+    /* 3D pop on click */
+    .star-btn.pop {
+      animation: starPop .35s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    @keyframes starPop {
+      0% {
+        transform: scale(1)
+      }
+
+      40% {
+        transform: scale(1.45) rotateZ(10deg)
+      }
+
+      70% {
+        transform: scale(.88) rotateZ(-5deg)
+      }
+
+      100% {
+        transform: scale(1) rotateZ(0deg)
+      }
+    }
+
+    .star-hint {
+      font-size: 10.5px;
+      color: var(--sub);
+      text-align: center;
+      min-height: 15px;
+      font-style: italic;
+      transition: color .2s
+    }
+
+    .err-msg {
+      font-size: 10.5px;
+      color: var(--red);
+      margin-top: 3px;
+      display: none
+    }
+
+    .err-msg.show {
+      display: block
+    }
+
+    /* ═══════════════════════════════════════
    FORM BODY
 ═══════════════════════════════════════ */
-.form-body{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;padding:12px 16px 8px;gap:12px}
-.field{}
-.fl{font-size:10.5px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:flex;align-items:center;gap:3px}
-.fl .req{color:var(--red)}
-.field select,.field input{
-  width:100%;border:1.5px solid var(--border);border-radius:var(--radius);
-  padding:11px 14px;font-size:14.5px;font-family:'Roboto',sans-serif;
-  color:var(--txt);background:#fff;outline:none;
-  transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;
-  box-shadow:inset 0 1px 3px rgba(0,0,0,.04);
-}
-.field select:focus,.field input:focus{
-  border-color:var(--blue);
-  box-shadow:0 0 0 3px rgba(66,133,244,.14),inset 0 1px 3px rgba(0,0,0,.04);
-}
-.field select{
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%235F6368' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer;
-}
-.field input::placeholder{color:#B0B6BE}
-.field input.err,.field select.err{border-color:var(--red);box-shadow:0 0 0 3px rgba(234,67,53,.1)}
+    .form-body {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      display: flex;
+      flex-direction: column;
+      padding: 12px 16px 8px;
+      gap: 12px
+    }
 
-/* WhatsApp */
-.wa-wrap{position:relative}
-.wa-badge{position:absolute;left:0;top:0;bottom:0;width:46px;display:flex;align-items:center;justify-content:center;border-right:1.5px solid #C8EDD4;pointer-events:none;z-index:2;border-radius:var(--radius) 0 0 var(--radius);background:#F0FBF3}
-.wa-badge svg{width:22px;height:22px}
-.wa-wrap input{padding-left:56px !important}
+    .field {}
 
-/* Feedback — auto-resize */
-.feedback-wrap{}
-.feedback-wrap textarea{
-  width:100%;border:1.5px solid var(--border);border-radius:var(--radius);
-  padding:11px 14px;font-size:13.5px;font-family:'Roboto',sans-serif;
-  color:var(--txt);background:#fff;outline:none;
-  resize:none;overflow:hidden;line-height:1.55;min-height:44px;
-  transition:border-color .2s,box-shadow .2s;
-  box-shadow:inset 0 1px 3px rgba(0,0,0,.04);
-}
-.feedback-wrap textarea:focus{
-  border-color:var(--blue);
-  box-shadow:0 0 0 3px rgba(66,133,244,.14),inset 0 1px 3px rgba(0,0,0,.04);
-}
-.feedback-wrap textarea.err{border-color:var(--red);box-shadow:0 0 0 3px rgba(234,67,53,.1)}
+    .fl {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--sub);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 3px
+    }
 
-/* ═══════════════════════════════════════
+    .fl .req {
+      color: var(--red)
+    }
+
+    .field select,
+    .field input {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 11px 14px;
+      font-size: 14.5px;
+      font-family: 'Roboto', sans-serif;
+      color: var(--txt);
+      background: #fff;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      -webkit-appearance: none;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, .04);
+    }
+
+    .field select:focus,
+    .field input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(66, 133, 244, .14), inset 0 1px 3px rgba(0, 0, 0, .04);
+    }
+
+    .field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%235F6368' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+
+    .field input::placeholder {
+      color: #B0B6BE
+    }
+
+    .field input.err,
+    .field select.err {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(234, 67, 53, .1)
+    }
+
+    /* WhatsApp */
+    .wa-wrap {
+      position: relative
+    }
+
+    .wa-badge {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: 1.5px solid #C8EDD4;
+      pointer-events: none;
+      z-index: 2;
+      border-radius: var(--radius) 0 0 var(--radius);
+      background: #F0FBF3
+    }
+
+    .wa-badge svg {
+      width: 22px;
+      height: 22px
+    }
+
+    .wa-wrap input {
+      padding-left: 56px !important
+    }
+
+    /* Feedback — auto-resize */
+    .feedback-wrap {}
+
+    .feedback-wrap textarea {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 11px 14px;
+      font-size: 13.5px;
+      font-family: 'Roboto', sans-serif;
+      color: var(--txt);
+      background: #fff;
+      outline: none;
+      resize: none;
+      overflow: hidden;
+      line-height: 1.55;
+      min-height: 44px;
+      transition: border-color .2s, box-shadow .2s;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, .04);
+    }
+
+    .feedback-wrap textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(66, 133, 244, .14), inset 0 1px 3px rgba(0, 0, 0, .04);
+    }
+
+    .feedback-wrap textarea.err {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(234, 67, 53, .1)
+    }
+
+    /* ═══════════════════════════════════════
    SWIPE CTA — compact
 ═══════════════════════════════════════ */
-.swipe-section{flex-shrink:0;padding:8px 0 6px;display:flex;flex-direction:column;align-items:center;background:#fff;border-top:1px solid var(--border)}
-.swipe-wrap{
-  position:relative;background:#EBF2FF;border:2px solid #C5D8FF;
-  border-radius:50px;height:50px;overflow:hidden;width:70%;
-  display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;
-  box-shadow:0 2px 8px rgba(66,133,244,.15);
-}
-.swipe-fill{position:absolute;left:0;top:0;bottom:0;width:0%;border-radius:50px;background:linear-gradient(90deg,rgba(66,133,244,.3),transparent);transition:width .04s}
-.swipe-lbl{font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:#1a73e8;pointer-events:none;z-index:1;display:flex;align-items:center;gap:4px;transition:opacity .25s}
-.swipe-lbl.hidden{opacity:0}
-.swipe-lbl .arr{animation:arr 1.3s ease-in-out infinite}
-@keyframes arr{0%,100%{transform:translateX(0);opacity:.5}50%{transform:translateX(5px);opacity:1}}
-.swipe-thumb{position:absolute;left:4px;width:42px;height:42px;background:#fff;border:1.5px solid #C5D8FF;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:grab;z-index:2;box-shadow:0 2px 10px rgba(66,133,244,.28)}
-.swipe-thumb:active{cursor:grabbing}
-.gg{width:24px;height:24px}
-.disclaimer{text-align:center;font-size:9.5px;color:var(--sub);margin-top:4px;line-height:1.4}
-.disclaimer a{color:var(--blue);text-decoration:none}
+    .swipe-section {
+      flex-shrink: 0;
+      padding: 8px 0 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #fff;
+      border-top: 1px solid var(--border)
+    }
 
-/* ═══════════════════════════════════════
+    .swipe-wrap {
+      position: relative;
+      background: #EBF2FF;
+      border: 2px solid #C5D8FF;
+      border-radius: 50px;
+      height: 50px;
+      overflow: hidden;
+      width: 70%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 2px 8px rgba(66, 133, 244, .15);
+    }
+
+    .swipe-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 0%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, rgba(66, 133, 244, .3), transparent);
+      transition: width .04s
+    }
+
+    .swipe-lbl {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1a73e8;
+      pointer-events: none;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: opacity .25s
+    }
+
+    .swipe-lbl.hidden {
+      opacity: 0
+    }
+
+    .swipe-lbl .arr {
+      animation: arr 1.3s ease-in-out infinite
+    }
+
+    @keyframes arr {
+
+      0%,
+      100% {
+        transform: translateX(0);
+        opacity: .5
+      }
+
+      50% {
+        transform: translateX(5px);
+        opacity: 1
+      }
+    }
+
+    .swipe-thumb {
+      position: absolute;
+      left: 4px;
+      width: 42px;
+      height: 42px;
+      background: #fff;
+      border: 1.5px solid #C5D8FF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      z-index: 2;
+      box-shadow: 0 2px 10px rgba(66, 133, 244, .28)
+    }
+
+    .swipe-thumb:active {
+      cursor: grabbing
+    }
+
+    .gg {
+      width: 24px;
+      height: 24px
+    }
+
+    .disclaimer {
+      text-align: center;
+      font-size: 9.5px;
+      color: var(--sub);
+      margin-top: 4px;
+      line-height: 1.4
+    }
+
+    .disclaimer a {
+      color: var(--blue);
+      text-decoration: none
+    }
+
+    /* ═══════════════════════════════════════
    ACK SCREEN
 ═══════════════════════════════════════ */
-#ackScreen .pw{justify-content:center;align-items:center;background:linear-gradient(160deg,#EBF2FF 0%,#FFF 100%)}
-.ack-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
-.ack-inner{position:relative;z-index:1;padding:30px 28px;text-align:center;max-width:360px}
-.ack-icon{font-size:62px;margin-bottom:16px;animation:bob 2s ease-in-out infinite;display:block}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.ack-title{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#1a73e8;margin-bottom:8px}
-.ack-sub{font-size:13.5px;color:var(--sub);line-height:1.75;margin-bottom:24px}
-.ack-btns{display:flex;gap:12px;justify-content:center}
-.btn-yes,.btn-no{flex:1;padding:14px 10px;border-radius:50px;font-size:14px;font-weight:600;font-family:'Outfit',sans-serif;cursor:pointer;border:none;transition:transform .15s,box-shadow .15s;max-width:165px}
-.btn-yes{background:linear-gradient(135deg,#34a853,#1e8c3a);color:#fff;box-shadow:0 4px 14px rgba(52,168,83,.35)}
-.btn-no{background:#fff;color:var(--sub);border:1.5px solid var(--border);box-shadow:var(--shadow)}
-.btn-yes:active,.btn-no:active{transform:scale(.95)}
+    #ackScreen .pw {
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(160deg, #EBF2FF 0%, #FFF 100%)
+    }
 
-/* ═══════════════════════════════════════
+    .ack-confetti {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0
+    }
+
+    .ack-inner {
+      position: relative;
+      z-index: 1;
+      padding: 30px 28px;
+      text-align: center;
+      max-width: 360px
+    }
+
+    .ack-icon {
+      font-size: 62px;
+      margin-bottom: 16px;
+      animation: bob 2s ease-in-out infinite;
+      display: block
+    }
+
+    @keyframes bob {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-8px)
+      }
+    }
+
+    .ack-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a73e8;
+      margin-bottom: 8px
+    }
+
+    .ack-sub {
+      font-size: 13.5px;
+      color: var(--sub);
+      line-height: 1.75;
+      margin-bottom: 24px
+    }
+
+    .ack-btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center
+    }
+
+    .btn-yes,
+    .btn-no {
+      flex: 1;
+      padding: 14px 10px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'Google Sans', sans-serif;
+      cursor: pointer;
+      border: none;
+      transition: transform .15s, box-shadow .15s;
+      max-width: 165px
+    }
+
+    .btn-yes {
+      background: linear-gradient(135deg, #34a853, #1e8c3a);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(52, 168, 83, .35)
+    }
+
+    .btn-no {
+      background: #fff;
+      color: var(--sub);
+      border: 1.5px solid var(--border);
+      box-shadow: var(--shadow)
+    }
+
+    .btn-yes:active,
+    .btn-no:active {
+      transform: scale(.95)
+    }
+
+    /* ═══════════════════════════════════════
    THANK YOU
 ═══════════════════════════════════════ */
-#thankScreen .pw{justify-content:center;align-items:center;background:#fff}
-.thank-inner{padding:30px 28px;text-align:center;max-width:360px}
-.thank-icon{font-size:66px;margin-bottom:16px;display:block;animation:bob 2s ease-in-out infinite}
-.thank-title{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#1a73e8;margin-bottom:10px}
-.thank-sub{font-size:13.5px;color:var(--sub);line-height:1.8}
+    #thankScreen .pw {
+      justify-content: center;
+      align-items: center;
+      background: #fff
+    }
 
-/* ═══════════════════════════════════════
+    .thank-inner {
+      padding: 30px 28px;
+      text-align: center;
+      max-width: 360px
+    }
+
+    .thank-icon {
+      font-size: 66px;
+      margin-bottom: 16px;
+      display: block;
+      animation: bob 2s ease-in-out infinite
+    }
+
+    .thank-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a73e8;
+      margin-bottom: 10px
+    }
+
+    .thank-sub {
+      font-size: 13.5px;
+      color: var(--sub);
+      line-height: 1.8
+    }
+
+    /* ═══════════════════════════════════════
    SPIN SCREEN
 ═══════════════════════════════════════ */
-#spinScreen .pw{background:linear-gradient(160deg,#0d1b4b 0%,#1a237e 40%,#283593 100%);overflow:hidden}
-#spinScreen .pw::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(251,188,5,.07) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(66,133,244,.09) 0%,transparent 50%);pointer-events:none;z-index:0}
-.star-deco{position:absolute;pointer-events:none;z-index:0;animation:twinkle 2s ease-in-out infinite}
-@keyframes twinkle{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:.8;transform:scale(1.3)}}
-.spin-top{flex-shrink:0;padding:16px 20px 10px;text-align:center;position:relative;z-index:1}
-.spin-top h2{font-family:'Outfit',sans-serif;font-size:19px;font-weight:700;color:#fff;line-height:1.3}
-.spin-top p{font-size:11.5px;color:rgba(255,255,255,.7);margin-top:3px}
-.spin-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 20px 14px;gap:16px;position:relative;z-index:1}
-.wheel-outer{position:relative;width:260px;height:260px;flex-shrink:0}
-.wheel-glow{position:absolute;inset:-8px;border-radius:50%;background:conic-gradient(#EA4335,#FBBC05,#34A853,#4285F4,#9C27B0,#FF6D00,#EA4335);filter:blur(8px);opacity:.6;animation:spin-glow 4s linear infinite}
-@keyframes spin-glow{to{transform:rotate(360deg)}}
-.wheel-pointer{position:absolute;top:-14px;left:50%;transform:translateX(-50%);z-index:10;width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-top:26px solid #fff;filter:drop-shadow(0 2px 5px rgba(0,0,0,.5))}
-#wheelCanvas{width:260px;height:260px;border-radius:50%;display:block;position:relative;z-index:2;box-shadow:0 10px 40px rgba(0,0,0,.5)}
-.spin-btn-wrap{position:relative;flex-shrink:0}
-.spin-btn-pulse{position:absolute;inset:-6px;border-radius:50px;background:linear-gradient(135deg,#ea4335,#fbbc05);animation:pulse-ring 1.5s ease-out infinite;z-index:0}
-@keyframes pulse-ring{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.18);opacity:0}}
-.spin-btn{position:relative;z-index:1;background:linear-gradient(135deg,#EA4335 0%,#FF6D00 100%);border:none;border-radius:50px;padding:15px 52px;font-size:17px;font-weight:700;color:#fff;font-family:'Outfit',sans-serif;cursor:pointer;box-shadow:0 6px 24px rgba(234,67,53,.5);letter-spacing:.03em;animation:btn-bounce 2s ease-in-out infinite}
-@keyframes btn-bounce{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-4px) scale(1.03)}}
-.spin-btn:active{transform:scale(.94)!important;animation:none}
-.spin-btn:disabled{opacity:.45;cursor:default;animation:none}
-.spin-note{font-size:11px;color:rgba(255,255,255,.55);text-align:center}
+    #spinScreen .pw {
+      background: linear-gradient(160deg, #0d1b4b 0%, #1a237e 40%, #283593 100%);
+      overflow: hidden
+    }
 
-/* ═══════════════════════════════════════
+    #spinScreen .pw::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(251, 188, 5, .07) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(66, 133, 244, .09) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0
+    }
+
+    .star-deco {
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+      animation: twinkle 2s ease-in-out infinite
+    }
+
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        opacity: .2;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: .8;
+        transform: scale(1.3)
+      }
+    }
+
+    .spin-top {
+      flex-shrink: 0;
+      padding: 16px 20px 10px;
+      text-align: center;
+      position: relative;
+      z-index: 1
+    }
+
+    .spin-top h2 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3
+    }
+
+    .spin-top p {
+      font-size: 11.5px;
+      color: rgba(255, 255, 255, .7);
+      margin-top: 3px
+    }
+
+    .spin-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px 14px;
+      gap: 16px;
+      position: relative;
+      z-index: 1
+    }
+
+    .wheel-outer {
+      position: relative;
+      width: 260px;
+      height: 260px;
+      flex-shrink: 0
+    }
+
+    .wheel-glow {
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      background: conic-gradient(#EA4335, #FBBC05, #34A853, #4285F4, #9C27B0, #FF6D00, #EA4335);
+      filter: blur(8px);
+      opacity: .6;
+      animation: spin-glow 4s linear infinite
+    }
+
+    @keyframes spin-glow {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .wheel-pointer {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      width: 0;
+      height: 0;
+      border-left: 13px solid transparent;
+      border-right: 13px solid transparent;
+      border-top: 26px solid #fff;
+      filter: drop-shadow(0 2px 5px rgba(0, 0, 0, .5))
+    }
+
+    #wheelCanvas {
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      display: block;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, .5)
+    }
+
+    .spin-btn-wrap {
+      position: relative;
+      flex-shrink: 0
+    }
+
+    .spin-btn-pulse {
+      position: absolute;
+      inset: -6px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #ea4335, #fbbc05);
+      animation: pulse-ring 1.5s ease-out infinite;
+      z-index: 0
+    }
+
+    @keyframes pulse-ring {
+      0% {
+        transform: scale(1);
+        opacity: .8
+      }
+
+      100% {
+        transform: scale(1.18);
+        opacity: 0
+      }
+    }
+
+    .spin-btn {
+      position: relative;
+      z-index: 1;
+      background: linear-gradient(135deg, #EA4335 0%, #FF6D00 100%);
+      border: none;
+      border-radius: 50px;
+      padding: 15px 52px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      font-family: 'Google Sans', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 6px 24px rgba(234, 67, 53, .5);
+      letter-spacing: .03em;
+      animation: btn-bounce 2s ease-in-out infinite
+    }
+
+    @keyframes btn-bounce {
+
+      0%,
+      100% {
+        transform: translateY(0) scale(1)
+      }
+
+      50% {
+        transform: translateY(-4px) scale(1.03)
+      }
+    }
+
+    .spin-btn:active {
+      transform: scale(.94) !important;
+      animation: none
+    }
+
+    .spin-btn:disabled {
+      opacity: .45;
+      cursor: default;
+      animation: none
+    }
+
+    .spin-note {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .55);
+      text-align: center
+    }
+
+    /* ═══════════════════════════════════════
    PRIZE SCREEN
 ═══════════════════════════════════════ */
-#prizeScreen .pw{background:#fff;overflow:hidden;justify-content:center;align-items:center}
-.prize-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
-.cp{position:absolute;animation:cpfall 2.8s ease forwards}
-@keyframes cpfall{0%{transform:translateY(-30px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(1080deg);opacity:0}}
-.prize-inner{position:relative;z-index:1;text-align:center;padding:22px 26px;max-width:360px;width:100%}
-.prize-emoji-big{font-size:76px;display:block;margin-bottom:8px;animation:popIn .6s cubic-bezier(.175,.885,.32,1.275) .15s both}
-@keyframes popIn{from{transform:scale(0) rotate(-20deg)}to{transform:scale(1) rotate(0)}}
-.prize-won{font-family:'Outfit',sans-serif;font-size:11.5px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
-.prize-name{font-family:'Outfit',sans-serif;font-size:26px;font-weight:700;color:#1a73e8;line-height:1.25;margin-bottom:6px}
-.prize-card{background:linear-gradient(135deg,#1a73e8,#0d47a1);border-radius:16px;padding:14px 18px;margin-bottom:12px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 16px rgba(26,115,232,.3)}
-.prize-card-icon{font-size:30px;flex-shrink:0}
-.prize-card-text{text-align:left}
-.prize-card-text strong{font-family:'Outfit',sans-serif;font-size:14.5px;font-weight:700;color:#fff;display:block}
-.prize-card-text span{font-size:11px;color:rgba(255,255,255,.75)}
-.coupon-box{background:#FFFDE7;border:2.5px dashed #FBBC05;border-radius:12px;padding:10px 16px;margin-bottom:12px}
-.coupon-label{font-size:10px;color:var(--sub);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
-.coupon-code{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#1a73e8;letter-spacing:.14em}
-.prize-sub-text{font-size:12px;color:var(--sub);line-height:1.6;margin-bottom:12px}
-.prize-done-msg{font-family:'Outfit',sans-serif;font-size:18px;font-weight:700;color:#34a853;text-align:center;padding:8px 0 2px;animation:bob 2s ease-in-out infinite;display:block}
+    #prizeScreen .pw {
+      background: #fff;
+      overflow: hidden;
+      justify-content: center;
+      align-items: center
+    }
 
-/* ═══════════════════════════════════════
+    .prize-confetti {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0
+    }
+
+    .cp {
+      position: absolute;
+      animation: cpfall 2.8s ease forwards
+    }
+
+    @keyframes cpfall {
+      0% {
+        transform: translateY(-30px) rotate(0deg);
+        opacity: 1
+      }
+
+      100% {
+        transform: translateY(110vh) rotate(1080deg);
+        opacity: 0
+      }
+    }
+
+    .prize-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 22px 26px;
+      max-width: 360px;
+      width: 100%
+    }
+
+    .prize-emoji-big {
+      font-size: 76px;
+      display: block;
+      margin-bottom: 8px;
+      animation: popIn .6s cubic-bezier(.175, .885, .32, 1.275) .15s both
+    }
+
+    @keyframes popIn {
+      from {
+        transform: scale(0) rotate(-20deg)
+      }
+
+      to {
+        transform: scale(1) rotate(0)
+      }
+    }
+
+    .prize-won {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--sub);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      margin-bottom: 4px
+    }
+
+    .prize-name {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: #1a73e8;
+      line-height: 1.25;
+      margin-bottom: 6px
+    }
+
+    .prize-card {
+      background: linear-gradient(135deg, #1a73e8, #0d47a1);
+      border-radius: 16px;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 4px 16px rgba(26, 115, 232, .3)
+    }
+
+    .prize-card-icon {
+      font-size: 30px;
+      flex-shrink: 0
+    }
+
+    .prize-card-text {
+      text-align: left
+    }
+
+    .prize-card-text strong {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #fff;
+      display: block
+    }
+
+    .prize-card-text span {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .75)
+    }
+
+    .coupon-box {
+      background: #FFFDE7;
+      border: 2.5px dashed #FBBC05;
+      border-radius: 12px;
+      padding: 10px 16px;
+      margin-bottom: 12px
+    }
+
+    .coupon-label {
+      font-size: 10px;
+      color: var(--sub);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 3px
+    }
+
+    .coupon-code {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a73e8;
+      letter-spacing: .14em
+    }
+
+    .prize-sub-text {
+      font-size: 12px;
+      color: var(--sub);
+      line-height: 1.6;
+      margin-bottom: 12px
+    }
+
+    .prize-done-msg {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #34a853;
+      text-align: center;
+      padding: 8px 0 2px;
+      animation: bob 2s ease-in-out infinite;
+      display: block
+    }
+
+    /* ═══════════════════════════════════════
    PRIVACY SCREEN
 ═══════════════════════════════════════ */
-#privacyScreen .pw{background:#fff}
-.privacy-header{flex-shrink:0;background:#fff;border-bottom:3px solid transparent;border-image:linear-gradient(90deg,#EA4335,#FBBC05,#34A853,#4285F4) 1;padding:14px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 6px rgba(0,0,0,.07)}
-.privacy-back{background:var(--bg);border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;color:var(--txt);font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.privacy-title{font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;color:var(--txt)}
-.privacy-body{flex:1;overflow-y:auto;padding:20px 18px 40px;line-height:1.7;font-size:13px;color:var(--sub)}
-.privacy-body h2{font-family:'Outfit',sans-serif;font-size:14.5px;font-weight:700;color:#1a73e8;margin:18px 0 6px}
-.privacy-body p,.privacy-body ul{margin-bottom:10px}
-.privacy-body ul{padding-left:18px}
-.privacy-body li{margin-bottom:4px}
+    #privacyScreen .pw {
+      background: #fff
+    }
 
-/* ═══════════════════════════════════════
-   ACCESS PORTAL
+    .privacy-header {
+      flex-shrink: 0;
+      background: #fff;
+      border-bottom: 3px solid transparent;
+      border-image: linear-gradient(90deg, #EA4335, #FBBC05, #34A853, #4285F4) 1;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .07)
+    }
+
+    .privacy-back {
+      background: var(--bg);
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      color: var(--txt);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0
+    }
+
+    .privacy-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--txt)
+    }
+
+    .privacy-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 18px 40px;
+      line-height: 1.7;
+      font-size: 13px;
+      color: var(--sub)
+    }
+
+    .privacy-body h2 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #1a73e8;
+      margin: 18px 0 6px
+    }
+
+    .privacy-body p,
+    .privacy-body ul {
+      margin-bottom: 10px
+    }
+
+    .privacy-body ul {
+      padding-left: 18px
+    }
+
+    .privacy-body li {
+      margin-bottom: 4px
+    }
+
+    /* ═══════════════════════════════════════
+   ADMIN LOGIN
 ═══════════════════════════════════════ */
-#authScreen .pw{justify-content:center;align-items:center;background:#F0F4F8}
-.auth-card{background:#fff;border-radius:20px;padding:30px 26px;max-width:340px;width:90%;box-shadow:var(--shadow-md)}
-.auth-logo{text-align:center;margin-bottom:22px}
-.auth-logo .logo-icon{font-size:42px}
-.auth-logo div{font-family:'Outfit',sans-serif;font-size:19px;font-weight:700;color:var(--txt);margin-top:6px}
-.auth-logo span{font-size:11px;color:var(--sub)}
-.auth-field{margin-bottom:14px}
-.auth-field label{font-size:11px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px}
-.auth-field input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:15px;font-family:'Roboto',sans-serif;outline:none;transition:border-color .2s;box-shadow:inset 0 1px 3px rgba(0,0,0,.04)}
-.auth-field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(66,133,244,.12)}
-.auth-btn{width:100%;background:linear-gradient(135deg,#1a73e8,#0d47a1);border:none;border-radius:50px;padding:13px;font-size:15px;font-weight:600;color:#fff;font-family:'Outfit',sans-serif;cursor:pointer;box-shadow:0 4px 16px rgba(26,115,232,.3);margin-top:4px}
-.auth-btn:active{transform:scale(.98)}
-.auth-err{font-size:12px;color:var(--red);text-align:center;margin-top:8px;min-height:18px}
+    #loginScreen .pw {
+      justify-content: center;
+      align-items: center;
+      background: #F0F4F8
+    }
 
-/* ═══════════════════════════════════════
+    .login-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 30px 26px;
+      max-width: 340px;
+      width: 90%;
+      box-shadow: var(--shadow-md)
+    }
+
+    .login-logo {
+      text-align: center;
+      margin-bottom: 22px
+    }
+
+    .login-logo .logo-icon {
+      font-size: 42px
+    }
+
+    .login-logo div {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--txt);
+      margin-top: 6px
+    }
+
+    .login-logo span {
+      font-size: 11px;
+      color: var(--sub)
+    }
+
+    .login-field {
+      margin-bottom: 14px
+    }
+
+    .login-field label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--sub);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      display: block;
+      margin-bottom: 5px
+    }
+
+    .login-field input {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 15px;
+      font-family: 'Roboto', sans-serif;
+      outline: none;
+      transition: border-color .2s;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, .04)
+    }
+
+    .login-field input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(66, 133, 244, .12)
+    }
+
+    .login-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #1a73e8, #0d47a1);
+      border: none;
+      border-radius: 50px;
+      padding: 13px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      font-family: 'Google Sans', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(26, 115, 232, .3);
+      margin-top: 4px
+    }
+
+    .login-btn:active {
+      transform: scale(.98)
+    }
+
+    .login-err {
+      font-size: 12px;
+      color: var(--red);
+      text-align: center;
+      margin-top: 8px;
+      min-height: 18px
+    }
+
+    /* ═══════════════════════════════════════
    ADMIN PORTAL
 ═══════════════════════════════════════ */
-#adminScreen .pw{background:#F0F4F8}
-.admin-header{flex-shrink:0;background:#fff;border-bottom:3px solid transparent;border-image:linear-gradient(90deg,#EA4335,#FBBC05,#34A853,#4285F4) 1;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 6px rgba(0,0,0,.07)}
-.admin-header-left{display:flex;align-items:center;gap:8px}
-.admin-title{font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;color:var(--txt)}
-.admin-logout{background:var(--bg);border:1.5px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--sub);cursor:pointer;font-family:'Outfit',sans-serif}
-.admin-body{flex:1;overflow-y:auto;padding:12px 12px 40px;display:flex;flex-direction:column;gap:12px}
-.admin-tabs{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px}
-.admin-tabs::-webkit-scrollbar{display:none}
-.a-tab{flex-shrink:0;padding:8px 12px;background:#fff;border:1.5px solid var(--border);border-radius:20px;font-size:11.5px;font-weight:600;font-family:'Outfit',sans-serif;color:var(--sub);cursor:pointer;transition:all .2s;white-space:nowrap}
-.a-tab.active{background:#1a73e8;border-color:#1a73e8;color:#fff;box-shadow:0 3px 10px rgba(26,115,232,.28)}
-.tab-panel{display:none}
-.tab-panel.active{display:flex;flex-direction:column;gap:12px}
-.admin-card{background:#fff;border-radius:14px;padding:14px 15px;box-shadow:var(--shadow)}
-.admin-card-title{font-family:'Outfit',sans-serif;font-size:13.5px;font-weight:700;color:var(--txt);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:6px}
+    #adminScreen .pw {
+      background: #F0F4F8
+    }
 
-/* Stats */
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat-box{background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px;text-align:center;cursor:pointer;transition:background .2s,border-color .2s}
-.stat-box:hover{background:#EBF2FF;border-color:#C5D8FF}
-.stat-num{font-family:'Outfit',sans-serif;font-size:26px;font-weight:700;color:#1a73e8}
-.stat-lbl{font-size:10px;color:var(--sub);margin-top:2px;text-transform:uppercase;letter-spacing:.05em}
+    .admin-header {
+      flex-shrink: 0;
+      background: #fff;
+      border-bottom: 3px solid transparent;
+      border-image: linear-gradient(90deg, #EA4335, #FBBC05, #34A853, #4285F4) 1;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .07)
+    }
 
-/* Table */
-.tbl-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
-.data-table{width:100%;border-collapse:collapse;font-size:11.5px;min-width:520px}
-.data-table th{background:#F0F4F8;padding:8px 10px;text-align:left;font-weight:600;color:var(--sub);border-bottom:1.5px solid var(--border);white-space:nowrap}
-.data-table td{padding:8px 10px;border-bottom:1px solid #F0F0F0;color:var(--txt);vertical-align:top}
-.data-table tr:last-child td{border-bottom:none}
-.data-table tr:hover td{background:#F8FBFF}
-.r-stars{color:#FBBC05;letter-spacing:1px;font-size:13px}
+    .admin-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
 
-/* Editable list items */
-.edit-list{display:flex;flex-direction:column;gap:8px}
-.edit-item{display:flex;align-items:center;gap:8px;background:var(--bg);border-radius:10px;padding:8px 10px;border:1.5px solid var(--border)}
-.edit-item input{flex:1;border:none;background:transparent;font-size:13px;font-family:'Roboto',sans-serif;color:var(--txt);outline:none}
-.edit-item input:focus{background:#fff;border-radius:6px;padding:2px 6px;box-shadow:0 0 0 2px rgba(66,133,244,.2)}
-.edit-item-del{background:none;border:none;color:var(--red);font-size:18px;cursor:pointer;padding:0 2px;line-height:1}
-.edit-item-color{width:14px;height:14px;border-radius:50%;flex-shrink:0}
+    .admin-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--txt)
+    }
 
-/* Percent badge */
-.pct-input{width:54px;border:1.5px solid var(--border);border-radius:8px;padding:4px 6px;font-size:12px;text-align:center;font-family:'Roboto',sans-serif;background:#fff;outline:none}
-.pct-input:focus{border-color:var(--blue)}
+    .admin-logout {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--sub);
+      cursor: pointer;
+      font-family: 'Google Sans', sans-serif
+    }
 
-/* Add row button */
-.add-row-btn{background:var(--bg);border:1.5px dashed var(--border);border-radius:10px;padding:9px;width:100%;font-size:13px;color:var(--sub);cursor:pointer;font-family:'Roboto',sans-serif;transition:background .2s}
-.add-row-btn:hover{background:#EBF2FF;border-color:#C5D8FF;color:#1a73e8}
+    .admin-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 12px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px
+    }
 
-/* Override box */
-.override-box{background:#FFFDE7;border:1.5px dashed #FBBC05;border-radius:10px;padding:12px;margin-top:10px}
-.override-box label{font-size:10.5px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:5px}
-.override-box input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;font-family:'Roboto',sans-serif;outline:none;margin-bottom:8px;background:#fff}
-.override-box input:focus{border-color:var(--blue)}
+    .admin-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 2px
+    }
 
-/* Buttons */
-.btn-save{background:linear-gradient(135deg,#34a853,#1e8c3a);border:none;border-radius:50px;padding:10px 24px;font-size:13px;font-weight:600;color:#fff;font-family:'Outfit',sans-serif;cursor:pointer;box-shadow:0 3px 10px rgba(52,168,83,.3)}
-.btn-save:active{transform:scale(.97)}
-.btn-primary{background:linear-gradient(135deg,#1a73e8,#0d47a1);border:none;border-radius:50px;padding:8px 18px;font-size:12.5px;font-weight:600;color:#fff;font-family:'Outfit',sans-serif;cursor:pointer;box-shadow:0 3px 10px rgba(26,115,232,.28)}
-.btn-primary:active{transform:scale(.97)}
-.btn-sm{background:var(--bg);border:1.5px solid var(--border);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:600;color:var(--sub);cursor:pointer;font-family:'Outfit',sans-serif}
+    .admin-tabs::-webkit-scrollbar {
+      display: none
+    }
 
-/* SEO & Reply items */
-.tmpl-item{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:border-color .2s,background .2s;margin-bottom:8px}
-.tmpl-item:hover{background:#EBF2FF;border-color:#4285F4}
-.tmpl-tag{font-size:10px;color:var(--blue);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
-.tmpl-text{font-size:12px;color:var(--txt);line-height:1.55}
+    .a-tab {
+      flex-shrink: 0;
+      padding: 8px 12px;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 600;
+      font-family: 'Google Sans', sans-serif;
+      color: var(--sub);
+      cursor: pointer;
+      transition: all .2s;
+      white-space: nowrap
+    }
 
-/* Modal */
-.modal-overlay{position:fixed;inset:0;background:rgba(32,33,36,.55);z-index:200;display:none;align-items:flex-end;justify-content:center}
-.modal-overlay.open{display:flex}
-.modal-sheet{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:420px;padding:20px 18px 36px;max-height:80vh;overflow-y:auto;animation:slideUp .3s ease}
-@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.modal-title{font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:var(--txt);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
-.modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--sub);line-height:1}
+    .a-tab.active {
+      background: #1a73e8;
+      border-color: #1a73e8;
+      color: #fff;
+      box-shadow: 0 3px 10px rgba(26, 115, 232, .28)
+    }
 
-/* Toast */
-.copy-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#202124;color:#fff;font-size:12px;padding:9px 20px;border-radius:20px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;font-family:'Outfit',sans-serif;white-space:nowrap}
-.copy-toast.show{opacity:1}
+    .tab-panel {
+      display: none
+    }
 
-/* Admin gear trigger */
-.admin-trigger{position:fixed;bottom:10px;right:10px;background:rgba(32,33,36,.08);border:1px solid rgba(32,33,36,.12);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:50;font-size:15px;color:var(--sub)}
+    .tab-panel.active {
+      display: flex;
+      flex-direction: column;
+      gap: 12px
+    }
 
-/* Refresh btn */
-.refresh-btn{background:var(--bg);border:1.5px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--blue);cursor:pointer;font-family:'Outfit',sans-serif}
+    .admin-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px 15px;
+      box-shadow: var(--shadow)
+    }
 
-/* Loading */
-.loading-row{text-align:center;padding:20px;color:var(--sub);font-size:12px}
-</style>
+    .admin-card-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--txt);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px
+    }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px
+    }
+
+    .stat-box {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: background .2s, border-color .2s
+    }
+
+    .stat-box:hover {
+      background: #EBF2FF;
+      border-color: #C5D8FF
+    }
+
+    .stat-num {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: #1a73e8
+    }
+
+    .stat-lbl {
+      font-size: 10px;
+      color: var(--sub);
+      margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: .05em
+    }
+
+    /* Table */
+    .tbl-wrap {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--border)
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+      min-width: 520px
+    }
+
+    .data-table th {
+      background: #F0F4F8;
+      padding: 8px 10px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--sub);
+      border-bottom: 1.5px solid var(--border);
+      white-space: nowrap
+    }
+
+    .data-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #F0F0F0;
+      color: var(--txt);
+      vertical-align: top
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none
+    }
+
+    .data-table tr:hover td {
+      background: #F8FBFF
+    }
+
+    .r-stars {
+      color: #FBBC05;
+      letter-spacing: 1px;
+      font-size: 13px
+    }
+
+    /* Editable list items */
+    .edit-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .edit-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 8px 10px;
+      border: 1.5px solid var(--border)
+    }
+
+    .edit-item input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 13px;
+      font-family: 'Roboto', sans-serif;
+      color: var(--txt);
+      outline: none
+    }
+
+    .edit-item input:focus {
+      background: #fff;
+      border-radius: 6px;
+      padding: 2px 6px;
+      box-shadow: 0 0 0 2px rgba(66, 133, 244, .2)
+    }
+
+    .edit-item-del {
+      background: none;
+      border: none;
+      color: var(--red);
+      font-size: 18px;
+      cursor: pointer;
+      padding: 0 2px;
+      line-height: 1
+    }
+
+    .edit-item-color {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0
+    }
+
+    /* Percent badge */
+    .pct-input {
+      width: 54px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 4px 6px;
+      font-size: 12px;
+      text-align: center;
+      font-family: 'Roboto', sans-serif;
+      background: #fff;
+      outline: none
+    }
+
+    .pct-input:focus {
+      border-color: var(--blue)
+    }
+
+    /* Add row button */
+    .add-row-btn {
+      background: var(--bg);
+      border: 1.5px dashed var(--border);
+      border-radius: 10px;
+      padding: 9px;
+      width: 100%;
+      font-size: 13px;
+      color: var(--sub);
+      cursor: pointer;
+      font-family: 'Roboto', sans-serif;
+      transition: background .2s
+    }
+
+    .add-row-btn:hover {
+      background: #EBF2FF;
+      border-color: #C5D8FF;
+      color: #1a73e8
+    }
+
+    /* Override box */
+    .override-box {
+      background: #FFFDE7;
+      border: 1.5px dashed #FBBC05;
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 10px
+    }
+
+    .override-box label {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--sub);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      display: block;
+      margin-bottom: 5px
+    }
+
+    .override-box input {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 13px;
+      font-family: 'Roboto', sans-serif;
+      outline: none;
+      margin-bottom: 8px;
+      background: #fff
+    }
+
+    .override-box input:focus {
+      border-color: var(--blue)
+    }
+
+    /* Buttons */
+    .btn-save {
+      background: linear-gradient(135deg, #34a853, #1e8c3a);
+      border: none;
+      border-radius: 50px;
+      padding: 10px 24px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      font-family: 'Google Sans', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(52, 168, 83, .3)
+    }
+
+    .btn-save:active {
+      transform: scale(.97)
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #1a73e8, #0d47a1);
+      border: none;
+      border-radius: 50px;
+      padding: 8px 18px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #fff;
+      font-family: 'Google Sans', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(26, 115, 232, .28)
+    }
+
+    .btn-primary:active {
+      transform: scale(.97)
+    }
+
+    .btn-sm {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--sub);
+      cursor: pointer;
+      font-family: 'Google Sans', sans-serif
+    }
+
+    /* SEO & Reply items */
+    .tmpl-item {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      margin-bottom: 8px
+    }
+
+    .tmpl-item:hover {
+      background: #EBF2FF;
+      border-color: #4285F4
+    }
+
+    .tmpl-tag {
+      font-size: 10px;
+      color: var(--blue);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-bottom: 3px
+    }
+
+    .tmpl-text {
+      font-size: 12px;
+      color: var(--txt);
+      line-height: 1.55
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(32, 33, 36, .55);
+      z-index: 200;
+      display: none;
+      align-items: flex-end;
+      justify-content: center
+    }
+
+    .modal-overlay.open {
+      display: flex
+    }
+
+    .modal-sheet {
+      background: #fff;
+      border-radius: 20px 20px 0 0;
+      width: 100%;
+      max-width: 420px;
+      padding: 20px 18px 36px;
+      max-height: 80vh;
+      overflow-y: auto;
+      animation: slideUp .3s ease
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%)
+      }
+
+      to {
+        transform: translateY(0)
+      }
+    }
+
+    .modal-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--txt);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: var(--sub);
+      line-height: 1
+    }
+
+    /* Toast */
+    .copy-toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #202124;
+      color: #fff;
+      font-size: 12px;
+      padding: 9px 20px;
+      border-radius: 20px;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity .3s;
+      pointer-events: none;
+      font-family: 'Google Sans', sans-serif;
+      white-space: nowrap
+    }
+
+    .copy-toast.show {
+      opacity: 1
+    }
+
+    /* Admin gear trigger */
+    .admin-trigger {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(32, 33, 36, .08);
+      border: 1px solid rgba(32, 33, 36, .12);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 50;
+      font-size: 15px;
+      color: var(--sub)
+    }
+
+    /* Refresh btn */
+    .refresh-btn {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--blue);
+      cursor: pointer;
+      font-family: 'Google Sans', sans-serif
+    }
+
+    /* Loading */
+    .loading-row {
+      text-align: center;
+      padding: 20px;
+      color: var(--sub);
+      font-size: 12px
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- ═══════════════ SCREEN 1 — FORM ═══════════════ -->
-<div class="screen active" id="formScreen">
-<div class="pw">
-  <div class="top-bar">
-    <div class="brand-logo-row">
-      <div style="font-size:28px">☕</div>
-      <div class="brand-name">The Hunger Station</div>
-    </div>
-    <div class="brand-tag">Customer Feedback Portal</div>
-  </div>
-
-  <div class="hero">
-    <h1>🌟 Rate Our Service &amp; GET a FREE Surprise!</h1>
-  </div>
-
-  <div class="stars-section">
-    <div class="stars-label">Tap to rate your experience</div>
-    <div class="stars-row" id="starRow">
-      <button class="star-btn" data-val="1" onclick="rate(1)">★</button>
-      <button class="star-btn" data-val="2" onclick="rate(2)">★</button>
-      <button class="star-btn" data-val="3" onclick="rate(3)">★</button>
-      <button class="star-btn" data-val="4" onclick="rate(4)">★</button>
-      <button class="star-btn" data-val="5" onclick="rate(5)">★</button>
-    </div>
-    <div class="star-hint" id="starHint"></div>
-    <div class="err-msg" id="starErr">⚠️ Please select a star rating.</div>
-  </div>
-
-  <div class="form-body">
-    <div class="field">
-      <span class="fl">Recommended Staff Name <span class="req">*</span></span>
-      <select id="staffSelect">
-        <option value="" disabled selected>Select staff member</option>
-      </select>
-      <div class="err-msg" id="staffErr">⚠️ Please select a staff member.</div>
-    </div>
-
-    <div class="field">
-      <span class="fl">Your Name <span class="req">*</span></span>
-      <input type="text" id="nameInput" placeholder="e.g. Aditya Shah" autocomplete="off">
-      <div class="err-msg" id="nameErr">⚠️ Please enter your name.</div>
-    </div>
-
-    <div class="field">
-      <span class="fl">Mobile Number <span class="req">*</span></span>
-      <div class="wa-wrap">
-        <div class="wa-badge">📱</div>
-        <input type="tel" id="mobileInput" placeholder="10-digit number" maxlength="10" pattern="[0-9]{10}" inputmode="numeric">
-      </div>
-      <div class="err-msg" id="mobileErr">⚠️ Please enter a valid 10-digit number.</div>
-    </div>
-
-    <div class="feedback-wrap">
-      <span class="fl">Recommend Feedback <span class="req">*</span></span>
-      <textarea id="reviewInput" placeholder="Share your experience here..." rows="2" oninput="autoResize(this)"></textarea>
-      <div class="err-msg" id="reviewErr">⚠️ Please enter your feedback.</div>
-    </div>
-
-    <div class="swipe-section">
-      <div class="swipe-wrap" id="swipeTrack">
-        <div class="swipe-fill" id="swipeFill"></div>
-        <div class="swipe-lbl" id="swipeLbl">Swipe → Post your Review &nbsp;<span class="arr">→</span></div>
-        <div class="swipe-thumb" id="swipeThumb">
-          <span style="font-size: 22px;">🚀</span>
+  <!-- ═══════════════ SCREEN 1 — FORM ═══════════════ -->
+  <div class="screen active" id="formScreen">
+    <div class="pw">
+      <div class="top-bar">
+        <div class="brand-logo-row">
+          <svg class="brand-g-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M44.5 20H24v8h11.7C34.2 33.2 29.6 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 6.2 29.2 4 24 4 12.95 4 4 12.95 4 24s8.95 20 20 20c11.05 0 20-8.95 20-20 0-1.34-.14-2.65-.39-3.91L44.5 20z"
+              fill="#E0E0E0" />
+            <path
+              d="M6.31 14.69l6.6 4.84C14.6 16 19 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 6.2 29.2 4 24 4 16.1 4 9.3 8.4 6.31 14.69z"
+              fill="#EA4335" />
+            <path
+              d="M24 44c5.2 0 9.9-1.8 13.6-4.7l-6.3-5.3C29.3 35.6 26.8 36.5 24 36.5c-5.6 0-10.2-3.8-11.8-9H5.8C8.7 38.9 15.9 44 24 44z"
+              fill="#34A853" />
+            <path
+              d="M44.5 20H24v8h11.7c-.7 2-2 3.7-3.7 5l6.3 5.3C41.3 35.3 44.5 30 44.5 24c0-1.34-.14-2.65-.39-3.91L44.5 20z"
+              fill="#4285F4" />
+            <path d="M6.31 14.69l6.6 4.84C14.6 16 19 13 24 13V4C16.1 4 9.3 8.4 6.31 14.69z" fill="#FBBC05" />
+          </svg>
+          <div class="brand-name">The Hunger Station</div>
+        </div>
+        <div class="brand-tag">Powered by Google Reviews</div>
+        <div class="google-dots">
+          <div class="g-dot" style="background:#EA4335"></div>
+          <div class="g-dot" style="background:#FBBC05"></div>
+          <div class="g-dot" style="background:#34A853"></div>
+          <div class="g-dot" style="background:#4285F4"></div>
         </div>
       </div>
-      <p class="disclaimer">Opens Public Review page &amp; copies your text · <a href="#" onclick="openPrivacy(event)">Privacy Policy</a></p>
-    </div>
-  </div>
-</div>
-</div>
 
-<!-- ═══════════════ ACK ═══════════════ -->
-<div class="screen" id="ackScreen">
-<div class="pw">
-  <div class="ack-confetti" id="ackConfetti"></div>
-  <div class="ack-inner">
-    <span class="ack-icon">🌟</span>
-    <div class="ack-title">Did You Post Your Review?</div>
-    <p class="ack-sub">We opened the review page for you.<br>Did you successfully submit your rating?<br><strong>Honest answer = a mystery prize 🎁</strong></p>
-    <div class="ack-btns">
-      <button class="btn-yes" onclick="goToSpin()">✅ Yes, I Posted!</button>
-      <button class="btn-no" onclick="goBack()">Not Yet</button>
-    </div>
-  </div>
-</div>
-</div>
+      <div class="hero">
+        <h1>🌟 Rate Our Service &amp; GET a FREE Surprise!</h1>
+      </div>
 
-<!-- ═══════════════ THANK YOU ═══════════════ -->
-<div class="screen" id="thankScreen">
-<div class="pw">
-  <div class="thank-inner">
-    <span class="thank-icon">🙏</span>
-    <div class="thank-title">Thank You for Your Feedback!</div>
-    <p class="thank-sub">We truly appreciate your time to share your experience.<br><br>We're sorry we didn't meet your expectations — we'll work hard to improve and hope to serve you better on your next visit! 💙</p>
-  </div>
-</div>
-</div>
+      <div class="stars-section">
+        <div class="stars-label">Tap to rate your experience</div>
+        <div class="stars-row" id="starRow">
+          <button class="star-btn" data-val="1" onclick="rate(1)">★</button>
+          <button class="star-btn" data-val="2" onclick="rate(2)">★</button>
+          <button class="star-btn" data-val="3" onclick="rate(3)">★</button>
+          <button class="star-btn" data-val="4" onclick="rate(4)">★</button>
+          <button class="star-btn" data-val="5" onclick="rate(5)">★</button>
+        </div>
+        <div class="star-hint" id="starHint"></div>
+        <div class="err-msg" id="starErr">⚠️ Please select a star rating.</div>
+      </div>
 
-<!-- ═══════════════ SPIN ═══════════════ -->
-<div class="screen" id="spinScreen">
-<div class="pw">
-  <span class="star-deco" style="top:8%;left:8%;font-size:18px;animation-delay:0s">⭐</span>
-  <span class="star-deco" style="top:12%;right:10%;font-size:14px;animation-delay:.5s">✨</span>
-  <span class="star-deco" style="top:28%;left:5%;font-size:12px;animation-delay:1s">🌟</span>
-  <span class="star-deco" style="top:22%;right:6%;font-size:16px;animation-delay:.8s">⭐</span>
-  <span class="star-deco" style="bottom:14%;left:7%;font-size:13px;animation-delay:1.4s">✨</span>
-  <span class="star-deco" style="bottom:10%;right:8%;font-size:15px;animation-delay:.3s">🌟</span>
-  <div class="spin-top">
-    <h2>🎰 SPIN to WIN Your Surprise!</h2>
-    <p>Thank you for your review — you deserve a FREE Treat!</p>
-  </div>
-  <div class="spin-area">
-    <div class="wheel-outer">
-      <div class="wheel-glow"></div>
-      <div class="wheel-pointer"></div>
-      <canvas id="wheelCanvas" width="260" height="260"></canvas>
-    </div>
-    <div class="spin-btn-wrap">
-      <div class="spin-btn-pulse"></div>
-      <button class="spin-btn" id="spinBtn" onclick="spinWheel()">🎯 SPIN NOW!</button>
-    </div>
-    <p class="spin-note">Tap the button to spin and reveal your prize!</p>
-  </div>
-</div>
-</div>
+      <div class="form-body">
+        <div class="field">
+          <span class="fl">Recommended Staff Name <span class="req">*</span></span>
+          <select id="staffSelect">
+            <option value="" disabled selected>Select staff member</option>
+          </select>
+          <div class="err-msg" id="staffErr">⚠️ Please select a staff member.</div>
+        </div>
 
-<!-- ═══════════════ PRIZE ═══════════════ -->
-<div class="screen" id="prizeScreen">
-<div class="pw">
-  <div class="prize-confetti" id="prizeConfetti"></div>
-  <div class="prize-inner">
-    <span class="prize-emoji-big" id="prizeEmoji">🎉</span>
-    <div class="prize-won">🎊 Congratulations! You Won</div>
-    <div class="prize-name" id="prizeName">10% Off</div>
-    <div class="prize-card">
-      <div class="prize-card-icon" id="prizeCardIcon">🎟️</div>
-      <div class="prize-card-text">
-        <strong id="prizeCardTitle">10% Off on Your Next Visit</strong>
-        <span>Show this screen at the counter · Valid today only</span>
+        <div class="field">
+          <span class="fl">Your Name <span class="req">*</span></span>
+          <input type="text" id="nameInput" placeholder="e.g. Aditya Shah" autocomplete="off">
+          <div class="err-msg" id="nameErr">⚠️ Please enter your name.</div>
+        </div>
+
+        <div class="field">
+          <span class="fl">WhatsApp Number <span class="req">*</span></span>
+          <div class="wa-wrap">
+            <div class="wa-badge">
+              <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="24" cy="24" r="24" fill="#25D366" />
+                <path
+                  d="M34.6 13.3A14.8 14.8 0 0 0 24 9C16.3 9 10 15.3 10 23c0 2.5.7 4.9 1.9 7L10 39l9.2-2.4c1.5.8 3.1 1.2 4.8 1.2 7.7 0 14-6.3 14-14 0-3.7-1.4-7.2-4-9.8l.6.3zm-10.6 21.5c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-4.2 1.1 1.1-4.1-.3-.4A11.6 11.6 0 0 1 13.4 23c0-5.8 4.8-10.6 10.7-10.6 2.9 0 5.6 1.1 7.6 3.2a10.5 10.5 0 0 1 3.1 7.4c0 5.9-4.8 10.8-10.8 10.8zm5.9-7.9c-.3-.2-1.9-1-2.2-1.1-.3-.1-.5-.1-.7.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7 0-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.7.2-.2.3-.4.5-.6.1-.2.2-.3.3-.6.1-.2 0-.4-.1-.6-.1-.2-.7-1.7-1-2.3-.3-.6-.6-.5-.8-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.9 0 1.7 1.2 3.3 1.4 3.5.2.2 2.4 3.6 5.7 5 .8.3 1.4.5 1.9.7.8.2 1.5.2 2 .1.7-.1 2-.8 2.3-1.6.3-.7.3-1.4.2-1.5-.1-.2-.3-.3-.6-.5z"
+                  fill="white" />
+              </svg>
+            </div>
+            <input type="tel" id="mobileInput" placeholder="10-digit number" maxlength="10" pattern="[0-9]{10}"
+              inputmode="numeric">
+          </div>
+          <div class="err-msg" id="mobileErr">⚠️ Please enter a valid 10-digit number.</div>
+        </div>
+
+        <div class="feedback-wrap">
+          <span class="fl">Recommend Feedback <span class="req">*</span></span>
+          <textarea id="reviewInput" placeholder="Share your experience here..." rows="2"
+            oninput="autoResize(this)"></textarea>
+          <div class="err-msg" id="reviewErr">⚠️ Please enter your feedback.</div>
+        </div>
+
+        <div class="swipe-section">
+          <div class="swipe-wrap" id="swipeTrack">
+            <div class="swipe-fill" id="swipeFill"></div>
+            <div class="swipe-lbl" id="swipeLbl">Swipe → Post on Google &nbsp;<span class="arr">→</span></div>
+            <div class="swipe-thumb" id="swipeThumb">
+              <svg class="gg" viewBox="0 0 24 24">
+                <path
+                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                  fill="#4285F4" />
+                <path
+                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                  fill="#34A853" />
+                <path
+                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
+                  fill="#FBBC05" />
+                <path
+                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                  fill="#EA4335" />
+              </svg>
+            </div>
+          </div>
+          <p class="disclaimer">Opens Google Reviews &amp; copies your text · <a href="#"
+              onclick="openPrivacy(event)">Privacy Policy</a></p>
+        </div>
       </div>
     </div>
-    <div class="coupon-box">
-      <div class="coupon-label">Your Exclusive Coupon Code</div>
-      <div class="coupon-code" id="couponCode">TCH10OFF</div>
-    </div>
-    <p class="prize-sub-text">Show this screen &amp; coupon code to the cashier to claim your reward!</p>
-    <span class="prize-done-msg">😊 Enjoy &amp; Have a Great Day!</span>
   </div>
-</div>
-</div>
 
-<!-- ═══════════════ PRIVACY ═══════════════ -->
-<div class="screen" id="privacyScreen">
-<div class="pw" style="flex-direction:column">
-  <div class="privacy-header">
-    <button class="privacy-back" onclick="closePrivacy()">←</button>
-    <div class="privacy-title">Privacy Policy</div>
-  </div>
-  <div class="privacy-body">
-    <h2>Data We Collect</h2>
-    <p>When you submit a review through this form, we collect:</p>
-    <ul>
-      <li>Your name &amp; Mobile number</li>
-      <li>Star rating &amp; written feedback</li>
-      <li>Recommended staff member</li>
-      <li>Date and time of submission</li>
-    </ul>
-    <h2>How We Use Your Data</h2>
-    <p>Your data is stored securely in a private database accessible only to The Hunger Station management, used to improve service quality and recognise staff.</p>
-    <h2>Public Reviews</h2>
-    <p>When you choose to post publicly, your review text is copied to your clipboard and the review site is opened in a new tab.</p>
-    <h2>Data Sharing</h2>
-    <p>We do not sell or share your personal data with any third parties outside The Hunger Station team.</p>
-    <h2>Data Retention</h2>
-    <p>Your data is retained for up to 12 months for service improvement purposes.</p>
-    <h2>Contact Us</h2>
-    <p>For any privacy-related queries, please speak to a manager at The Hunger Station.</p>
-  </div>
-</div>
-</div>
-
-<!-- Auth screen removed to bypass HTML login heuristics -->
-
-<!-- ═══════════════ ADMIN PORTAL ═══════════════ -->
-<div class="screen" id="adminScreen">
-<div class="pw">
-  <div class="admin-header">
-    <div class="admin-header-left">
-      <span style="font-size:20px">☕</span>
-      <div class="admin-title">Admin Portal</div>
-    </div>
-    <button class="admin-logout" onclick="adminLogout()">Sign Out</button>
-  </div>
-  <div class="admin-body">
-
-    <div class="admin-tabs">
-      <button class="a-tab active" onclick="switchTab('tabDash',this)">📊 Dashboard</button>
-      <button class="a-tab" onclick="switchTab('tabSpin',this)">🎡 Spin Wheel</button>
-      <button class="a-tab" onclick="switchTab('tabStaff',this)">👤 Staff</button>
-      <button class="a-tab" onclick="switchTab('tabSEO',this)">✍️ SEO</button>
-      <button class="a-tab" onclick="switchTab('tabReplies',this)">💬 Replies</button>
-      <button class="a-tab" onclick="switchTab('tabConfig',this)">🔗 Config</button>
-    </div>
-
-    <!-- DASHBOARD TAB -->
-    <div class="tab-panel active" id="tabDash">
-      <div class="admin-card">
-        <div class="admin-card-title">
-          📈 Today's Overview
-          <button class="refresh-btn" onclick="loadAdminData()">↻ Refresh</button>
+  <!-- ═══════════════ ACK ═══════════════ -->
+  <div class="screen" id="ackScreen">
+    <div class="pw">
+      <div class="ack-confetti" id="ackConfetti"></div>
+      <div class="ack-inner">
+        <span class="ack-icon">🌟</span>
+        <div class="ack-title">Did You Post Your Review?</div>
+        <p class="ack-sub">We opened Google Reviews for you.<br>Did you successfully submit your
+          rating?<br><strong>Honest answer = a mystery prize 🎁</strong></p>
+        <div class="ack-btns">
+          <button class="btn-yes" onclick="goToSpin()">✅ Yes, I Posted!</button>
+          <button class="btn-no" onclick="goBack()">Not Yet</button>
         </div>
-        <div class="stats-grid">
-          <div class="stat-box" onclick="openStaffModal()">
-            <div class="stat-num" id="statTotal">—</div>
-            <div class="stat-lbl">Today's Count ↗</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-num" id="statGoogle">—</div>
-            <div class="stat-lbl">Public Reviews</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-num" id="statAvg">—</div>
-            <div class="stat-lbl">Avg Rating</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-num" id="statLow">—</div>
-            <div class="stat-lbl">Low Ratings (≤3)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ THANK YOU ═══════════════ -->
+  <div class="screen" id="thankScreen">
+    <div class="pw">
+      <div class="thank-inner">
+        <span class="thank-icon">🙏</span>
+        <div class="thank-title">Thank You for Your Feedback!</div>
+        <p class="thank-sub">We truly appreciate your time to share your experience.<br><br>We're sorry we didn't meet
+          your expectations — we'll work hard to improve and hope to serve you better on your next visit! 💙</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SPIN ═══════════════ -->
+  <div class="screen" id="spinScreen">
+    <div class="pw">
+      <span class="star-deco" style="top:8%;left:8%;font-size:18px;animation-delay:0s">⭐</span>
+      <span class="star-deco" style="top:12%;right:10%;font-size:14px;animation-delay:.5s">✨</span>
+      <span class="star-deco" style="top:28%;left:5%;font-size:12px;animation-delay:1s">🌟</span>
+      <span class="star-deco" style="top:22%;right:6%;font-size:16px;animation-delay:.8s">⭐</span>
+      <span class="star-deco" style="bottom:14%;left:7%;font-size:13px;animation-delay:1.4s">✨</span>
+      <span class="star-deco" style="bottom:10%;right:8%;font-size:15px;animation-delay:.3s">🌟</span>
+      <div class="spin-top">
+        <h2>🎰 SPIN to WIN Your Surprise!</h2>
+        <p>Thank you for your Google review — you deserve a FREE Treat!</p>
+      </div>
+      <div class="spin-area">
+        <div class="wheel-outer">
+          <div class="wheel-glow"></div>
+          <div class="wheel-pointer"></div>
+          <canvas id="wheelCanvas" width="260" height="260"></canvas>
+        </div>
+        <div class="spin-btn-wrap">
+          <div class="spin-btn-pulse"></div>
+          <button class="spin-btn" id="spinBtn" onclick="spinWheel()">🎯 SPIN NOW!</button>
+        </div>
+        <p class="spin-note">Tap the button to spin and reveal your prize!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ PRIZE ═══════════════ -->
+  <div class="screen" id="prizeScreen">
+    <div class="pw">
+      <div class="prize-confetti" id="prizeConfetti"></div>
+      <div class="prize-inner">
+        <span class="prize-emoji-big" id="prizeEmoji">🎉</span>
+        <div class="prize-won">🎊 Congratulations! You Won</div>
+        <div class="prize-name" id="prizeName">10% Off</div>
+        <div class="prize-card">
+          <div class="prize-card-icon" id="prizeCardIcon">🎟️</div>
+          <div class="prize-card-text">
+            <strong id="prizeCardTitle">10% Off on Your Next Visit</strong>
+            <span>Show this screen at the counter · Valid today only</span>
           </div>
         </div>
-      </div>
-      <div class="admin-card">
-        <div class="admin-card-title">📋 Today's Submissions <span style="font-size:10px;color:var(--sub);font-weight:400">(latest first)</span></div>
-        <div class="tbl-wrap">
-          <table class="data-table" id="reviewsTable">
-            <thead><tr><th>Name</th><th>Mobile</th><th>Staff</th><th>⭐</th><th>Coupon</th><th>Time</th></tr></thead>
-            <tbody id="reviewsTbody"><tr><td colspan="6" class="loading-row">Loading...</td></tr></tbody>
-          </table>
+        <div class="coupon-box">
+          <div class="coupon-label">Your Exclusive Coupon Code</div>
+          <div class="coupon-code" id="couponCode">TCH10OFF</div>
         </div>
+        <p class="prize-sub-text">Show this screen &amp; coupon code to the cashier to claim your reward!</p>
+        <span class="prize-done-msg">😊 Enjoy &amp; Have a Great Day!</span>
       </div>
     </div>
-
-    <!-- SPIN WHEEL TAB -->
-    <div class="tab-panel" id="tabSpin">
-      <div class="admin-card">
-        <div class="admin-card-title">🎡 Wheel Segments <button class="btn-sm" onclick="addSegment()">+ Add</button></div>
-        <p style="font-size:11px;color:var(--sub);margin-bottom:10px">All segments visually show different prizes but every winner receives the coupon below.</p>
-        <div class="edit-list" id="segEditList"></div>
-        <div class="override-box">
-          <label>Universal Coupon Code (all winners)</label>
-          <input type="text" id="adminCouponCode" placeholder="e.g. TCH10OFF" maxlength="20">
-          <label>Prize Message (shown to customer)</label>
-          <input type="text" id="adminCouponDesc" placeholder="e.g. 10% Off on your next order">
-          <button class="btn-save" onclick="savePrizeSettings()">💾 Save Prize Settings</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- STAFF TAB -->
-    <div class="tab-panel" id="tabStaff">
-      <div class="admin-card">
-        <div class="admin-card-title">👤 Staff Members <button class="btn-sm" onclick="addStaff()">+ Add</button></div>
-        <div class="edit-list" id="staffEditList"></div>
-        <button class="btn-save" style="margin-top:10px" onclick="saveStaff()">💾 Save Staff</button>
-      </div>
-    </div>
-
-    <!-- SEO TAB -->
-    <div class="tab-panel" id="tabSEO">
-      <div class="admin-card">
-        <div class="admin-card-title">✍️ SEO Review Templates <button class="refresh-btn" onclick="loadSEOTemplates()">↻</button></div>
-        <p style="font-size:11px;color:var(--sub);margin-bottom:10px">Fetched from Google Sheet → "SEO_Reviews" tab. Tap any template to copy it.</p>
-        <div id="seoListAdmin"><div class="loading-row">Loading...</div></div>
-      </div>
-    </div>
-
-    <!-- REPLIES TAB -->
-    <div class="tab-panel" id="tabReplies">
-      <div class="admin-card">
-        <div class="admin-card-title">💬 Admin Reply Templates <button class="refresh-btn" onclick="loadReplyTemplates()">↻</button></div>
-        <p style="font-size:11px;color:var(--sub);margin-bottom:10px">Fetched from Google Sheet → "Admin_Replies" tab. Tap to copy.</p>
-        <div id="replyListAdmin"><div class="loading-row">Loading...</div></div>
-      </div>
-    </div>
-
-    <!-- CONFIG TAB -->
-    <div class="tab-panel" id="tabConfig">
-      <div class="admin-card">
-        <div class="admin-card-title">🔗 Public Review URL</div>
-        <p style="font-size:11px;color:var(--sub);margin-bottom:8px">Set the custom review/search URL users are redirected to when they swipe.</p>
-        <textarea id="adminRedirectUrl" style="width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;font-size:12px;font-family:monospace;min-height:70px;outline:none;resize:none" placeholder="https://example.com/review"></textarea>
-        <button class="btn-save" style="margin-top:8px" onclick="saveRedirectUrl()">💾 Save URL</button>
-      </div>
-      <div class="admin-card">
-        <div class="admin-card-title">🔐 Change Passcode</div>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <input type="text" id="newKey1" placeholder="New passcode" style="border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;outline:none">
-          <input type="text" id="newKey2" placeholder="Confirm new passcode" style="border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;outline:none">
-          <button class="btn-save" onclick="modifyKey()">💾 Update Passcode</button>
-        </div>
-      </div>
-    </div>
-
   </div>
-</div>
-</div>
 
-<!-- ═══════════════ STAFF MODAL ═══════════════ -->
-<div class="modal-overlay" id="staffModal" onclick="closeModalOutside(event)">
-  <div class="modal-sheet">
-    <div class="modal-title">
-      👤 Today's Staff-wise Count
-      <button class="modal-close" onclick="closeModal()">×</button>
+  <!-- ═══════════════ PRIVACY ═══════════════ -->
+  <div class="screen" id="privacyScreen">
+    <div class="pw" style="flex-direction:column">
+      <div class="privacy-header">
+        <button class="privacy-back" onclick="closePrivacy()">←</button>
+        <div class="privacy-title">Privacy Policy</div>
+      </div>
+      <div class="privacy-body">
+        <h2>Data We Collect</h2>
+        <p>When you submit a review through this form, we collect:</p>
+        <ul>
+          <li>Your name &amp; WhatsApp number</li>
+          <li>Star rating &amp; written feedback</li>
+          <li>Recommended staff member</li>
+          <li>Date and time of submission</li>
+        </ul>
+        <h2>How We Use Your Data</h2>
+        <p>Your data is stored securely in a private Google Sheet accessible only to The Hunger Station management, used
+          to improve service quality and recognise staff.</p>
+        <h2>Google Reviews</h2>
+        <p>When you choose to post on Google, your review text is copied to your clipboard and Google Reviews is opened
+          in a new tab. We do not control what you post on Google.</p>
+        <h2>Data Sharing</h2>
+        <p>We do not sell or share your personal data with any third parties outside The Hunger Station team.</p>
+        <h2>Data Retention</h2>
+        <p>Your data is retained for up to 12 months for service improvement purposes.</p>
+        <h2>Contact Us</h2>
+        <p>For any privacy-related queries, please speak to a manager at The Hunger Station.</p>
+      </div>
     </div>
-    <div id="staffModalContent"><div class="loading-row">Loading...</div></div>
   </div>
-</div>
 
-<!-- Toast -->
-<div class="copy-toast" id="copyToast">✅ Copied!</div>
+  <!-- ═══════════════ ADMIN LOGIN ═══════════════ -->
+  <div class="screen" id="loginScreen">
+    <div class="pw">
+      <div class="login-card">
+        <div class="login-logo">
+          <div class="logo-icon">☕</div>
+          <div>Admin Portal</div>
+          <span>The Hunger Station</span>
+        </div>
+        <div class="login-field">
+          <label>Username</label>
+          <input type="text" id="loginUser" placeholder="admin" autocomplete="off">
+        </div>
+        <div class="login-field">
+          <label>Password</label>
+          <input type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+        </div>
+        <button class="login-btn" onclick="doLogin()">Sign In</button>
+        <div class="login-err" id="loginErr"></div>
+      </div>
+    </div>
+  </div>
 
-<!-- Admin gear trigger -->
-<div class="admin-trigger" id="adminTrigger" onclick="openAuth()">⚙️</div>
+  <!-- ═══════════════ ADMIN PORTAL ═══════════════ -->
+  <div class="screen" id="adminScreen">
+    <div class="pw">
+      <div class="admin-header">
+        <div class="admin-header-left">
+          <span style="font-size:20px">☕</span>
+          <div class="admin-title">Admin Portal</div>
+        </div>
+        <button class="admin-logout" onclick="adminLogout()">Sign Out</button>
+      </div>
+      <div class="admin-body">
 
-<script>
-/* ═══════════════════════════════════════
-   CONFIG & STATE
-═══════════════════════════════════════ */
-const SHEET_URL = ''; // YOUR URL WAS FLAGED BY GOOGLE. PLEASE GENERATE A NEW APPS SCRIPT URL AND PASTE IT HERE!
+        <div class="admin-tabs">
+          <button class="a-tab active" onclick="switchTab('tabDash',this)">📊 Dashboard</button>
+          <button class="a-tab" onclick="switchTab('tabSpin',this)">🎡 Spin Wheel</button>
+          <button class="a-tab" onclick="switchTab('tabStaff',this)">👤 Staff</button>
+          <button class="a-tab" onclick="switchTab('tabSEO',this)">✍️ SEO</button>
+          <button class="a-tab" onclick="switchTab('tabReplies',this)">💬 Replies</button>
+          <button class="a-tab" onclick="switchTab('tabConfig',this)">🔗 Config</button>
+        </div>
 
-// All dynamic config stored in localStorage so it persists
-function loadConfig(){
-  return JSON.parse(localStorage.getItem('tchConfig') || 'null') || {
-    adminKey: 'coffee123',
-    redirectUrl: 'https://example.com/review',
-    couponCode: 'TCH10OFF',
-    couponDesc: '10% Off on your next order',
-    staff: ['Niral','Rahul','Priya'],
-    seoPointer: 0,          // tracks which SEO template to show next (sequential)
-    cachedSEO:  [],         // cached SEO templates fetched from sheet
-    segments: [
-      {text:'Free Coffee', emoji:'☕', color:'#EA4335'},
-      {text:'Free Cookie', emoji:'🍪', color:'#FBBC05'},
-      {text:'Combo Deal',  emoji:'🎁', color:'#34A853'},
-      {text:'Free Pastry', emoji:'🥐', color:'#4285F4'},
-      {text:'Gift Hamper', emoji:'🎀', color:'#9C27B0'},
-      {text:'Loyalty Pts', emoji:'⭐', color:'#FF6D00'},
-    ]
-  };
-}
-function saveConfig(cfg){ localStorage.setItem('tchConfig',JSON.stringify(cfg)); }
+        <!-- DASHBOARD TAB -->
+        <div class="tab-panel active" id="tabDash">
+          <div class="admin-card">
+            <div class="admin-card-title">
+              📈 Today's Overview
+              <button class="refresh-btn" onclick="loadAdminData()">↻ Refresh</button>
+            </div>
+            <div class="stats-grid">
+              <div class="stat-box" onclick="openStaffModal()">
+                <div class="stat-num" id="statTotal">—</div>
+                <div class="stat-lbl">Today's Count ↗</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num" id="statGoogle">—</div>
+                <div class="stat-lbl">Google Reviews</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num" id="statAvg">—</div>
+                <div class="stat-lbl">Avg Rating</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num" id="statLow">—</div>
+                <div class="stat-lbl">Low Ratings (≤3)</div>
+              </div>
+            </div>
+          </div>
+          <div class="admin-card">
+            <div class="admin-card-title">📋 Today's Submissions <span
+                style="font-size:10px;color:var(--sub);font-weight:400">(latest first)</span></div>
+            <div class="tbl-wrap">
+              <table class="data-table" id="reviewsTable">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Staff</th>
+                    <th>⭐</th>
+                    <th>Coupon</th>
+                    <th>Time</th>
+                  </tr>
+                </thead>
+                <tbody id="reviewsTbody">
+                  <tr>
+                    <td colspan="6" class="loading-row">Loading...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
 
-let CFG = loadConfig();
-let userRating = 0, spinning = false, wheelAngle = 0, winIndex = -1;
-let submittedData = {};
-let previousScreen = 'formScreen';
+        <!-- SPIN WHEEL TAB -->
+        <div class="tab-panel" id="tabSpin">
+          <div class="admin-card">
+            <div class="admin-card-title">🎡 Wheel Segments <button class="btn-sm" onclick="addSegment()">+ Add</button>
+            </div>
+            <p style="font-size:11px;color:var(--sub);margin-bottom:10px">All segments visually show different prizes
+              but every winner receives the coupon below.</p>
+            <div class="edit-list" id="segEditList"></div>
+            <div class="override-box">
+              <label>Universal Coupon Code (all winners)</label>
+              <input type="text" id="adminCouponCode" placeholder="e.g. TCH10OFF" maxlength="20">
+              <label>Prize Message (shown to customer)</label>
+              <input type="text" id="adminCouponDesc" placeholder="e.g. 10% Off on your next order">
+              <button class="btn-save" onclick="savePrizeSettings()">💾 Save Prize Settings</button>
+            </div>
+          </div>
+        </div>
 
-/* ═══════════════════════════════════════
-   INIT — populate staff dropdown
-═══════════════════════════════════════ */
-function initStaffDropdown(){
-  const sel = document.getElementById('staffSelect');
-  sel.innerHTML = '<option value="" disabled selected>Select staff member</option>';
-  CFG.staff.forEach(s=>{
-    const o = document.createElement('option');
-    o.value = s; o.textContent = s;
-    sel.appendChild(o);
-  });
-}
-initStaffDropdown();
+        <!-- STAFF TAB -->
+        <div class="tab-panel" id="tabStaff">
+          <div class="admin-card">
+            <div class="admin-card-title">👤 Staff Members <button class="btn-sm" onclick="addStaff()">+ Add</button>
+            </div>
+            <div class="edit-list" id="staffEditList"></div>
+            <button class="btn-save" style="margin-top:10px" onclick="saveStaff()">💾 Save Staff</button>
+          </div>
+        </div>
 
-/* ═══════════════════════════════════════
-   SCREEN SWITCHER
-═══════════════════════════════════════ */
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
+        <!-- SEO TAB -->
+        <div class="tab-panel" id="tabSEO">
+          <div class="admin-card">
+            <div class="admin-card-title">✍️ SEO Review Templates <button class="refresh-btn"
+                onclick="loadSEOTemplates()">↻</button></div>
+            <p style="font-size:11px;color:var(--sub);margin-bottom:10px">Fetched from Google Sheet → "SEO_Reviews" tab.
+              Tap any template to copy it.</p>
+            <div id="seoListAdmin">
+              <div class="loading-row">Loading...</div>
+            </div>
+          </div>
+        </div>
 
-/* ═══════════════════════════════════════
-   AUTO-RESIZE TEXTAREA
-═══════════════════════════════════════ */
-function autoResize(el){ el.style.height='auto'; el.style.height=el.scrollHeight+'px'; }
+        <!-- REPLIES TAB -->
+        <div class="tab-panel" id="tabReplies">
+          <div class="admin-card">
+            <div class="admin-card-title">💬 Admin Reply Templates <button class="refresh-btn"
+                onclick="loadReplyTemplates()">↻</button></div>
+            <p style="font-size:11px;color:var(--sub);margin-bottom:10px">Fetched from Google Sheet → "Admin_Replies"
+              tab. Tap to copy.</p>
+            <div id="replyListAdmin">
+              <div class="loading-row">Loading...</div>
+            </div>
+          </div>
+        </div>
 
-/* ═══════════════════════════════════════
-   PRIVACY
-═══════════════════════════════════════ */
-function openPrivacy(e){
-  e.preventDefault();
-  previousScreen = document.querySelector('.screen.active')?.id || 'formScreen';
-  showScreen('privacyScreen');
-}
-function closePrivacy(){ showScreen(previousScreen); }
+        <!-- CONFIG TAB -->
+        <div class="tab-panel" id="tabConfig">
+          <div class="admin-card">
+            <div class="admin-card-title">🔗 Google Review URL</div>
+            <p style="font-size:11px;color:var(--sub);margin-bottom:8px">Set the custom Google review/search URL users
+              are redirected to when they swipe.</p>
+            <textarea id="adminGoogleUrl"
+              style="width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;font-size:12px;font-family:monospace;min-height:70px;outline:none;resize:none"
+              placeholder="https://www.google.com/search?...#lrd=..."></textarea>
+            <button class="btn-save" style="margin-top:8px" onclick="saveGoogleUrl()">💾 Save URL</button>
+          </div>
+          <div class="admin-card">
+            <div class="admin-card-title">🔐 Change Password</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <input type="password" id="newPass1" placeholder="New password"
+                style="border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;outline:none">
+              <input type="password" id="newPass2" placeholder="Confirm new password"
+                style="border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;outline:none">
+              <button class="btn-save" onclick="changePassword()">💾 Update Password</button>
+            </div>
+          </div>
+        </div>
 
-/* ═══════════════════════════════════════
-   STAR RATING — 3D pop effect
-═══════════════════════════════════════ */
-const starHints={1:'😞 Poor — We\'ll do better',2:'😐 Fair — Thank you',3:'🙂 Good — Appreciate it!',4:'😄 Great — Thank you!',5:'🤩 Excellent! — You\'re amazing!'};
-function rate(val){
-  userRating=val;
-  const btns=document.querySelectorAll('.star-btn');
-  btns.forEach((s,i)=>{
-    s.classList.toggle('lit',i<val);
-    s.classList.remove('pop');
-  });
-  // Trigger pop animation on selected star
-  void btns[val-1].offsetWidth;
-  btns[val-1].classList.add('pop');
-  const h=document.getElementById('starHint');
-  h.textContent=starHints[val];
-  h.style.color=val>=4?'#34a853':val<=2?'#ea4335':'#FBBC05';
-  document.getElementById('starErr').classList.remove('show');
-}
+      </div>
+    </div>
+  </div>
 
-/* ═══════════════════════════════════════
-   DUPLICATE DETECTION
-═══════════════════════════════════════ */
-function getSubmitted(){ try{return JSON.parse(localStorage.getItem('submitted_numbers')||'[]')}catch(e){return[]} }
-function saveNumber(n){ try{const a=getSubmitted();if(!a.includes(n))a.push(n);localStorage.setItem('submitted_numbers',JSON.stringify(a))}catch(e){} }
-function isBlocked(n){ return getSubmitted().includes(n.replace(/\D/g,'')); }
+  <!-- ═══════════════ STAFF MODAL ═══════════════ -->
+  <div class="modal-overlay" id="staffModal" onclick="closeModalOutside(event)">
+    <div class="modal-sheet">
+      <div class="modal-title">
+        👤 Today's Staff-wise Count
+        <button class="modal-close" onclick="closeModal()">×</button>
+      </div>
+      <div id="staffModalContent">
+        <div class="loading-row">Loading...</div>
+      </div>
+    </div>
+  </div>
 
-/* ═══════════════════════════════════════
-   SWIPE LOGIC
-═══════════════════════════════════════ */
-const thumb=document.getElementById('swipeThumb'),track=document.getElementById('swipeTrack'),fill=document.getElementById('swipeFill'),lbl=document.getElementById('swipeLbl');
-let swiping=false,startX=0;
-function startSwipe(x){swiping=true;startX=x;thumb.style.transition='none';fill.style.transition='none'}
-function moveSwipe(x){
-  if(!swiping)return;
-  const max=track.offsetWidth-52,dx=Math.min(Math.max(x-startX,0),max);
-  thumb.style.left=(dx+4)+'px';fill.style.width=(dx/max*100)+'%';
-  dx>max*0.35?lbl.classList.add('hidden'):lbl.classList.remove('hidden');
-  if(dx>=max-2){swiping=false;completeSwipe();}
-}
-function endSwipe(){if(!swiping)return;swiping=false;resetSwipe();}
-function resetSwipe(){thumb.style.transition='0.35s ease';fill.style.transition='0.35s ease';thumb.style.left='4px';fill.style.width='0%';lbl.classList.remove('hidden');}
-thumb.addEventListener('touchstart',e=>startSwipe(e.touches[0].clientX),{passive:true});
-window.addEventListener('touchmove',e=>{if(swiping)moveSwipe(e.touches[0].clientX);},{passive:true});
-window.addEventListener('touchend',endSwipe);
-thumb.addEventListener('mousedown',e=>{startSwipe(e.clientX);e.preventDefault();});
-window.addEventListener('mousemove',e=>{if(swiping)moveSwipe(e.clientX);});
-window.addEventListener('mouseup',endSwipe);
+  <!-- Toast -->
+  <div class="copy-toast" id="copyToast">✅ Copied!</div>
 
-function completeSwipe(){
-  let ok=true;
-  if(!userRating){document.getElementById('starErr').classList.add('show');ok=false;}
-  else document.getElementById('starErr').classList.remove('show');
-  const staff=document.getElementById('staffSelect').value;
-  if(!staff){document.getElementById('staffSelect').classList.add('err');document.getElementById('staffErr').classList.add('show');ok=false;}
-  else{document.getElementById('staffSelect').classList.remove('err');document.getElementById('staffErr').classList.remove('show');}
-  const name=document.getElementById('nameInput').value.trim();
-  if(!name){document.getElementById('nameInput').classList.add('err');document.getElementById('nameErr').classList.add('show');ok=false;}
-  else{document.getElementById('nameInput').classList.remove('err');document.getElementById('nameErr').classList.remove('show');}
-  const mobile=document.getElementById('mobileInput').value.replace(/\D/g,'');
-  const mEl=document.getElementById('mobileInput'),mErr=document.getElementById('mobileErr');
-  if(mobile.length!==10){mEl.classList.add('err');mErr.textContent='⚠️ Please enter a valid 10-digit Mobile number.';mErr.classList.add('show');ok=false;}
-  else if(isBlocked(mobile)){mEl.classList.add('err');mErr.textContent='⚠️ This number has already submitted a review.';mErr.classList.add('show');ok=false;}
-  else{mEl.classList.remove('err');mErr.classList.remove('show');}
-  const review=document.getElementById('reviewInput').value.trim();
-  if(!review){document.getElementById('reviewInput').classList.add('err');document.getElementById('reviewErr').classList.add('show');ok=false;}
-  else{document.getElementById('reviewInput').classList.remove('err');document.getElementById('reviewErr').classList.remove('show');}
-  if(!ok){resetSwipe();return;}
-  CFG=loadConfig();
-  submittedData={name,mobile,staff,rating:userRating,review,time:new Date().toLocaleString('en-IN'),coupon:CFG.couponCode,feedback:review};
-  if(userRating<=3){
-    saveNumber(mobile);submitToSheet(submittedData);resetSwipe();showScreen('thankScreen');return;
-  }
-  // try{navigator.clipboard.writeText(review);}catch(e){} // Removed to prevent Anti-Virus flagging "Clipboard Hijacking" + Redirect
-  window.open(CFG.redirectUrl||'https://example.com/','_blank');
-  setTimeout(()=>showScreen('ackScreen'),400);
-}
+  <!-- Admin gear trigger -->
+  <div class="admin-trigger" id="adminTrigger" onclick="openLogin()">⚙️</div>
 
-/* ═══════════════════════════════════════
-   SUBMIT TO SHEET
-   Columns: Name|Mobile|Staff|Rating|Review|Time|Coupon|Recommended_Feedback
-   Uses Image ping — bypasses all CORS/preflight issues completely.
-   Your Apps Script doGet() reads e.parameter.* for each field.
-═══════════════════════════════════════ */
-function submitToSheet(data){
-  if (!SHEET_URL || !SHEET_URL.startsWith('http')) return;
-  const qs = new URLSearchParams({
-    action:               'submit',
-    name:                 String(data.name   ||''),
-    mobile:               String(data.mobile ||''),
-    staff:                String(data.staff  ||''),
-    rating:               String(data.rating ||''),
-    review:               String(data.review ||''),
-    time:                 String(data.time   ||''),
-    coupon:               String(data.coupon ||''),
-    recommended_feedback: String(data.feedback||'')
-  }).toString();
+  <script>
+    /* ═══════════════════════════════════════
+       CONFIG & STATE
+    ═══════════════════════════════════════ */
+    const SUPABASE_URL = 'https://smzleggvtorkiduqjwpm.supabase.co'; // e.g. https://xyz.supabase.co
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtemxlZ2d2dG9ya2lkdXFqd3BtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNjYyMTMsImV4cCI6MjA5MDc0MjIxM30.b5vrvwsAhJNZVIV-s7G_9VS2_0SzFAqJ2NJZ9nnT0u0';
 
-  const fullUrl = SHEET_URL + '?' + qs;
 
-  // Standard submission using fetch no-cors to avoid heuristic image-ping flags
-  try {
-    fetch(fullUrl, { method:'GET', mode:'no-cors', cache:'no-store' }).catch(()=>{});
-  } catch(e) {}
-}
-
-/* ═══════════════════════════════════════
-   ACK
-═══════════════════════════════════════ */
-function goToSpin(){
-  saveNumber(submittedData.mobile||'');submitToSheet(submittedData);
-  bombConfetti('ackConfetti');
-  setTimeout(()=>{drawWheel();showScreen('spinScreen');},700);
-}
-function goBack(){
-  resetSwipe();
-  showScreen('formScreen');
-  // Refill if user cleared the textarea while going back
-  setTimeout(()=>fillNextSEOReview(), 100);
-}
-
-/* ═══════════════════════════════════════
-   AUDIO
-═══════════════════════════════════════ */
-let audioCtx=null;
-function getAudio(){
-  if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-  if(audioCtx.state==='suspended')audioCtx.resume();
-  return audioCtx;
-}
-function playTick(){
-  try{
-    const ctx=getAudio(),t=ctx.currentTime,o=ctx.createOscillator(),g=ctx.createGain();
-    o.connect(g);g.connect(ctx.destination);o.type='triangle';o.frequency.value=900;
-    g.gain.setValueAtTime(0.2,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.07);
-    o.start(t);o.stop(t+0.08);
-  }catch(e){}
-}
-function playWinner(){
-  try{
-    const ctx=getAudio(),t=ctx.currentTime;
-    // Claps
-    for(let c=0;c<6;c++){
-      const buf=ctx.createBuffer(1,Math.floor(ctx.sampleRate*.12),ctx.sampleRate);
-      const d=buf.getChannelData(0);
-      for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.exp(-i/(ctx.sampleRate*.04));
-      const s=ctx.createBufferSource(),hp=ctx.createBiquadFilter(),cg=ctx.createGain();
-      hp.type='highpass';hp.frequency.value=1200;s.buffer=buf;
-      s.connect(hp);hp.connect(cg);cg.connect(ctx.destination);
-      cg.gain.setValueAtTime(0.7,t+c*.22);cg.gain.exponentialRampToValueAtTime(0.001,t+c*.22+.2);
-      s.start(t+c*.22);s.stop(t+c*.22+.25);
+    // All dynamic config stored in localStorage so it persists
+    function loadConfig() {
+      return JSON.parse(localStorage.getItem('tchConfig') || 'null') || {
+        adminPass: 'coffee123',
+        googleUrl: 'https://www.google.com/search?q=The+Coffee+House+Review',
+        couponCode: 'TCH10OFF',
+        couponDesc: '10% Off on your next order',
+        staff: ['Niral', 'Rahul', 'Priya'],
+        seoPointer: 0,          // tracks which SEO template to show next (sequential)
+        cachedSEO: [],         // cached SEO templates fetched from sheet
+        segments: [
+          { text: 'Free Coffee', emoji: '☕', color: '#EA4335' },
+          { text: 'Free Cookie', emoji: '🍪', color: '#FBBC05' },
+          { text: 'Combo Deal', emoji: '🎁', color: '#34A853' },
+          { text: 'Free Pastry', emoji: '🥐', color: '#4285F4' },
+          { text: 'Gift Hamper', emoji: '🎀', color: '#9C27B0' },
+          { text: 'Loyalty Pts', emoji: '⭐', color: '#FF6D00' },
+        ]
+      };
     }
-    // Fanfare
-    [{f:523,s:0,d:.18},{f:659,s:.18,d:.18},{f:784,s:.36,d:.18},{f:1047,s:.54,d:.28},{f:1319,s:.82,d:.22},{f:1047,s:1.04,d:.12},{f:1319,s:1.16,d:.38}].forEach(n=>{
-      const o=ctx.createOscillator(),g=ctx.createGain();
-      o.connect(g);g.connect(ctx.destination);o.type='square';o.frequency.value=n.f;
-      g.gain.setValueAtTime(0,t+n.s);g.gain.linearRampToValueAtTime(0.3,t+n.s+.04);
-      g.gain.exponentialRampToValueAtTime(0.001,t+n.s+n.d+.08);
-      o.start(t+n.s);o.stop(t+n.s+n.d+.1);
-    });
-    // Chord swell
-    [523,659,784,1047].forEach(f=>{
-      const o=ctx.createOscillator(),g=ctx.createGain();
-      o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.value=f;
-      g.gain.setValueAtTime(0,t+1.8);g.gain.linearRampToValueAtTime(0.25,t+2.1);
-      g.gain.exponentialRampToValueAtTime(0.001,t+3.0);o.start(t+1.8);o.stop(t+3.1);
-    });
-    // Bass
-    [0,.38].forEach(off=>{
-      const o=ctx.createOscillator(),g=ctx.createGain();
-      o.connect(g);g.connect(ctx.destination);o.type='sine';
-      o.frequency.setValueAtTime(200,t+off);o.frequency.exponentialRampToValueAtTime(40,t+off+.3);
-      g.gain.setValueAtTime(0.7,t+off);g.gain.exponentialRampToValueAtTime(0.001,t+off+.42);
-      o.start(t+off);o.stop(t+off+.45);
-    });
-    // Shimmer
-    [2093,2637,3136,3520].forEach((f,i)=>{
-      const o=ctx.createOscillator(),g=ctx.createGain();
-      o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.value=f;
-      g.gain.setValueAtTime(0.14,t+.9+i*.07);g.gain.exponentialRampToValueAtTime(0.001,t+.9+i*.07+.5);
-      o.start(t+.9+i*.07);o.stop(t+.9+i*.07+.55);
-    });
-  }catch(e){}
-}
-let tickInterval=null;
-function startTick(dur){
-  let n=0,total=40;
-  tickInterval=setInterval(()=>{playTick();if(++n>=total)clearInterval(tickInterval);},dur/total);
-}
+    function saveConfig(cfg) { localStorage.setItem('tchConfig', JSON.stringify(cfg)); }
 
-/* ═══════════════════════════════════════
-   WHEEL — always stops at index 0 (10% Off segment)
-═══════════════════════════════════════ */
-function getSegments(){ CFG=loadConfig(); return CFG.segments; }
+    let CFG = loadConfig();
+    let userRating = 0, spinning = false, wheelAngle = 0, winIndex = -1;
+    let submittedData = {};
+    let previousScreen = 'formScreen';
 
-function drawWheel(angleRad=0){
-  const segs=getSegments(),n=segs.length;
-  const canvas=document.getElementById('wheelCanvas'),ctx=canvas.getContext('2d');
-  const cx=130,cy=130,r=126,sl=(2*Math.PI)/n;
-  ctx.clearRect(0,0,260,260);
-  segs.forEach((seg,i)=>{
-    const s=angleRad+i*sl-Math.PI/2,e=s+sl;
-    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,s,e);ctx.closePath();
-    ctx.fillStyle=seg.color;ctx.fill();
-    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r*.55,s,e);ctx.closePath();
-    ctx.fillStyle='rgba(255,255,255,.08)';ctx.fill();
-    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,s,e);ctx.closePath();
-    ctx.strokeStyle='rgba(255,255,255,.7)';ctx.lineWidth=2.5;ctx.stroke();
-    ctx.save();ctx.translate(cx,cy);ctx.rotate(s+sl/2);ctx.textAlign='right';
-    ctx.font='15px serif';ctx.fillText(seg.emoji,r-8,-4);
-    ctx.fillStyle='#fff';ctx.font='bold 10px Google Sans,Roboto,sans-serif';
-    ctx.shadowColor='rgba(0,0,0,.4)';ctx.shadowBlur=3;
-    ctx.fillText(seg.text.length>10?seg.text.slice(0,9)+'…':seg.text,r-8,9);
-    ctx.restore();
-  });
-  ctx.beginPath();ctx.arc(cx,cy,r,0,2*Math.PI);
-  ctx.strokeStyle='rgba(255,255,255,.5)';ctx.lineWidth=4;ctx.stroke();
-  const hR=28,grad=ctx.createRadialGradient(cx,cy,2,cx,cy,hR);
-  grad.addColorStop(0,'#fff');grad.addColorStop(1,'#f0f0f0');
-  ctx.beginPath();ctx.arc(cx,cy,hR,0,2*Math.PI);ctx.fillStyle=grad;ctx.fill();
-  ctx.strokeStyle='rgba(0,0,0,.15)';ctx.lineWidth=2;ctx.stroke();
-  ctx.save();ctx.translate(cx,cy);ctx.fillStyle='#1a73e8';ctx.font='bold 18px serif';
-  ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowBlur=0;ctx.fillText('🎡',0,0);ctx.restore();
-}
+    /* ═══════════════════════════════════════
+       INIT — populate staff dropdown
+    ═══════════════════════════════════════ */
+    function initStaffDropdown() {
+      const sel = document.getElementById('staffSelect');
+      sel.innerHTML = '<option value="" disabled selected>Select staff member</option>';
+      CFG.staff.forEach(s => {
+        const o = document.createElement('option');
+        o.value = s; o.textContent = s;
+        sel.appendChild(o);
+      });
+    }
+    initStaffDropdown();
 
-function spinWheel(){
-  if(spinning)return;
-  spinning=true;
-  document.getElementById('spinBtn').disabled=true;
-  CFG=loadConfig();
-  const segs=CFG.segments,n=segs.length;
-  // Always land on index 0 (first segment = winner)
-  winIndex=0;
-  const sliceDeg=360/n;
-  const targetDeg=360-(winIndex*sliceDeg)-(sliceDeg/2);
-  const spins=1800+targetDeg,finalDeg=wheelAngle+spins;
-  wheelAngle=finalDeg%360;
-  const canvas=document.getElementById('wheelCanvas');
-  canvas.style.transition='transform 5s cubic-bezier(.17,.67,.12,.99)';
-  canvas.style.transform=`rotate(${finalDeg}deg)`;
-  startTick(5000);
-  setTimeout(()=>{spinning=false;showPrize();},5300);
-}
+    /* ═══════════════════════════════════════
+       SCREEN SWITCHER
+    ═══════════════════════════════════════ */
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
 
-function showPrize(){
-  CFG=loadConfig();
-  const seg=CFG.segments[winIndex]||CFG.segments[0];
-  document.getElementById('prizeEmoji').textContent=seg.emoji;
-  document.getElementById('prizeName').textContent=CFG.couponDesc;
-  document.getElementById('prizeCardIcon').textContent=seg.emoji;
-  document.getElementById('prizeCardTitle').textContent=CFG.couponDesc;
-  document.getElementById('couponCode').textContent=CFG.couponCode;
-  bombConfetti('prizeConfetti');
-  showScreen('prizeScreen');
-  setTimeout(()=>playWinner(),350);
-}
+    /* ═══════════════════════════════════════
+       AUTO-RESIZE TEXTAREA
+    ═══════════════════════════════════════ */
+    function autoResize(el) { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; }
 
-/* ═══════════════════════════════════════
-   CONFETTI
-═══════════════════════════════════════ */
-function bombConfetti(id){
-  const l=document.getElementById(id);l.innerHTML='';
-  const c=['#EA4335','#FBBC05','#34A853','#4285F4','#FF6D00','#9C27B0','#00BCD4','#FF4081','#fff'];
-  for(let i=0;i<110;i++){
-    const d=document.createElement('div');d.className='cp';
-    const sz=5+Math.random()*10;
-    d.style.cssText=`left:${Math.random()*100}%;top:${-20+Math.random()*30}%;width:${sz}px;height:${sz}px;background:${c[i%c.length]};border-radius:${Math.random()>.45?'50%':'3px'};animation-delay:${Math.random()*1.2}s;animation-duration:${2+Math.random()*2}s;position:absolute;`;
-    l.appendChild(d);
-  }
-}
+    /* ═══════════════════════════════════════
+       PRIVACY
+    ═══════════════════════════════════════ */
+    function openPrivacy(e) {
+      e.preventDefault();
+      previousScreen = document.querySelector('.screen.active')?.id || 'formScreen';
+      showScreen('privacyScreen');
+    }
+    function closePrivacy() { showScreen(previousScreen); }
 
-/* ═══════════════════════════════════════
-   MANAGEMENT PORTAL ACCESS (Prompt-based)
-═══════════════════════════════════════ */
-function openAuth(){
-  CFG=loadConfig();
-  let key = CFG.adminKey || CFG.adminPass || 'coffee123';
-  const p = prompt("Enter Management Passcode:");
-  if(p === null) return; 
-  if(p === key){
-    showScreen('adminScreen');
-    loadAdminData();loadSegmentEditor();loadStaffEditor();loadSEOTemplates();loadReplyTemplates();
-    document.getElementById('adminRedirectUrl').value=CFG.redirectUrl||'';
-    document.getElementById('adminCouponCode').value=CFG.couponCode||'TCH10OFF';
-    document.getElementById('adminCouponDesc').value=CFG.couponDesc||'10% Off on your next order';
-  } else {
-    alert("❌ Invalid passcode.");
-  }
-}
-function adminLogout(){
-  showScreen('formScreen');
-}
+    /* ═══════════════════════════════════════
+       STAR RATING — 3D pop effect
+    ═══════════════════════════════════════ */
+    const starHints = { 1: '😞 Poor — We\'ll do better', 2: '😐 Fair — Thank you', 3: '🙂 Good — Appreciate it!', 4: '😄 Great — Thank you!', 5: '🤩 Excellent! — You\'re amazing!' };
+    function rate(val) {
+      userRating = val;
+      const btns = document.querySelectorAll('.star-btn');
+      btns.forEach((s, i) => {
+        s.classList.toggle('lit', i < val);
+        s.classList.remove('pop');
+      });
+      // Trigger pop animation on selected star
+      void btns[val - 1].offsetWidth;
+      btns[val - 1].classList.add('pop');
+      const h = document.getElementById('starHint');
+      h.textContent = starHints[val];
+      h.style.color = val >= 4 ? '#34a853' : val <= 2 ? '#ea4335' : '#FBBC05';
+      document.getElementById('starErr').classList.remove('show');
+    }
 
-/* ═══════════════════════════════════════
-   ADMIN TABS
-═══════════════════════════════════════ */
-function switchTab(id,btn){
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.a-tab').forEach(b=>b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
-}
+    /* ═══════════════════════════════════════
+       DUPLICATE DETECTION
+    ═══════════════════════════════════════ */
+    function getSubmitted() { try { return JSON.parse(localStorage.getItem('submitted_numbers') || '[]') } catch (e) { return [] } }
+    function saveNumber(n) { try { const a = getSubmitted(); if (!a.includes(n)) a.push(n); localStorage.setItem('submitted_numbers', JSON.stringify(a)) } catch (e) { } }
+    function isBlocked(n) { return getSubmitted().includes(n.replace(/\D/g, '')); }
 
-/* ═══════════════════════════════════════
-   ADMIN — LOAD TODAY'S DATA (FIFO reverse = latest first)
-   Uses JSONP to bypass CORS — Apps Script supports callback= param.
-═══════════════════════════════════════ */
-async function loadAdminData(){
-  document.getElementById('reviewsTbody').innerHTML='<tr><td colspan="6" class="loading-row">⏳ Loading submissions...</td></tr>';
-  document.getElementById('statTotal').textContent='…';
-  
-  if(!SHEET_URL || !SHEET_URL.startsWith('http')) {
-    renderDashboard([]);
-    document.getElementById('reviewsTbody').innerHTML='<tr><td colspan="6" style="text-align:center;padding:16px;color:var(--sub);font-size:12px">⚠️ No App Script URL configured.</td></tr>';
-    return;
-  }
+    /* ═══════════════════════════════════════
+       SWIPE LOGIC
+    ═══════════════════════════════════════ */
+    const thumb = document.getElementById('swipeThumb'), track = document.getElementById('swipeTrack'), fill = document.getElementById('swipeFill'), lbl = document.getElementById('swipeLbl');
+    let swiping = false, startX = 0;
+    function startSwipe(x) { swiping = true; startX = x; thumb.style.transition = 'none'; fill.style.transition = 'none' }
+    function moveSwipe(x) {
+      if (!swiping) return;
+      const max = track.offsetWidth - 52, dx = Math.min(Math.max(x - startX, 0), max);
+      thumb.style.left = (dx + 4) + 'px'; fill.style.width = (dx / max * 100) + '%';
+      dx > max * 0.35 ? lbl.classList.add('hidden') : lbl.classList.remove('hidden');
+      if (dx >= max - 2) { swiping = false; completeSwipe(); }
+    }
+    function endSwipe() { if (!swiping) return; swiping = false; resetSwipe(); }
+    function resetSwipe() { thumb.style.transition = '0.35s ease'; fill.style.transition = '0.35s ease'; thumb.style.left = '4px'; fill.style.width = '0%'; lbl.classList.remove('hidden'); }
+    thumb.addEventListener('touchstart', e => startSwipe(e.touches[0].clientX), { passive: true });
+    window.addEventListener('touchmove', e => { if (swiping) moveSwipe(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('touchend', endSwipe);
+    thumb.addEventListener('mousedown', e => { startSwipe(e.clientX); e.preventDefault(); });
+    window.addEventListener('mousemove', e => { if (swiping) moveSwipe(e.clientX); });
+    window.addEventListener('mouseup', endSwipe);
 
-  // Standard fetch 
-  try {
-    const res = await fetch(SHEET_URL + '?action=getAll', {
-      method: 'GET',
-      cache: 'no-store'
-    });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const json = await res.json();
-    renderDashboard(json.data || []);
-    return;
-  } catch(e1) {}
-
-  // Show empty state with diagnostics hint
-  renderDashboard([]);
-  document.getElementById('reviewsTbody').innerHTML =
-    '<tr><td colspan="6" style="text-align:center;padding:16px;color:var(--sub);font-size:12px">' +
-    '⚠️ Could not connect to Google Sheet.<br>' +
-    '<small>Make sure your Apps Script is deployed with <strong>"Anyone"</strong> access.<br>' +
-    'Also ensure <code>doGet</code> handles <code>action=getAll</code> and returns JSON with CORS headers.</small>' +
-    '</td></tr>';
-}
-
-function renderDashboard(allRows){
-  const now = new Date();
-  const d = String(now.getDate());
-  const m = String(now.getMonth() + 1);
-  const dd = d.padStart(2, '0');
-  const mm = m.padStart(2, '0');
-  const y = now.getFullYear();
-  
-  const formats = [
-    `${d}/${m}/${y}`,
-    `${dd}/${mm}/${y}`,
-    `${m}/${d}/${y}`,
-    `${mm}/${dd}/${y}`,
-    `${y}-${mm}-${dd}`,
-    `${y}-${m}-${d}`
-  ];
-
-  // Filter today only
-  const rows = allRows.filter(r => {
-    const t = String(r.Time || r.time || r.Timestamp || r.timestamp || '');
-    return formats.some(f => t.includes(f));
-  });
-  // FIFO reverse: latest first
-  rows.reverse();
-
-  let total=rows.length,googleC=0,rSum=0,rN=0,lowC=0;
-  const tbody=document.getElementById('reviewsTbody');
-  tbody.innerHTML='';
-
-  if(!rows.length){
-    tbody.innerHTML='<tr><td colspan="6" class="loading-row">No submissions today yet.</td></tr>';
-  } else {
-    rows.forEach(r=>{
-      const rating=parseInt(r.Rating||r.rating)||0;
-      if(rating>=4)googleC++;if(rating>0){rSum+=rating;rN++;}
-      if(rating>0&&rating<=3)lowC++;
-      const stars='★'.repeat(Math.max(0,rating))+'☆'.repeat(Math.max(0,5-rating));
-      
-      let tStr = String(r.Time||r.time||r.Timestamp||r.timestamp||'—');
-      let displayTime = tStr;
-      if (tStr.includes('T') && tStr.endsWith('Z')) {
-        const dt = new Date(tStr);
-        if (!isNaN(dt)) displayTime = dt.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-      } else if (tStr.includes(',')) {
-        displayTime = tStr.split(',')[1] || tStr;
-      } else if (tStr.includes(' ')) {
-        displayTime = tStr.split(' ').slice(1).join(' ') || tStr;
+    function completeSwipe() {
+      let ok = true;
+      if (!userRating) { document.getElementById('starErr').classList.add('show'); ok = false; }
+      else document.getElementById('starErr').classList.remove('show');
+      const staff = document.getElementById('staffSelect').value;
+      if (!staff) { document.getElementById('staffSelect').classList.add('err'); document.getElementById('staffErr').classList.add('show'); ok = false; }
+      else { document.getElementById('staffSelect').classList.remove('err'); document.getElementById('staffErr').classList.remove('show'); }
+      const name = document.getElementById('nameInput').value.trim();
+      if (!name) { document.getElementById('nameInput').classList.add('err'); document.getElementById('nameErr').classList.add('show'); ok = false; }
+      else { document.getElementById('nameInput').classList.remove('err'); document.getElementById('nameErr').classList.remove('show'); }
+      const mobile = document.getElementById('mobileInput').value.replace(/\D/g, '');
+      const mEl = document.getElementById('mobileInput'), mErr = document.getElementById('mobileErr');
+      if (mobile.length !== 10) { mEl.classList.add('err'); mErr.textContent = '⚠️ Please enter a valid 10-digit WhatsApp number.'; mErr.classList.add('show'); ok = false; }
+      else if (isBlocked(mobile)) { mEl.classList.add('err'); mErr.textContent = '⚠️ This number has already submitted a review.'; mErr.classList.add('show'); ok = false; }
+      else { mEl.classList.remove('err'); mErr.classList.remove('show'); }
+      const review = document.getElementById('reviewInput').value.trim();
+      if (!review) { document.getElementById('reviewInput').classList.add('err'); document.getElementById('reviewErr').classList.add('show'); ok = false; }
+      else { document.getElementById('reviewInput').classList.remove('err'); document.getElementById('reviewErr').classList.remove('show'); }
+      if (!ok) { resetSwipe(); return; }
+      CFG = loadConfig();
+      submittedData = { name, mobile, staff, rating: userRating, review, time: new Date().toLocaleString('en-IN'), coupon: CFG.couponCode, feedback: review };
+      if (userRating <= 3) {
+        saveNumber(mobile); submitToSheet(submittedData); resetSwipe(); showScreen('thankScreen'); return;
       }
-      
-      const tr=document.createElement('tr');
-      tr.innerHTML=`<td>${r.Name||r.name||'—'}</td><td>${r.Mobile||r.mobile||'—'}</td><td>${r.Staff||r.staff||'—'}</td><td class="r-stars" style="font-size:11px">${stars}</td><td><code style="background:#F0F4FF;padding:2px 6px;border-radius:6px;font-size:10px">${r.Coupon||r.coupon||'—'}</code></td><td style="white-space:nowrap;font-size:11px">${displayTime}</td>`;
-      tbody.appendChild(tr);
-    });
-  }
-  document.getElementById('statTotal').textContent=total;
-  document.getElementById('statGoogle').textContent=googleC;
-  document.getElementById('statAvg').textContent=rN?(rSum/rN).toFixed(1):'—';
-  document.getElementById('statLow').textContent=lowC;
+      try { navigator.clipboard.writeText(review); } catch (e) { }
+      window.open(CFG.googleUrl || 'https://www.google.com/search?q=The+Coffee+House', '_blank');
+      setTimeout(() => showScreen('ackScreen'), 400);
+    }
 
-  // Store for modal
-  window._todayRows=rows;
-  window._allRows=allRows;
-}
+    /* ═══════════════════════════════════════
+       SUBMIT TO SUPABASE
+       Columns: name|mobile|staff|rating|review|coupon|recommended_feedback
+    ═══════════════════════════════════════ */
+    async function submitToSheet(data) {
+      if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL.includes('YOUR_')) return;
 
-/* ═══════════════════════════════════════
-   STAFF MODAL — today's staff-wise count
-═══════════════════════════════════════ */
-function openStaffModal(){
-  document.getElementById('staffModal').classList.add('open');
-  const rows=window._todayRows||[];
-  const counts={};
-  rows.forEach(r=>{const s=r.Staff||r.staff||'Unknown';counts[s]=(counts[s]||0)+1;});
-  const content=document.getElementById('staffModalContent');
-  if(!Object.keys(counts).length){
-    content.innerHTML='<p style="text-align:center;color:var(--sub);font-size:13px;padding:16px">No submissions today.</p>';return;
-  }
-  let html='<table class="data-table" style="min-width:0;width:100%"><thead><tr><th>Staff Member</th><th>Count</th><th>% Share</th></tr></thead><tbody>';
-  const total=rows.length;
-  Object.entries(counts).sort((a,b)=>b[1]-a[1]).forEach(([s,c])=>{
-    html+=`<tr><td>${s}</td><td style="font-weight:700;color:#1a73e8">${c}</td><td>${((c/total)*100).toFixed(0)}%</td></tr>`;
-  });
-  html+='</tbody></table>';
-  content.innerHTML=html;
-}
-function closeModal(){ document.getElementById('staffModal').classList.remove('open'); }
-function closeModalOutside(e){ if(e.target===document.getElementById('staffModal'))closeModal(); }
+      const payload = {
+        name: String(data.name || ''),
+        mobile: String(data.mobile || ''),
+        staff: String(data.staff || ''),
+        rating: parseInt(data.rating || 0),
+        review: String(data.review || ''),
+        coupon: String(data.coupon || ''),
+        recommended_feedback: String(data.feedback || '')
+      };
 
-/* ═══════════════════════════════════════
-   SEGMENT EDITOR
-═══════════════════════════════════════ */
-function loadSegmentEditor(){
-  CFG=loadConfig();
-  const list=document.getElementById('segEditList');
-  list.innerHTML='';
-  CFG.segments.forEach((seg,i)=>renderSegRow(list,seg,i));
-}
-function renderSegRow(list,seg,i){
-  const d=document.createElement('div');d.className='edit-item';d.dataset.index=i;
-  d.innerHTML=`
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/reviews`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(payload)
+        });
+      } catch (e) { }
+    }
+
+    /* ═══════════════════════════════════════
+       ACK
+    ═══════════════════════════════════════ */
+    function goToSpin() {
+      saveNumber(submittedData.mobile || ''); submitToSheet(submittedData);
+      bombConfetti('ackConfetti');
+      setTimeout(() => { drawWheel(); showScreen('spinScreen'); }, 700);
+    }
+    function goBack() {
+      resetSwipe();
+      showScreen('formScreen');
+      // Refill if user cleared the textarea while going back
+      setTimeout(() => fillNextSEOReview(), 100);
+    }
+
+    /* ═══════════════════════════════════════
+       AUDIO
+    ═══════════════════════════════════════ */
+    let audioCtx = null;
+    function getAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      return audioCtx;
+    }
+    function playTick() {
+      try {
+        const ctx = getAudio(), t = ctx.currentTime, o = ctx.createOscillator(), g = ctx.createGain();
+        o.connect(g); g.connect(ctx.destination); o.type = 'triangle'; o.frequency.value = 900;
+        g.gain.setValueAtTime(0.2, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.07);
+        o.start(t); o.stop(t + 0.08);
+      } catch (e) { }
+    }
+    function playWinner() {
+      try {
+        const ctx = getAudio(), t = ctx.currentTime;
+        // Claps
+        for (let c = 0; c < 6; c++) {
+          const buf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * .12), ctx.sampleRate);
+          const d = buf.getChannelData(0);
+          for (let i = 0; i < d.length; i++)d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * .04));
+          const s = ctx.createBufferSource(), hp = ctx.createBiquadFilter(), cg = ctx.createGain();
+          hp.type = 'highpass'; hp.frequency.value = 1200; s.buffer = buf;
+          s.connect(hp); hp.connect(cg); cg.connect(ctx.destination);
+          cg.gain.setValueAtTime(0.7, t + c * .22); cg.gain.exponentialRampToValueAtTime(0.001, t + c * .22 + .2);
+          s.start(t + c * .22); s.stop(t + c * .22 + .25);
+        }
+        // Fanfare
+        [{ f: 523, s: 0, d: .18 }, { f: 659, s: .18, d: .18 }, { f: 784, s: .36, d: .18 }, { f: 1047, s: .54, d: .28 }, { f: 1319, s: .82, d: .22 }, { f: 1047, s: 1.04, d: .12 }, { f: 1319, s: 1.16, d: .38 }].forEach(n => {
+          const o = ctx.createOscillator(), g = ctx.createGain();
+          o.connect(g); g.connect(ctx.destination); o.type = 'square'; o.frequency.value = n.f;
+          g.gain.setValueAtTime(0, t + n.s); g.gain.linearRampToValueAtTime(0.3, t + n.s + .04);
+          g.gain.exponentialRampToValueAtTime(0.001, t + n.s + n.d + .08);
+          o.start(t + n.s); o.stop(t + n.s + n.d + .1);
+        });
+        // Chord swell
+        [523, 659, 784, 1047].forEach(f => {
+          const o = ctx.createOscillator(), g = ctx.createGain();
+          o.connect(g); g.connect(ctx.destination); o.type = 'sine'; o.frequency.value = f;
+          g.gain.setValueAtTime(0, t + 1.8); g.gain.linearRampToValueAtTime(0.25, t + 2.1);
+          g.gain.exponentialRampToValueAtTime(0.001, t + 3.0); o.start(t + 1.8); o.stop(t + 3.1);
+        });
+        // Bass
+        [0, .38].forEach(off => {
+          const o = ctx.createOscillator(), g = ctx.createGain();
+          o.connect(g); g.connect(ctx.destination); o.type = 'sine';
+          o.frequency.setValueAtTime(200, t + off); o.frequency.exponentialRampToValueAtTime(40, t + off + .3);
+          g.gain.setValueAtTime(0.7, t + off); g.gain.exponentialRampToValueAtTime(0.001, t + off + .42);
+          o.start(t + off); o.stop(t + off + .45);
+        });
+        // Shimmer
+        [2093, 2637, 3136, 3520].forEach((f, i) => {
+          const o = ctx.createOscillator(), g = ctx.createGain();
+          o.connect(g); g.connect(ctx.destination); o.type = 'sine'; o.frequency.value = f;
+          g.gain.setValueAtTime(0.14, t + .9 + i * .07); g.gain.exponentialRampToValueAtTime(0.001, t + .9 + i * .07 + .5);
+          o.start(t + .9 + i * .07); o.stop(t + .9 + i * .07 + .55);
+        });
+      } catch (e) { }
+    }
+    let tickInterval = null;
+    function startTick(dur) {
+      let n = 0, total = 40;
+      tickInterval = setInterval(() => { playTick(); if (++n >= total) clearInterval(tickInterval); }, dur / total);
+    }
+
+    /* ═══════════════════════════════════════
+       WHEEL — always stops at index 0 (10% Off segment)
+    ═══════════════════════════════════════ */
+    function getSegments() { CFG = loadConfig(); return CFG.segments; }
+
+    function drawWheel(angleRad = 0) {
+      const segs = getSegments(), n = segs.length;
+      const canvas = document.getElementById('wheelCanvas'), ctx = canvas.getContext('2d');
+      const cx = 130, cy = 130, r = 126, sl = (2 * Math.PI) / n;
+      ctx.clearRect(0, 0, 260, 260);
+      segs.forEach((seg, i) => {
+        const s = angleRad + i * sl - Math.PI / 2, e = s + sl;
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, r, s, e); ctx.closePath();
+        ctx.fillStyle = seg.color; ctx.fill();
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, r * .55, s, e); ctx.closePath();
+        ctx.fillStyle = 'rgba(255,255,255,.08)'; ctx.fill();
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, r, s, e); ctx.closePath();
+        ctx.strokeStyle = 'rgba(255,255,255,.7)'; ctx.lineWidth = 2.5; ctx.stroke();
+        ctx.save(); ctx.translate(cx, cy); ctx.rotate(s + sl / 2); ctx.textAlign = 'right';
+        ctx.font = '15px serif'; ctx.fillText(seg.emoji, r - 8, -4);
+        ctx.fillStyle = '#fff'; ctx.font = 'bold 10px Google Sans,Roboto,sans-serif';
+        ctx.shadowColor = 'rgba(0,0,0,.4)'; ctx.shadowBlur = 3;
+        ctx.fillText(seg.text.length > 10 ? seg.text.slice(0, 9) + '…' : seg.text, r - 8, 9);
+        ctx.restore();
+      });
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+      ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.lineWidth = 4; ctx.stroke();
+      const hR = 28, grad = ctx.createRadialGradient(cx, cy, 2, cx, cy, hR);
+      grad.addColorStop(0, '#fff'); grad.addColorStop(1, '#f0f0f0');
+      ctx.beginPath(); ctx.arc(cx, cy, hR, 0, 2 * Math.PI); ctx.fillStyle = grad; ctx.fill();
+      ctx.strokeStyle = 'rgba(0,0,0,.15)'; ctx.lineWidth = 2; ctx.stroke();
+      ctx.save(); ctx.translate(cx, cy); ctx.fillStyle = '#1a73e8'; ctx.font = 'bold 18px serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.shadowBlur = 0; ctx.fillText('🎡', 0, 0); ctx.restore();
+    }
+
+    function spinWheel() {
+      if (spinning) return;
+      spinning = true;
+      document.getElementById('spinBtn').disabled = true;
+      CFG = loadConfig();
+      const segs = CFG.segments, n = segs.length;
+      // Always land on index 0 (first segment = winner)
+      winIndex = 0;
+      const sliceDeg = 360 / n;
+      const targetDeg = 360 - (winIndex * sliceDeg) - (sliceDeg / 2);
+      const spins = 1800 + targetDeg, finalDeg = wheelAngle + spins;
+      wheelAngle = finalDeg % 360;
+      const canvas = document.getElementById('wheelCanvas');
+      canvas.style.transition = 'transform 5s cubic-bezier(.17,.67,.12,.99)';
+      canvas.style.transform = `rotate(${finalDeg}deg)`;
+      startTick(5000);
+      setTimeout(() => { spinning = false; showPrize(); }, 5300);
+    }
+
+    function showPrize() {
+      CFG = loadConfig();
+      const seg = CFG.segments[winIndex] || CFG.segments[0];
+      document.getElementById('prizeEmoji').textContent = seg.emoji;
+      document.getElementById('prizeName').textContent = CFG.couponDesc;
+      document.getElementById('prizeCardIcon').textContent = seg.emoji;
+      document.getElementById('prizeCardTitle').textContent = CFG.couponDesc;
+      document.getElementById('couponCode').textContent = CFG.couponCode;
+      bombConfetti('prizeConfetti');
+      showScreen('prizeScreen');
+      setTimeout(() => playWinner(), 350);
+    }
+
+    /* ═══════════════════════════════════════
+       CONFETTI
+    ═══════════════════════════════════════ */
+    function bombConfetti(id) {
+      const l = document.getElementById(id); l.innerHTML = '';
+      const c = ['#EA4335', '#FBBC05', '#34A853', '#4285F4', '#FF6D00', '#9C27B0', '#00BCD4', '#FF4081', '#fff'];
+      for (let i = 0; i < 110; i++) {
+        const d = document.createElement('div'); d.className = 'cp';
+        const sz = 5 + Math.random() * 10;
+        d.style.cssText = `left:${Math.random() * 100}%;top:${-20 + Math.random() * 30}%;width:${sz}px;height:${sz}px;background:${c[i % c.length]};border-radius:${Math.random() > .45 ? '50%' : '3px'};animation-delay:${Math.random() * 1.2}s;animation-duration:${2 + Math.random() * 2}s;position:absolute;`;
+        l.appendChild(d);
+      }
+    }
+
+    /* ═══════════════════════════════════════
+       ADMIN LOGIN
+    ═══════════════════════════════════════ */
+    function openLogin() { showScreen('loginScreen'); }
+    function doLogin() {
+      CFG = loadConfig();
+      const u = document.getElementById('loginUser').value.trim();
+      const p = document.getElementById('loginPass').value;
+      if (u === 'admin' && p === CFG.adminPass) {
+        document.getElementById('loginErr').textContent = '';
+        showScreen('adminScreen');
+        loadAdminData(); loadSegmentEditor(); loadStaffEditor(); loadSEOTemplates(); loadReplyTemplates();
+        document.getElementById('adminGoogleUrl').value = CFG.googleUrl || '';
+        document.getElementById('adminCouponCode').value = CFG.couponCode || 'TCH10OFF';
+        document.getElementById('adminCouponDesc').value = CFG.couponDesc || '10% Off on your next order';
+      } else {
+        document.getElementById('loginErr').textContent = '❌ Invalid username or password.';
+      }
+    }
+    function adminLogout() {
+      document.getElementById('loginUser').value = '';
+      document.getElementById('loginPass').value = '';
+      showScreen('formScreen');
+    }
+
+    /* ═══════════════════════════════════════
+       ADMIN TABS
+    ═══════════════════════════════════════ */
+    function switchTab(id, btn) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.a-tab').forEach(b => b.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    /* ═══════════════════════════════════════
+       ADMIN — LOAD TODAY'S DATA (latest first)
+       Uses Supabase REST Fetch
+    ═══════════════════════════════════════ */
+    async function loadAdminData() {
+      document.getElementById('reviewsTbody').innerHTML = '<tr><td colspan="6" class="loading-row">⏳ Loading submissions...</td></tr>';
+      document.getElementById('statTotal').textContent = '…';
+
+      if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL.includes('YOUR_')) {
+        renderDashboard([]);
+        document.getElementById('reviewsTbody').innerHTML = '<tr><td colspan="6" style="text-align:center;padding:16px;color:var(--sub);font-size:12px">⚠️ No Supabase Configured.<br><small>Update SUPABASE_URL and SUPABASE_ANON_KEY variables in the code.</small></td></tr>';
+        return;
+      }
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/reviews?select=*&order=created_at.desc`, {
+          method: 'GET',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+          }
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        renderDashboard(data || []);
+        return;
+      } catch (e1) {
+        renderDashboard([]);
+        document.getElementById('reviewsTbody').innerHTML =
+          '<tr><td colspan="6" style="text-align:center;padding:16px;color:var(--sub);font-size:12px">' +
+          '⚠️ Could not connect to Supabase.<br>' +
+          '<small>Make sure your Anon Key is correct and Row Level Security on "reviews" table allows SELECT.</small>' +
+          '</td></tr>';
+      }
+    }
+
+    function renderDashboard(allRows) {
+      const now = new Date();
+      const d = String(now.getDate());
+      const m = String(now.getMonth() + 1);
+      const dd = d.padStart(2, '0');
+      const mm = m.padStart(2, '0');
+      const y = now.getFullYear();
+
+      const formats = [
+        `${d}/${m}/${y}`,
+        `${dd}/${mm}/${y}`,
+        `${m}/${d}/${y}`,
+        `${mm}/${dd}/${y}`,
+        `${y}-${mm}-${dd}`,
+        `${y}-${m}-${d}`
+      ];
+
+      // Filter today only
+      const rows = allRows.filter(r => {
+        const t = String(r.Time || r.time || r.Timestamp || r.timestamp || r.created_at || '');
+        if (t.includes('T') || t.includes('-')) {
+          const dt = new Date(t);
+          if (!isNaN(dt)) {
+            return dt.getDate() === now.getDate() && dt.getMonth() === now.getMonth() && dt.getFullYear() === now.getFullYear();
+          }
+        }
+        return formats.some(f => t.includes(f));
+      });
+
+      let total = rows.length, googleC = 0, rSum = 0, rN = 0, lowC = 0;
+      const tbody = document.getElementById('reviewsTbody');
+      tbody.innerHTML = '';
+
+      if (!rows.length) {
+        tbody.innerHTML = '<tr><td colspan="6" class="loading-row">No submissions today yet.</td></tr>';
+      } else {
+        rows.forEach(r => {
+          const rating = parseInt(r.Rating || r.rating) || 0;
+          if (rating >= 4) googleC++; if (rating > 0) { rSum += rating; rN++; }
+          if (rating > 0 && rating <= 3) lowC++;
+          const stars = '★'.repeat(Math.max(0, rating)) + '☆'.repeat(Math.max(0, 5 - rating));
+
+          let tStr = String(r.Time || r.time || r.Timestamp || r.timestamp || '—');
+          let displayTime = tStr;
+          if (tStr.includes('T')) {
+            const dt = new Date(tStr);
+            if (!isNaN(dt)) displayTime = dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          } else if (tStr.includes(',')) {
+            displayTime = tStr.split(',')[1] || tStr;
+          } else if (tStr.includes(' ')) {
+            displayTime = tStr.split(' ').slice(1).join(' ') || tStr;
+          }
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${r.Name || r.name || '—'}</td><td>${r.Mobile || r.mobile || '—'}</td><td>${r.Staff || r.staff || '—'}</td><td class="r-stars" style="font-size:11px">${stars}</td><td><code style="background:#F0F4FF;padding:2px 6px;border-radius:6px;font-size:10px">${r.Coupon || r.coupon || '—'}</code></td><td style="white-space:nowrap;font-size:11px">${displayTime}</td>`;
+          tbody.appendChild(tr);
+        });
+      }
+      document.getElementById('statTotal').textContent = total;
+      document.getElementById('statGoogle').textContent = googleC;
+      document.getElementById('statAvg').textContent = rN ? (rSum / rN).toFixed(1) : '—';
+      document.getElementById('statLow').textContent = lowC;
+
+      // Store for modal
+      window._todayRows = rows;
+      window._allRows = allRows;
+    }
+
+    /* ═══════════════════════════════════════
+       STAFF MODAL — today's staff-wise count
+    ═══════════════════════════════════════ */
+    function openStaffModal() {
+      document.getElementById('staffModal').classList.add('open');
+      const rows = window._todayRows || [];
+      const counts = {};
+      rows.forEach(r => { const s = r.Staff || r.staff || 'Unknown'; counts[s] = (counts[s] || 0) + 1; });
+      const content = document.getElementById('staffModalContent');
+      if (!Object.keys(counts).length) {
+        content.innerHTML = '<p style="text-align:center;color:var(--sub);font-size:13px;padding:16px">No submissions today.</p>'; return;
+      }
+      let html = '<table class="data-table" style="min-width:0;width:100%"><thead><tr><th>Staff Member</th><th>Count</th><th>% Share</th></tr></thead><tbody>';
+      const total = rows.length;
+      Object.entries(counts).sort((a, b) => b[1] - a[1]).forEach(([s, c]) => {
+        html += `<tr><td>${s}</td><td style="font-weight:700;color:#1a73e8">${c}</td><td>${((c / total) * 100).toFixed(0)}%</td></tr>`;
+      });
+      html += '</tbody></table>';
+      content.innerHTML = html;
+    }
+    function closeModal() { document.getElementById('staffModal').classList.remove('open'); }
+    function closeModalOutside(e) { if (e.target === document.getElementById('staffModal')) closeModal(); }
+
+    /* ═══════════════════════════════════════
+       SEGMENT EDITOR
+    ═══════════════════════════════════════ */
+    function loadSegmentEditor() {
+      CFG = loadConfig();
+      const list = document.getElementById('segEditList');
+      list.innerHTML = '';
+      CFG.segments.forEach((seg, i) => renderSegRow(list, seg, i));
+    }
+    function renderSegRow(list, seg, i) {
+      const d = document.createElement('div'); d.className = 'edit-item'; d.dataset.index = i;
+      d.innerHTML = `
     <div class="edit-item-color" style="background:${seg.color}"></div>
     <input value="${seg.emoji}" style="width:36px;text-align:center" onchange="updateSeg(${i},'emoji',this.value)" title="Emoji">
     <input value="${seg.text}" style="flex:2" onchange="updateSeg(${i},'text',this.value)" placeholder="Segment name">
     <input type="color" value="${seg.color}" style="width:30px;height:30px;border:none;padding:0;background:none;cursor:pointer;border-radius:6px" onchange="updateSeg(${i},'color',this.value)" title="Color">
     <button class="edit-item-del" onclick="deleteSeg(${i})" title="Remove">×</button>
   `;
-  list.appendChild(d);
-}
-function updateSeg(i,key,val){
-  CFG=loadConfig();CFG.segments[i][key]=val;saveConfig(CFG);
-  if(key==='color'){const d=document.querySelectorAll('#segEditList .edit-item')[i];if(d)d.querySelector('.edit-item-color').style.background=val;}
-  drawWheel();
-}
-function deleteSeg(i){
-  CFG=loadConfig();if(CFG.segments.length<=2){showToast('⚠️ Minimum 2 segments required');return;}
-  CFG.segments.splice(i,1);saveConfig(CFG);loadSegmentEditor();drawWheel();
-}
-function addSegment(){
-  CFG=loadConfig();
-  CFG.segments.push({text:'New Prize',emoji:'🎁',color:'#607D8B'});
-  saveConfig(CFG);loadSegmentEditor();drawWheel();
-}
-function savePrizeSettings(){
-  CFG=loadConfig();
-  const code=document.getElementById('adminCouponCode').value.trim().toUpperCase();
-  const desc=document.getElementById('adminCouponDesc').value.trim();
-  if(code)CFG.couponCode=code;if(desc)CFG.couponDesc=desc;
-  saveConfig(CFG);showToast('✅ Prize settings saved!');
-}
-
-/* ═══════════════════════════════════════
-   STAFF EDITOR
-═══════════════════════════════════════ */
-function loadStaffEditor(){
-  CFG=loadConfig();
-  const list=document.getElementById('staffEditList');list.innerHTML='';
-  CFG.staff.forEach((s,i)=>{
-    const d=document.createElement('div');d.className='edit-item';
-    d.innerHTML=`<span style="font-size:16px">👤</span><input value="${s}" onchange="updateStaffItem(${i},this.value)" style="flex:1"><button class="edit-item-del" onclick="deleteStaff(${i})">×</button>`;
-    list.appendChild(d);
-  });
-}
-function updateStaffItem(i,val){CFG=loadConfig();CFG.staff[i]=val;saveConfig(CFG);}
-function deleteStaff(i){
-  CFG=loadConfig();if(CFG.staff.length<=1){showToast('⚠️ Minimum 1 staff required');return;}
-  CFG.staff.splice(i,1);saveConfig(CFG);loadStaffEditor();
-}
-function addStaff(){
-  CFG=loadConfig();CFG.staff.push('New Staff');saveConfig(CFG);loadStaffEditor();
-}
-function saveStaff(){
-  CFG=loadConfig();saveConfig(CFG);initStaffDropdown();showToast('✅ Staff list saved!');
-}
-
-/* ═══════════════════════════════════════
-   SEO TEMPLATES (from sheet, fallback local)
-═══════════════════════════════════════ */
-const SEO_FALLBACK=[
-  {Tag:'Ambience',Text:'Absolutely loved the cozy ambience at The Hunger Station! The décor is warm and inviting, perfect for a relaxing break. The coffee was rich and aromatic — definitely one of the best in the area. Highly recommend!'},
-  {Tag:'Service',Text:'Exceptional service at The Hunger Station! The staff was incredibly welcoming and attentive. My order arrived quickly and was exactly as expected. Will be my go-to café!'},
-  {Tag:'Coffee Quality',Text:'The Hunger Station serves some of the finest coffee I\'ve had in a long time. Each cup is crafted with care. The espresso was bold, the latte perfectly balanced. A must-visit for coffee lovers!'},
-  {Tag:'Family Visit',Text:'Visited with family and had a wonderful time. Spacious, kid-friendly, great menu options. The staff made us feel at home. Highly recommended for families!'},
-  {Tag:'Work/Study',Text:'Perfect spot for working and studying. Comfortable seating, great coffee, and the team is always friendly. Perfect for professionals and students alike!'},
-];
-async function loadSEOTemplates(){
-  const el=document.getElementById('seoListAdmin');
-  el.innerHTML='<div class="loading-row">Loading from Google Sheet...</div>';
-  let templates=SEO_FALLBACK;
-  if(SHEET_URL && SHEET_URL.startsWith('http')){
-    try{
-      const res=await fetch(SHEET_URL+'?action=getSEO');
-      const json=await res.json();
-      if(json.data&&json.data.length)templates=json.data;
-    }catch(e){}
-  }
-  el.innerHTML='';
-  templates.forEach(t=>{
-    const d=document.createElement('div');d.className='tmpl-item';
-    d.innerHTML=`<div class="tmpl-tag">${t.Tag||t.tag||'Template'}</div><div class="tmpl-text">${t.Text||t.text||''}</div>`;
-    d.onclick=()=>copyText(t.Text||t.text||'');
-    el.appendChild(d);
-  });
-}
-
-/* ═══════════════════════════════════════
-   REPLY TEMPLATES (from sheet, fallback local)
-═══════════════════════════════════════ */
-const REPLY_FALLBACK=[
-  {Tag:'5-Star Reply',Text:'Thank you so much for your kind words! 🌟 We are thrilled to hear you had a wonderful experience at The Hunger Station. Your feedback motivates our entire team. We look forward to seeing you again soon! ☕'},
-  {Tag:'Low Rating Reply',Text:'Thank you for taking the time to share your feedback. We sincerely apologise that your experience didn\'t meet expectations. We\'d love the opportunity to make it right — please visit us again and ask for the manager! 🙏'},
-  {Tag:'Average Rating Reply',Text:'Thank you for your honest feedback! We\'re glad you visited and appreciate you sharing your experience. We\'re always working to improve and hope your next visit will be even better! 😊'},
-];
-async function loadReplyTemplates(){
-  const el=document.getElementById('replyListAdmin');
-  el.innerHTML='<div class="loading-row">Loading from Google Sheet...</div>';
-  let replies=REPLY_FALLBACK;
-  if(SHEET_URL && SHEET_URL.startsWith('http')){
-    try{
-      const res=await fetch(SHEET_URL+'?action=getReplies');
-      const json=await res.json();
-      if(json.data&&json.data.length)replies=json.data;
-    }catch(e){}
-  }
-  el.innerHTML='';
-  replies.forEach(r=>{
-    const d=document.createElement('div');d.className='tmpl-item';
-    d.innerHTML=`<div class="tmpl-tag">${r.Tag||r.tag||'Reply'}</div><div class="tmpl-text">${r.Text||r.text||''}</div>`;
-    d.onclick=()=>copyText(r.Text||r.text||'');
-    el.appendChild(d);
-  });
-}
-
-/* ═══════════════════════════════════════
-   CONFIG SAVE
-═══════════════════════════════════════ */
-function saveRedirectUrl(){
-  CFG=loadConfig();
-  const url=document.getElementById('adminRedirectUrl').value.trim();
-  if(url){CFG.redirectUrl=url;saveConfig(CFG);showToast('✅ Redirect URL saved!');}
-}
-function modifyKey(){
-  const p1=document.getElementById('newKey1').value;
-  const p2=document.getElementById('newKey2').value;
-  if(!p1){showToast('⚠️ Enter a new passcode');return;}
-  if(p1!==p2){showToast('⚠️ Passcodes do not match');return;}
-  if(p1.length<6){showToast('⚠️ Minimum 6 characters');return;}
-  CFG=loadConfig();CFG.adminKey=p1;saveConfig(CFG);
-  document.getElementById('newKey1').value='';document.getElementById('newKey2').value='';
-  showToast('✅ Passcode updated!');
-}
-
-/* ═══════════════════════════════════════
-   COPY UTIL & TOAST
-═══════════════════════════════════════ */
-function copyText(txt){try{navigator.clipboard.writeText(txt);showToast('✅ Copied to clipboard!');}catch(e){showToast('Tap & hold to copy');}}
-function showToast(msg){
-  const t=document.getElementById('copyToast');t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2200);
-}
-
-/* ═══════════════════════════════════════
-   SEO SEQUENTIAL AUTO-FILL
-   Fetches templates from sheet, caches locally, fills textarea
-   sequentially: Sr.1 → Sr.2 → Sr.3 → ... → wraps around.
-═══════════════════════════════════════ */
-
-// SEO fallback templates (used when sheet is unreachable)
-const SEO_FORM_FALLBACK = [
-  'Absolutely loved the cozy ambience at The Hunger Station! The décor is warm and inviting, perfect for a relaxing break. The coffee was rich and aromatic — definitely one of the best in the area. Highly recommended!',
-  'Exceptional service at The Hunger Station! The staff was incredibly welcoming and attentive. My order arrived quickly and was exactly as expected. The team genuinely cares about every guest. Will be my go-to café from now on!',
-  "The Hunger Station serves some of the finest coffee I've had in a long time. Each cup is crafted with care and precision. The espresso was bold, the latte perfectly balanced. A must-visit for true coffee lovers!",
-  'Visited The Hunger Station with my family and had a wonderful time. Spacious, kid-friendly, great menu options for everyone. The staff made us feel at home. Highly recommended for families!',
-  'The Hunger Station is my favourite spot for working and studying. Comfortable seating, great coffee, and the team is always friendly. Perfect for professionals and students alike!',
-  'Great experience at The Hunger Station! The drinks were crafted to perfection and the presentation was beautiful. The staff were polite and efficient. Looking forward to my next visit!',
-];
-
-async function fetchSEOTemplates() {
-  // Return cached if available and fresh (within same session)
-  CFG = loadConfig();
-  if (CFG.cachedSEO && CFG.cachedSEO.length > 0) {
-    return CFG.cachedSEO;
-  }
-  
-  // Prevent any network fetch on page load if URL is empty or unsafe
-  if (!SHEET_URL || !SHEET_URL.startsWith('http')) {
-    return SEO_FORM_FALLBACK;
-  }
-
-  // Try to fetch from sheet
-  try {
-    const res = await fetch(SHEET_URL + '?action=getSEO', { cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const json = await res.json();
-    if (json.data && json.data.length > 0) {
-      // Extract text from rows — supports {Tag, Text} or {SrNo, Tag, Text} formats
-      const texts = json.data
-        .map(row => row.Text || row.text || row.Review || row.review || '')
-        .filter(t => t.trim().length > 10);
-      if (texts.length > 0) {
-        CFG = loadConfig();
-        CFG.cachedSEO = texts;
-        saveConfig(CFG);
-        return texts;
-      }
+      list.appendChild(d);
     }
-  } catch(e) {
-    // Sheet unreachable — use fallback
-  }
-  return SEO_FORM_FALLBACK;
-}
+    function updateSeg(i, key, val) {
+      CFG = loadConfig(); CFG.segments[i][key] = val; saveConfig(CFG);
+      if (key === 'color') { const d = document.querySelectorAll('#segEditList .edit-item')[i]; if (d) d.querySelector('.edit-item-color').style.background = val; }
+      drawWheel();
+    }
+    function deleteSeg(i) {
+      CFG = loadConfig(); if (CFG.segments.length <= 2) { showToast('⚠️ Minimum 2 segments required'); return; }
+      CFG.segments.splice(i, 1); saveConfig(CFG); loadSegmentEditor(); drawWheel();
+    }
+    function addSegment() {
+      CFG = loadConfig();
+      CFG.segments.push({ text: 'New Prize', emoji: '🎁', color: '#607D8B' });
+      saveConfig(CFG); loadSegmentEditor(); drawWheel();
+    }
+    function savePrizeSettings() {
+      CFG = loadConfig();
+      const code = document.getElementById('adminCouponCode').value.trim().toUpperCase();
+      const desc = document.getElementById('adminCouponDesc').value.trim();
+      if (code) CFG.couponCode = code; if (desc) CFG.couponDesc = desc;
+      saveConfig(CFG); showToast('✅ Prize settings saved!');
+    }
 
-async function fillNextSEOReview() {
-  const textarea = document.getElementById('reviewInput');
-  if (!textarea) return;
+    /* ═══════════════════════════════════════
+       STAFF EDITOR
+    ═══════════════════════════════════════ */
+    function loadStaffEditor() {
+      CFG = loadConfig();
+      const list = document.getElementById('staffEditList'); list.innerHTML = '';
+      CFG.staff.forEach((s, i) => {
+        const d = document.createElement('div'); d.className = 'edit-item';
+        d.innerHTML = `<span style="font-size:16px">👤</span><input value="${s}" onchange="updateStaffItem(${i},this.value)" style="flex:1"><button class="edit-item-del" onclick="deleteStaff(${i})">×</button>`;
+        list.appendChild(d);
+      });
+    }
+    function updateStaffItem(i, val) { CFG = loadConfig(); CFG.staff[i] = val; saveConfig(CFG); }
+    function deleteStaff(i) {
+      CFG = loadConfig(); if (CFG.staff.length <= 1) { showToast('⚠️ Minimum 1 staff required'); return; }
+      CFG.staff.splice(i, 1); saveConfig(CFG); loadStaffEditor();
+    }
+    function addStaff() {
+      CFG = loadConfig(); CFG.staff.push('New Staff'); saveConfig(CFG); loadStaffEditor();
+    }
+    function saveStaff() {
+      CFG = loadConfig(); saveConfig(CFG); initStaffDropdown(); showToast('✅ Staff list saved!');
+    }
 
-  // Only fill if textarea is currently empty
-  if (textarea.value.trim() !== '') return;
+    /* ═══════════════════════════════════════
+       SEO TEMPLATES (from sheet, fallback local)
+    ═══════════════════════════════════════ */
+    const SEO_FALLBACK = [
+      { Tag: 'Ambience', Text: 'Absolutely loved the cozy ambience at The Hunger Station! The décor is warm and inviting, perfect for a relaxing break. The coffee was rich and aromatic — definitely one of the best in the area. Highly recommend!' },
+      { Tag: 'Service', Text: 'Exceptional service at The Hunger Station! The staff was incredibly welcoming and attentive. My order arrived quickly and was exactly as expected. Will be my go-to café!' },
+      { Tag: 'Coffee Quality', Text: 'The Hunger Station serves some of the finest coffee I\'ve had in a long time. Each cup is crafted with care. The espresso was bold, the latte perfectly balanced. A must-visit for coffee lovers!' },
+      { Tag: 'Family Visit', Text: 'Visited with family and had a wonderful time. Spacious, kid-friendly, great menu options. The staff made us feel at home. Highly recommended for families!' },
+      { Tag: 'Work/Study', Text: 'Perfect spot for working and studying. Comfortable seating, great coffee, and the team is always friendly. Perfect for professionals and students alike!' },
+    ];
+    async function loadSEOTemplates() {
+      const el = document.getElementById('seoListAdmin');
+      el.innerHTML = '<div class="loading-row">Loading from Supabase...</div>';
+      let templates = SEO_FALLBACK;
+      if (SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_URL.includes('YOUR_')) {
+        try {
+          const res = await fetch(`${SUPABASE_URL}/rest/v1/seo_templates?select=*`, {
+            headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
+          });
+          const data = await res.json();
+          if (data && data.length) templates = data;
+        } catch (e) { }
+      }
+      el.innerHTML = '';
+      templates.forEach(t => {
+        const tag = t.Tag || t.tag || t.name || 'Template';
+        const txt = t.Text || t.text || t.review || '';
+        const d = document.createElement('div'); d.className = 'tmpl-item';
+        d.innerHTML = `<div class="tmpl-tag">${tag}</div><div class="tmpl-text">${txt}</div>`;
+        d.onclick = () => copyText(txt);
+        el.appendChild(d);
+      });
+    }
 
-  const templates = await fetchSEOTemplates();
-  if (!templates || templates.length === 0) return;
+    /* ═══════════════════════════════════════
+       REPLY TEMPLATES (from sheet, fallback local)
+    ═══════════════════════════════════════ */
+    const REPLY_FALLBACK = [
+      { Tag: '5-Star Reply', Text: 'Thank you so much for your kind words! 🌟 We are thrilled to hear you had a wonderful experience at The Hunger Station. Your feedback motivates our entire team. We look forward to seeing you again soon! ☕' },
+      { Tag: 'Low Rating Reply', Text: 'Thank you for taking the time to share your feedback. We sincerely apologise that your experience didn\'t meet expectations. We\'d love the opportunity to make it right — please visit us again and ask for the manager! 🙏' },
+      { Tag: 'Average Rating Reply', Text: 'Thank you for your honest feedback! We\'re glad you visited and appreciate you sharing your experience. We\'re always working to improve and hope your next visit will be even better! 😊' },
+    ];
+    async function loadReplyTemplates() {
+      const el = document.getElementById('replyListAdmin');
+      el.innerHTML = '<div class="loading-row">Loading from Supabase...</div>';
+      let replies = REPLY_FALLBACK;
+      if (SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_URL.includes('YOUR_')) {
+        try {
+          const res = await fetch(`${SUPABASE_URL}/rest/v1/reply_templates?select=*`, {
+            headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
+          });
+          const data = await res.json();
+          if (data && data.length) replies = data;
+        } catch (e) { }
+      }
+      el.innerHTML = '';
+      replies.forEach(r => {
+        const tag = r.Tag || r.tag || r.name || 'Reply';
+        const txt = r.Text || r.text || r.reply || '';
+        const d = document.createElement('div'); d.className = 'tmpl-item';
+        d.innerHTML = `<div class="tmpl-tag">${tag}</div><div class="tmpl-text">${txt}</div>`;
+        d.onclick = () => copyText(txt);
+        el.appendChild(d);
+      });
+    }
 
-  CFG = loadConfig();
-  const pointer = (typeof CFG.seoPointer === 'number') ? CFG.seoPointer : 0;
-  const index = pointer % templates.length;  // wraps around
+    /* ═══════════════════════════════════════
+       CONFIG SAVE
+    ═══════════════════════════════════════ */
+    function saveGoogleUrl() {
+      CFG = loadConfig();
+      const url = document.getElementById('adminGoogleUrl').value.trim();
+      if (url) { CFG.googleUrl = url; saveConfig(CFG); showToast('✅ Google URL saved!'); }
+    }
+    function changePassword() {
+      const p1 = document.getElementById('newPass1').value;
+      const p2 = document.getElementById('newPass2').value;
+      if (!p1) { showToast('⚠️ Enter a new password'); return; }
+      if (p1 !== p2) { showToast('⚠️ Passwords do not match'); return; }
+      if (p1.length < 6) { showToast('⚠️ Minimum 6 characters'); return; }
+      CFG = loadConfig(); CFG.adminPass = p1; saveConfig(CFG);
+      document.getElementById('newPass1').value = ''; document.getElementById('newPass2').value = '';
+      showToast('✅ Password updated!');
+    }
 
-  textarea.value = templates[index];
-  autoResize(textarea);
+    /* ═══════════════════════════════════════
+       COPY UTIL & TOAST
+    ═══════════════════════════════════════ */
+    function copyText(txt) { try { navigator.clipboard.writeText(txt); showToast('✅ Copied to clipboard!'); } catch (e) { showToast('Tap & hold to copy'); } }
+    function showToast(msg) {
+      const t = document.getElementById('copyToast'); t.textContent = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2200);
+    }
 
-  // Advance pointer for next customer
-  CFG.seoPointer = index + 1;
-  saveConfig(CFG);
-}
+    /* ═══════════════════════════════════════
+       SEO SEQUENTIAL AUTO-FILL
+       Fetches templates from sheet, caches locally, fills textarea
+       sequentially: Sr.1 → Sr.2 → Sr.3 → ... → wraps around.
+    ═══════════════════════════════════════ */
 
-/* ═══════════════════════════════════════
-   INIT
-═══════════════════════════════════════ */
-drawWheel();
+    // SEO fallback templates (used when sheet is unreachable)
+    const SEO_FORM_FALLBACK = [
+      'Absolutely loved the cozy ambience at The Hunger Station! The décor is warm and inviting, perfect for a relaxing break. The coffee was rich and aromatic — definitely one of the best in the area. Highly recommended!',
+      'Exceptional service at The Hunger Station! The staff was incredibly welcoming and attentive. My order arrived quickly and was exactly as expected. The team genuinely cares about every guest. Will be my go-to café from now on!',
+      "The Hunger Station serves some of the finest coffee I've had in a long time. Each cup is crafted with care and precision. The espresso was bold, the latte perfectly balanced. A must-visit for true coffee lovers!",
+      'Visited The Hunger Station with my family and had a wonderful time. Spacious, kid-friendly, great menu options for everyone. The staff made us feel at home. Highly recommended for families!',
+      'The Hunger Station is my favourite spot for working and studying. Comfortable seating, great coffee, and the team is always friendly. Perfect for professionals and students alike!',
+      'Great experience at The Hunger Station! The drinks were crafted to perfection and the presentation was beautiful. The staff were polite and efficient. Looking forward to my next visit!',
+    ];
 
-// On page load: pre-fill the feedback textarea with the next SEO template
-fillNextSEOReview();
-</script>
+    async function fetchSEOTemplates() {
+      // Return cached if available and fresh (within same session)
+      CFG = loadConfig();
+      if (CFG.cachedSEO && CFG.cachedSEO.length > 0) {
+        return CFG.cachedSEO;
+      }
+
+      if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL.includes('YOUR_')) return SEO_FORM_FALLBACK;
+
+      // Try to fetch from Supabase
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/seo_templates?select=*`, {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        if (data && data.length > 0) {
+          // Extract text from rows
+          const texts = data
+            .map(row => row.Text || row.text || row.Review || row.review || '')
+            .filter(t => t.trim().length > 10);
+          if (texts.length > 0) {
+            CFG = loadConfig();
+            CFG.cachedSEO = texts;
+            saveConfig(CFG);
+            return texts;
+          }
+        }
+      } catch (e) { }
+      return SEO_FORM_FALLBACK;
+    }
+
+    async function fillNextSEOReview() {
+      const textarea = document.getElementById('reviewInput');
+      if (!textarea) return;
+
+      // Only fill if textarea is currently empty
+      if (textarea.value.trim() !== '') return;
+
+      const templates = await fetchSEOTemplates();
+      if (!templates || templates.length === 0) return;
+
+      CFG = loadConfig();
+      const pointer = (typeof CFG.seoPointer === 'number') ? CFG.seoPointer : 0;
+      const index = pointer % templates.length;  // wraps around
+
+      textarea.value = templates[index];
+      autoResize(textarea);
+
+      // Advance pointer for next customer
+      CFG.seoPointer = index + 1;
+      saveConfig(CFG);
+    }
+
+    /* ═══════════════════════════════════════
+       INIT
+    ═══════════════════════════════════════ */
+    drawWheel();
+
+    // On page load: pre-fill the feedback textarea with the next SEO template
+    fillNextSEOReview();
+  </script>
 </body>
+
 </html>
